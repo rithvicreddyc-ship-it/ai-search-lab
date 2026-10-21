@@ -1,75 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   body {
-    background-color: #060911;
+    background-color: #04060d;
     color: #e2e8f0;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     overflow-x: hidden;
     background-image: 
-      radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
-      radial-gradient(at 100% 0%, rgba(6, 182, 212, 0.08) 0px, transparent 50%),
-      radial-gradient(at 50% 100%, rgba(139, 92, 246, 0.08) 0px, transparent 50%);
+      radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.09) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(6, 182, 212, 0.07) 0px, transparent 50%),
+      radial-gradient(at 50% 100%, rgba(139, 92, 246, 0.08) 0px, transparent 50%),
+      radial-gradient(at 80% 50%, rgba(16, 185, 129, 0.04) 0px, transparent 40%);
     background-attachment: fixed;
   }
 }
 
 /* Custom sleek dark scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #090d17;
+  background: #060913;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
-  border-radius: 4px;
+  background: #1e283d;
+  border-radius: 6px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #334466;
 }
 
-/* Futuristic grid dot pattern */
+/* Precision dot grid matrix */
 .bg-grid-pattern {
-  background-size: 28px 28px;
-  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
 }
 
-/* Subtle node exploration glowing animations */
-@keyframes nodePulse {
-  0% { transform: scale(0.90); opacity: 0.6; filter: brightness(1.4); }
-  50% { transform: scale(1.08); opacity: 1; filter: brightness(1.2); }
+.bg-dot-matrix {
+  background-size: 20px 20px;
+  background-image: radial-gradient(circle, rgba(99, 102, 241, 0.12) 1.2px, transparent 1.2px);
+}
+
+/* Micro animations for state expansion */
+@keyframes cellFrontierPulse {
+  0% { transform: scale(0.85); opacity: 0.5; filter: brightness(1.6); }
+  60% { transform: scale(1.06); opacity: 1; filter: brightness(1.3); }
   100% { transform: scale(1); opacity: 0.95; filter: brightness(1); }
 }
 
-.animate-node-pulse {
-  animation: nodePulse 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+.animate-frontier-pulse {
+  animation: cellFrontierPulse 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-@keyframes radarPing {
-  0% { transform: scale(0.95); opacity: 0.8; }
-  50% { transform: scale(1.15); opacity: 0.4; }
-  100% { transform: scale(0.95); opacity: 0.8; }
+@keyframes cellPathPulse {
+  0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7); }
+  50% { transform: scale(1.05); box-shadow: 0 0 16px 2px rgba(52, 211, 153, 0.8); }
+  100% { transform: scale(1); box-shadow: 0 0 8px 1px rgba(52, 211, 153, 0.5); }
 }
 
-.animate-radar-ping {
-  animation: radarPing 2s infinite ease-in-out;
+.animate-path-pulse {
+  animation: cellPathPulse 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-@keyframes pathDraw {
-  0% { stroke-dashoffset: 1000; }
-  100% { stroke-dashoffset: 0; }
+@keyframes laserScan {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-.animate-path-draw {
-  stroke-dasharray: 1000;
-  animation: pathDraw 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.animate-laser {
+  background-size: 200% 200%;
+  animation: laserScan 3s ease infinite;
 }
 
-/* Neon glow helper classes */
+/* Glowing shadow utilities */
 .glow-emerald {
   box-shadow: 0 0 16px rgba(16, 185, 129, 0.45);
 }
@@ -79,6 +88,9 @@
 .glow-indigo {
   box-shadow: 0 0 18px rgba(99, 102, 241, 0.4);
 }
+.glow-violet {
+  box-shadow: 0 0 18px rgba(139, 92, 246, 0.4);
+}
 .glow-rose {
   box-shadow: 0 0 18px rgba(244, 63, 94, 0.45);
 }
@@ -86,20 +98,30 @@
   box-shadow: 0 0 18px rgba(245, 158, 11, 0.45);
 }
 
-/* Glassmorphism panel helpers */
-.glass-panel {
-  background: rgba(13, 18, 30, 0.82);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+/* Classy Glassmorphism Surfaces */
+.glass-surface {
+  background: rgba(12, 17, 30, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
-.glass-panel-hover {
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+.glass-pill {
+  background: rgba(16, 23, 40, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
-.glass-panel-hover:hover {
-  background: rgba(18, 25, 42, 0.9);
-  border-color: rgba(99, 102, 241, 0.3);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.5);
+
+.glass-interactive {
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
+.glass-interactive:hover {
+  background: rgba(22, 32, 54, 0.95);
+  border-color: rgba(99, 102, 241, 0.35);
+  transform: translateY(-1.5px);
+  box-shadow: 0 14px 34px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+

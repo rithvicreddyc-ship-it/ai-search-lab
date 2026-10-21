@@ -122,10 +122,10 @@ export const ExperimentsLab: React.FC = () => {
                 setSelectedPresetId(preset.id);
                 handleRunExperiment(preset.id);
               }}
-              className={`p-4 rounded-2xl text-left border transition-all ${
+              className={`p-5 rounded-3xl text-left border transition-all ${
                 isSelected
-                  ? 'bg-indigo-950/40 border-indigo-500 text-white shadow-md'
-                  : 'bg-lab-panel/80 hover:bg-slate-800 border-lab-border text-slate-300'
+                  ? 'bg-[#0e1526] border-indigo-500 text-white shadow-glow-indigo'
+                  : 'bg-[#0b101e]/90 hover:bg-[#11182c] border-lab-border/80 text-slate-300'
               }`}
             >
               <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-400 block mb-1">
@@ -140,14 +140,14 @@ export const ExperimentsLab: React.FC = () => {
 
       {/* Report Container */}
       {report && (
-        <div className="p-8 rounded-3xl bg-lab-panel/95 border border-lab-border shadow-2xl space-y-6 print:bg-white print:text-black print:border-none print:shadow-none">
+        <div className="p-6 sm:p-8 rounded-3xl bg-[#0b101e]/90 border border-lab-border/80 shadow-glass-card backdrop-blur-2xl space-y-6 print:bg-white print:text-black print:border-none print:shadow-none">
           {/* Title & Metadata */}
           <div className="border-b border-lab-border/70 pb-4 space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-mono font-semibold text-emerald-400 uppercase tracking-wider print:text-black">
+              <span className="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider print:text-black">
                 AI Search Benchmark Experimental Report
               </span>
-              <span className="text-xs font-mono text-slate-400 print:text-gray-600">
+              <span className="text-xs font-mono text-slate-400 bg-[#050813] px-2.5 py-0.5 rounded-full border border-slate-800 print:text-gray-600">
                 Seed: {report.configuration.seed || 42}
               </span>
             </div>
@@ -156,7 +156,7 @@ export const ExperimentsLab: React.FC = () => {
           </div>
 
           {/* Research Question */}
-          <div className="p-4 rounded-xl bg-[#0b0e17] border border-lab-border/70 space-y-1 print:bg-gray-100 print:border-gray-300">
+          <div className="p-4 sm:p-5 rounded-2xl bg-[#050813] border border-lab-border/70 space-y-1 shadow-inner print:bg-gray-100 print:border-gray-300">
             <span className="text-[11px] font-bold text-indigo-400 uppercase tracking-wider block print:text-indigo-800">
               Research Question:
             </span>
@@ -170,9 +170,9 @@ export const ExperimentsLab: React.FC = () => {
             <span className="text-xs font-bold text-white uppercase tracking-wider block print:text-black">
               Measured Performance Table:
             </span>
-            <div className="rounded-xl border border-lab-border overflow-hidden print:border-gray-300">
+            <div className="rounded-2xl border border-lab-border/80 overflow-hidden shadow-inner print:border-gray-300">
               <table className="w-full text-left text-xs font-mono">
-                <thead className="bg-[#0b0e17] text-slate-400 font-sans print:bg-gray-200 print:text-black">
+                <thead className="bg-[#050813] text-slate-400 font-sans border-b border-lab-border/70 print:bg-gray-200 print:text-black">
                   <tr>
                     <th className="px-4 py-2.5">Algorithm</th>
                     <th className="px-3 py-2.5">Solved</th>

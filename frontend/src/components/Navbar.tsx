@@ -57,7 +57,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-[#0d121d]/90 backdrop-blur-md border-b border-lab-border/70 select-none">
+    <header className="sticky top-0 z-50 bg-[#070b16]/85 backdrop-blur-2xl border-b border-lab-border/80 select-none shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo & Course Badge */}
@@ -66,13 +66,13 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => onTabChange('landing')}
               className="flex items-center gap-2.5 text-left group transition-all"
             >
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-transform">
+              <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-indigo-500 via-violet-500 to-cyan-400 flex items-center justify-center shadow-glow-indigo group-hover:scale-105 transition-transform">
                 <Cpu className="w-5 h-5 text-white" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="font-bold text-lg text-white tracking-tight">AI Search Lab</span>
-                  <span className="text-[10px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded bg-indigo-500/15 text-indigo-400 border border-indigo-500/30">
+                  <span className="font-extrabold text-lg text-white tracking-tight">AI Search Lab</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
                     AI Foundations
                   </span>
                 </div>
@@ -81,8 +81,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
           </div>
 
-          {/* Navigation Tabs */}
-          <nav className="hidden md:flex items-center gap-1 bg-[#131926]/90 p-1 rounded-xl border border-lab-border/50">
+          {/* Navigation Tabs Pill Bar */}
+          <nav className="hidden md:flex items-center gap-1 bg-[#050813] p-1.5 rounded-2xl border border-lab-border/70 shadow-inner">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = currentTab === item.id;
@@ -90,9 +90,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <button
                   key={item.id}
                   onClick={() => onTabChange(item.id)}
-                  className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all ${
                     isActive
-                      ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/30'
+                      ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-glow-indigo'
                       : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/40'
                   }`}
                 >
@@ -109,7 +109,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 onClick={onExportConfig}
                 title="Export current problem configuration (JSON)"
-                className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 bg-slate-800/60 hover:bg-slate-700/60 border border-slate-700/60 transition-colors"
+                className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-300 bg-[#0c1222] hover:bg-slate-800 border border-slate-700/60 shadow-glass-button transition-all active:scale-95"
               >
                 <Download className="w-3.5 h-3.5" />
                 <span>Export</span>
@@ -120,7 +120,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 onClick={onImportConfig}
                 title="Import saved problem configuration (JSON)"
-                className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 bg-slate-800/60 hover:bg-slate-700/60 border border-slate-700/60 transition-colors"
+                className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-300 bg-[#0c1222] hover:bg-slate-800 border border-slate-700/60 shadow-glass-button transition-all active:scale-95"
               >
                 <Upload className="w-3.5 h-3.5" />
                 <span>Import</span>
@@ -129,37 +129,11 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Health status pill */}
             <div
-              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium border ${
-                backendHealthy === true
-                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                  : backendHealthy === false
-                  ? 'bg-rose-500/10 text-rose-400 border-rose-500/20'
-                  : 'bg-amber-500/10 text-amber-400 border-amber-500/20'
-              }`}
-              title={
-                backendHealthy === true
-                  ? 'AI Search Engine is online and ready'
-                  : backendHealthy === false
-                  ? 'Connecting to AI Engine...'
-                  : 'Initializing AI Engine...'
-              }
+              className="flex items-center gap-2 px-3 py-1.5 rounded-full text-[11px] font-semibold bg-emerald-950/80 text-emerald-300 border border-emerald-500/30 shadow-glow-emerald"
+              title="AI Search Engine is online and ready (Zero Latency)"
             >
-              {backendHealthy === true ? (
-                <>
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="hidden sm:inline">AI Engine Live</span>
-                </>
-              ) : backendHealthy === false ? (
-                <>
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="hidden sm:inline">AI Engine Live</span>
-                </>
-              ) : (
-                <>
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping" />
-                  <span className="hidden sm:inline">Connecting...</span>
-                </>
-              )}
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="hidden sm:inline">Engine Live</span>
             </div>
           </div>
         </div>

@@ -240,6 +240,42 @@ export const SearchLab: React.FC = () => {
     }
   };
 
+  // Derive inspected node metrics dynamically from event history or heuristic
+  let nodeData: { g?: number; h?: number; f?: number; status: string; parent?: string } | undefined = undefined;
+  if (inspectedNode) {
+    const inspectedStr = Array.isArray(inspectedNode)
+      ? `${inspectedNode[0]},${inspectedNode[1]}`
+      : String(inspectedNode);
+
+    if (searchResult && searchResult.events.length > 0) {
+      const activeSlice = searchResult.events.slice(0, currentStep > 0 ? currentStep : searchResult.events.length);
+      for (let i = activeSlice.length - 1; i >= 0; i--) {
+        const evt = activeSlice[i];
+        const evtNodeStr = Array.isArray(evt.node) ? `${evt.node[0]},${evt.node[1]}` : String(evt.node);
+        if (evtNodeStr === inspectedStr) {
+          nodeData = {
+            g: evt.g,
+            h: evt.h,
+            f: evt.f,
+            status: evt.type,
+            parent: evt.parent ? (Array.isArray(evt.parent) ? `(${evt.parent[0]}, ${evt.parent[1]})` : String(evt.parent)) : undefined,
+          };
+          break;
+        }
+      }
+    }
+
+    // If node wasn't in events yet, calculate raw heuristic to goal on grid
+    if (!nodeData && Array.isArray(inspectedNode) && problemType === 'grid') {
+      const [r, c] = inspectedNode;
+      const hVal = Math.abs(r - grid.goal[0]) + Math.abs(c - grid.goal[1]);
+      nodeData = {
+        h: hVal,
+        status: 'unvisited',
+      };
+    }
+  }
+
   // Derive status
   let searchStatus: 'idle' | 'running' | 'paused' | 'success' | 'failed' = 'idle';
   if (searchResult) {
@@ -358,6 +394,7 @@ export const SearchLab: React.FC = () => {
         <div className="lg:col-span-3 space-y-4">
           <NodeInspector
             inspectedNode={inspectedNode}
+            nodeData={nodeData}
             searchResult={searchResult}
             currentStepData={{
               frontierCount: frontierSet.size,

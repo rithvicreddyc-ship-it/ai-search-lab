@@ -93,47 +93,47 @@ export const AlgorithmExplorer: React.FC<AlgorithmExplorerProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Left Column: Asymptotic Complexity & Properties */}
           <div className="lg:col-span-4 space-y-4">
-            <div className="p-5 rounded-2xl bg-lab-panel/90 border border-lab-border space-y-4">
+            <div className="p-5 sm:p-6 rounded-3xl bg-[#0b101e]/90 border border-lab-border/80 shadow-glass-card backdrop-blur-2xl space-y-4">
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-indigo-500/15 text-indigo-400 border border-indigo-500/30">
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
                   {activeAlg.category}
                 </span>
-                <h2 className="text-lg font-bold text-white mt-2">{activeAlg.name}</h2>
+                <h2 className="text-xl font-extrabold text-white mt-2">{activeAlg.name}</h2>
                 <p className="text-xs text-slate-300 mt-1 leading-relaxed">{activeAlg.description}</p>
               </div>
 
               {/* Complexity Matrix Table */}
               <div className="space-y-2.5 pt-2 border-t border-lab-border/70 text-xs">
-                <div className="flex items-center justify-between p-2 rounded-lg bg-[#0b0e17] border border-lab-border/60">
-                  <span className="text-slate-400 font-medium">Time Complexity</span>
+                <div className="flex items-center justify-between p-3 rounded-2xl bg-[#050813] border border-lab-border/60 shadow-inner">
+                  <span className="text-slate-400 font-semibold">Time Complexity</span>
                   <span className="font-mono font-bold text-amber-300">{activeAlg.time_complexity}</span>
                 </div>
 
-                <div className="flex items-center justify-between p-2 rounded-lg bg-[#0b0e17] border border-lab-border/60">
-                  <span className="text-slate-400 font-medium">Space Complexity</span>
+                <div className="flex items-center justify-between p-3 rounded-2xl bg-[#050813] border border-lab-border/60 shadow-inner">
+                  <span className="text-slate-400 font-semibold">Space Complexity</span>
                   <span className="font-mono font-bold text-cyan-300">{activeAlg.space_complexity}</span>
                 </div>
 
-                <div className="p-2.5 rounded-lg bg-[#0b0e17] border border-lab-border/60 space-y-1">
-                  <span className="text-slate-400 font-medium block">Completeness:</span>
+                <div className="p-3 rounded-2xl bg-[#050813] border border-lab-border/60 shadow-inner space-y-1">
+                  <span className="text-slate-400 font-semibold block">Completeness:</span>
                   <span className="text-slate-200 block text-[11px] leading-relaxed">{activeAlg.completeness}</span>
                 </div>
 
-                <div className="p-2.5 rounded-lg bg-[#0b0e17] border border-lab-border/60 space-y-1">
-                  <span className="text-slate-400 font-medium block">Optimality Guarantee:</span>
+                <div className="p-3 rounded-2xl bg-[#050813] border border-lab-border/60 shadow-inner space-y-1">
+                  <span className="text-slate-400 font-semibold block">Optimality Guarantee:</span>
                   <span className="text-slate-200 block text-[11px] leading-relaxed">{activeAlg.optimality}</span>
                 </div>
 
-                <div className="flex items-center justify-between p-2 rounded-lg bg-[#0b0e17] border border-lab-border/60">
-                  <span className="text-slate-400">Heuristic Required:</span>
-                  <span className={`font-semibold ${activeAlg.requires_heuristic ? 'text-violet-400' : 'text-slate-400'}`}>
+                <div className="flex items-center justify-between p-3 rounded-2xl bg-[#050813] border border-lab-border/60 shadow-inner">
+                  <span className="text-slate-400 font-semibold">Heuristic Required:</span>
+                  <span className={`font-bold ${activeAlg.requires_heuristic ? 'text-violet-400' : 'text-slate-400'}`}>
                     {activeAlg.requires_heuristic ? 'Yes (Informed)' : 'No (Uninformed)'}
                   </span>
                 </div>
 
-                <div className="flex items-center justify-between p-2 rounded-lg bg-[#0b0e17] border border-lab-border/60">
-                  <span className="text-slate-400">Supports Non-Unit Step Costs:</span>
-                  <span className={`font-semibold ${activeAlg.supports_weights ? 'text-emerald-400' : 'text-slate-400'}`}>
+                <div className="flex items-center justify-between p-3 rounded-2xl bg-[#050813] border border-lab-border/60 shadow-inner">
+                  <span className="text-slate-400 font-semibold">Supports Non-Unit Step Costs:</span>
+                  <span className={`font-bold ${activeAlg.supports_weights ? 'text-emerald-400' : 'text-slate-400'}`}>
                     {activeAlg.supports_weights ? 'Yes (Cost-aware)' : 'No (Assumes unit)'}
                   </span>
                 </div>
@@ -144,16 +144,16 @@ export const AlgorithmExplorer: React.FC<AlgorithmExplorerProps> = ({
           {/* Right Column: Formal Pseudocode & Viva Questions */}
           <div className="lg:col-span-8 space-y-6">
             {/* Pseudocode Panel */}
-            <div className="p-5 rounded-2xl bg-[#0a0d14] border border-lab-border shadow-xl space-y-3">
+            <div className="p-5 sm:p-6 rounded-3xl bg-[#0b101e]/90 border border-lab-border/80 shadow-glass-card backdrop-blur-2xl space-y-3">
               <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+                <span className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
                   <Code2 className="w-4 h-4 text-indigo-400" />
                   <span>Formal Algorithm Pseudocode</span>
                 </span>
                 <span className="text-[11px] font-mono text-slate-500">Standard AIMA Specification</span>
               </div>
 
-              <div className="font-mono text-xs text-slate-200 bg-[#06080e] p-4 rounded-xl border border-slate-800/80 overflow-x-auto leading-relaxed">
+              <div className="font-mono text-xs text-slate-200 bg-[#050813] p-4 sm:p-5 rounded-2xl border border-slate-800/80 overflow-x-auto leading-relaxed shadow-inner">
                 {activeAlg.pseudocode.map((line, idx) => (
                   <div key={idx} className="flex">
                     <span className="w-8 text-slate-600 select-none text-right pr-4 text-[11px]">

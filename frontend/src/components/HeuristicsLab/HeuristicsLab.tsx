@@ -84,21 +84,22 @@ export const HeuristicsLab: React.FC = () => {
       </div>
 
       {/* Interactive Coordinate Probe */}
-      <div className="p-5 rounded-2xl bg-lab-panel/90 border border-lab-border space-y-4">
+      <div className="p-5 sm:p-6 rounded-3xl bg-[#0b101e]/90 border border-lab-border/80 shadow-glass-card backdrop-blur-2xl space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <span className="text-xs font-bold text-white uppercase tracking-wider">
-            Interactive Node Distance Probe
+          <span className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+            <span>Interactive State Distance Probe</span>
           </span>
           <div className="flex items-center gap-4 text-xs font-mono">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 bg-[#050813] px-3 py-1 rounded-xl border border-slate-800">
               <span className="text-emerald-400 font-semibold">Start:</span>
               <span>({startPos[0]}, {startPos[1]})</span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 bg-[#050813] px-3 py-1 rounded-xl border border-slate-800">
               <span className="text-rose-400 font-semibold">Goal:</span>
               <span>({goalPos[0]}, {goalPos[1]})</span>
             </div>
-            <div className="text-slate-400">
+            <div className="text-slate-400 font-mono">
               Δr = {dx}, Δc = {dy}
             </div>
           </div>
@@ -106,10 +107,10 @@ export const HeuristicsLab: React.FC = () => {
 
         {/* Sliders to test coordinates */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-          <div className="space-y-1">
+          <div className="space-y-1.5 p-3 rounded-2xl bg-[#050813] border border-lab-border/60">
             <div className="flex justify-between text-xs text-slate-400">
-              <span>Start Row: {startPos[0]}</span>
-              <span>Start Col: {startPos[1]}</span>
+              <span>Start Row: <strong className="text-white">{startPos[0]}</strong></span>
+              <span>Start Col: <strong className="text-white">{startPos[1]}</strong></span>
             </div>
             <div className="flex gap-2">
               <input
@@ -118,7 +119,7 @@ export const HeuristicsLab: React.FC = () => {
                 max="25"
                 value={startPos[0]}
                 onChange={(e) => setStartPos([Number(e.target.value), startPos[1]])}
-                className="w-full accent-emerald-500"
+                className="w-full accent-emerald-500 cursor-pointer"
               />
               <input
                 type="range"
@@ -126,15 +127,15 @@ export const HeuristicsLab: React.FC = () => {
                 max="35"
                 value={startPos[1]}
                 onChange={(e) => setStartPos([startPos[0], Number(e.target.value)])}
-                className="w-full accent-emerald-500"
+                className="w-full accent-emerald-500 cursor-pointer"
               />
             </div>
           </div>
 
-          <div className="space-y-1">
+          <div className="space-y-1.5 p-3 rounded-2xl bg-[#050813] border border-lab-border/60">
             <div className="flex justify-between text-xs text-slate-400">
-              <span>Goal Row: {goalPos[0]}</span>
-              <span>Goal Col: {goalPos[1]}</span>
+              <span>Goal Row: <strong className="text-white">{goalPos[0]}</strong></span>
+              <span>Goal Col: <strong className="text-white">{goalPos[1]}</strong></span>
             </div>
             <div className="flex gap-2">
               <input
@@ -143,7 +144,7 @@ export const HeuristicsLab: React.FC = () => {
                 max="25"
                 value={goalPos[0]}
                 onChange={(e) => setGoalPos([Number(e.target.value), goalPos[1]])}
-                className="w-full accent-rose-500"
+                className="w-full accent-rose-500 cursor-pointer"
               />
               <input
                 type="range"
@@ -151,7 +152,7 @@ export const HeuristicsLab: React.FC = () => {
                 max="35"
                 value={goalPos[1]}
                 onChange={(e) => setGoalPos([goalPos[0], Number(e.target.value)])}
-                className="w-full accent-rose-500"
+                className="w-full accent-rose-500 cursor-pointer"
               />
             </div>
           </div>
@@ -162,20 +163,20 @@ export const HeuristicsLab: React.FC = () => {
           {heuristicsInfo.map((h) => (
             <div
               key={h.id}
-              className="p-3.5 rounded-xl bg-[#0b0e17] border border-lab-border/70 space-y-1.5"
+              className="p-4 rounded-2xl bg-[#050813] border border-lab-border/80 shadow-inner space-y-2 hover:border-indigo-500/40 transition-colors"
             >
               <div className="text-[11px] font-bold text-white truncate">{h.name.split('(')[0]}</div>
-              <div className="text-xl font-bold font-mono text-cyan-300">{h.calculated}</div>
+              <div className="text-2xl font-bold font-mono text-cyan-300">{h.calculated}</div>
               <div className="text-[10px] font-mono text-slate-400">{h.formula}</div>
-              <div className="pt-1.5 border-t border-slate-800 space-y-1 text-[10px]">
+              <div className="pt-2 border-t border-slate-800 space-y-1 text-[10px]">
                 <div className="flex items-center justify-between">
-                  <span>4-Way Admissible:</span>
+                  <span className="text-slate-400">4-Way Admissible:</span>
                   <span className={h.is4DirAdmissible ? 'text-emerald-400 font-bold' : 'text-rose-400 font-bold'}>
                     {h.is4DirAdmissible ? 'YES' : 'NO'}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span>8-Way Admissible:</span>
+                  <span className="text-slate-400">8-Way Admissible:</span>
                   <span className={h.is8DirAdmissible ? 'text-emerald-400 font-bold' : 'text-rose-400 font-bold'}>
                     {h.is8DirAdmissible ? 'YES' : 'NO'}
                   </span>
@@ -189,7 +190,7 @@ export const HeuristicsLab: React.FC = () => {
       {/* Academic Explanations Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Admissibility Explained */}
-        <div className="p-6 rounded-2xl bg-lab-panel/90 border border-lab-border space-y-3">
+        <div className="p-6 rounded-3xl bg-[#0b101e]/90 border border-lab-border/80 shadow-glass-card backdrop-blur-2xl space-y-3">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-5 h-5 text-emerald-400" />
             <h3 className="font-bold text-sm text-white uppercase tracking-wider">
@@ -199,7 +200,7 @@ export const HeuristicsLab: React.FC = () => {
           <p className="text-xs text-slate-300 leading-relaxed">
             A heuristic <code className="text-indigo-300 font-mono">h(n)</code> is <strong>admissible</strong> if it never overestimates the true lowest cost <code className="text-indigo-300 font-mono">h*(n)</code> to reach the goal:
           </p>
-          <div className="p-3 rounded-lg bg-[#0b0e17] border border-lab-border/70 text-center font-mono text-xs text-amber-300">
+          <div className="p-3.5 rounded-2xl bg-[#050813] border border-lab-border/70 text-center font-mono text-xs text-amber-300 shadow-inner">
             0 ≤ h(n) ≤ h*(n)  for all nodes n
           </div>
           <p className="text-xs text-slate-300 leading-relaxed">
@@ -208,7 +209,7 @@ export const HeuristicsLab: React.FC = () => {
         </div>
 
         {/* Consistency / Monotonicity Explained */}
-        <div className="p-6 rounded-2xl bg-lab-panel/90 border border-lab-border space-y-3">
+        <div className="p-6 rounded-3xl bg-[#0b101e]/90 border border-lab-border/80 shadow-glass-card backdrop-blur-2xl space-y-3">
           <div className="flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-violet-400" />
             <h3 className="font-bold text-sm text-white uppercase tracking-wider">
@@ -218,7 +219,7 @@ export const HeuristicsLab: React.FC = () => {
           <p className="text-xs text-slate-300 leading-relaxed">
             A heuristic is <strong>consistent</strong> if for every node <code className="text-indigo-300 font-mono">n</code> and successor <code className="text-indigo-300 font-mono">n'</code> generated by action <code className="text-indigo-300 font-mono">a</code>:
           </p>
-          <div className="p-3 rounded-lg bg-[#0b0e17] border border-lab-border/70 text-center font-mono text-xs text-cyan-300">
+          <div className="p-3.5 rounded-2xl bg-[#050813] border border-lab-border/70 text-center font-mono text-xs text-cyan-300 shadow-inner">
             h(n) ≤ c(n, a, n') + h(n')
           </div>
           <p className="text-xs text-slate-300 leading-relaxed">

@@ -154,13 +154,13 @@ export const GuidedTutorial: React.FC<GuidedTutorialProps> = ({
       </div>
 
       {/* Active Lesson Card */}
-      <div className="p-6 rounded-3xl bg-lab-panel/90 border border-lab-border shadow-2xl space-y-6">
+      <div className="p-6 sm:p-7 rounded-3xl bg-[#0b101e]/90 border border-lab-border/80 shadow-glass-card backdrop-blur-2xl space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-lab-border/70 pb-4">
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-indigo-500/15 text-indigo-400 border border-indigo-500/30">
+            <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
               {current.badge}
             </span>
-            <h2 className="text-xl font-bold text-white mt-1.5">{current.title}</h2>
+            <h2 className="text-xl font-extrabold text-white mt-1.5">{current.title}</h2>
           </div>
 
           <button
@@ -168,7 +168,7 @@ export const GuidedTutorial: React.FC<GuidedTutorialProps> = ({
               onLoadTutorialSetup(current.presetId, current.algId);
               onNavigate('lab');
             }}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold text-xs shadow-md shadow-indigo-600/30 transition-all self-start sm:self-auto"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-bold text-xs shadow-glow-indigo transition-all self-start sm:self-auto active:scale-95"
           >
             <PlayCircle className="w-4 h-4" />
             <span>{current.actionText}</span>
@@ -177,7 +177,7 @@ export const GuidedTutorial: React.FC<GuidedTutorialProps> = ({
         </div>
 
         {/* Concept Description */}
-        <div className="p-4 rounded-xl bg-[#0b0e17] border border-lab-border/70 space-y-2">
+        <div className="p-4 sm:p-5 rounded-2xl bg-[#050813] border border-lab-border/70 space-y-2 shadow-inner">
           <span className="text-xs font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-1.5">
             <Sparkles className="w-4 h-4 text-indigo-400" />
             Core Theoretical Principle
@@ -194,7 +194,7 @@ export const GuidedTutorial: React.FC<GuidedTutorialProps> = ({
             {current.details.map((point, i) => (
               <li
                 key={i}
-                className="flex items-start gap-2.5 p-3 rounded-xl bg-[#0b0e17]/60 border border-lab-border/50"
+                className="flex items-start gap-2.5 p-3.5 rounded-2xl bg-[#050813] border border-lab-border/60 shadow-inner"
               >
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                 <span>{point}</span>
@@ -204,7 +204,7 @@ export const GuidedTutorial: React.FC<GuidedTutorialProps> = ({
         </div>
 
         {/* Viva Key Tip */}
-        <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-200 leading-relaxed space-y-1">
+        <div className="p-4 sm:p-5 rounded-2xl bg-amber-950/30 border border-amber-500/30 text-xs text-amber-200 leading-relaxed space-y-1.5 shadow-inner">
           <span className="font-bold flex items-center gap-1.5 text-amber-300">
             <HelpCircle className="w-4 h-4 text-amber-400" />
             University Viva Takeaway

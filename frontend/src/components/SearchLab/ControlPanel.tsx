@@ -10,7 +10,10 @@ import {
   Sliders,
   Dices,
   Grid as GridIcon,
-  Network
+  Network,
+  Compass as CompassIcon,
+  ShieldCheck,
+  Zap
 } from 'lucide-react';
 import {
   AlgorithmType,
@@ -60,32 +63,51 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   const isHeuristicRequired = ['greedy', 'astar', 'idastar', 'hill_climbing'].includes(algorithm);
   const isHillClimbing = algorithm === 'hill_climbing';
 
+  // Algorithm metadata lookup for instantaneous high-tech context
+  const algorithmMeta: Record<AlgorithmType, { name: string; tag: string; time: string; space: string; optimal: string }> = {
+    bfs: { name: 'Breadth-First Search', tag: 'Uninformed', time: 'O(b^d)', space: 'O(b^d)', optimal: 'Yes (Uniform Cost)' },
+    dfs: { name: 'Depth-First Search', tag: 'Uninformed', time: 'O(b^m)', space: 'O(b·m)', optimal: 'No' },
+    ucs: { name: 'Uniform Cost Search', tag: 'Uninformed', time: 'O(b^(1+C*/ε))', space: 'O(b^(1+C*/ε))', optimal: 'Yes (Weighted Graphs)' },
+    greedy: { name: 'Greedy Best-First', tag: 'Informed', time: 'O(b^m)', space: 'O(b^m)', optimal: 'No (Heuristic Only)' },
+    astar: { name: 'A* Search', tag: 'Informed', time: 'O(b^d)', space: 'O(b^d)', optimal: 'Yes (Admissible h)' },
+    idastar: { name: 'Iterative Deepening A*', tag: 'Informed', time: 'O(b^d)', space: 'O(d) Linear', optimal: 'Yes (Admissible h)' },
+    hill_climbing: { name: 'Hill Climbing', tag: 'Local Search', time: 'Variable', space: 'O(1) Constant', optimal: 'No (Local Optima)' },
+  };
+
+  const meta = algorithmMeta[algorithm] || algorithmMeta.astar;
+
   return (
-    <div className="p-4 rounded-2xl bg-lab-panel/90 border border-lab-border space-y-5">
-      {/* Problem Mode Tabs */}
+    <div className="p-4 sm:p-5 rounded-3xl bg-[#0b101e]/90 border border-lab-border/80 shadow-glass-card backdrop-blur-2xl space-y-5">
+      {/* Problem Mode Segmented Switch */}
       <div>
-        <label className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block mb-2">
-          Problem Mode
-        </label>
-        <div className="grid grid-cols-2 gap-1.5 p-1 bg-[#0b0e17] rounded-xl border border-lab-border/70">
+        <div className="flex items-center justify-between mb-2">
+          <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+            Workspace Topology
+          </label>
+          <span className="text-[10px] font-mono text-indigo-400 bg-indigo-950/60 px-2 py-0.5 rounded-full border border-indigo-500/30">
+            {problemType === 'grid' ? 'Orthogonal / 8-Way' : 'State Graph'}
+          </span>
+        </div>
+
+        <div className="grid grid-cols-2 gap-1.5 p-1 bg-[#050813] rounded-2xl border border-lab-border/70 shadow-inner">
           <button
             onClick={() => onProblemTypeChange('grid')}
-            className={`flex items-center justify-center gap-2 py-2 rounded-lg text-xs font-medium transition-all ${
+            className={`flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold transition-all ${
               problemType === 'grid'
-                ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/30'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-glow-indigo'
+                : 'text-slate-400 hover:text-white hover:bg-slate-800/40'
             }`}
           >
             <GridIcon className="w-3.5 h-3.5" />
-            <span>Grid Maze</span>
+            <span>Grid Matrix</span>
           </button>
 
           <button
             onClick={() => onProblemTypeChange('graph')}
-            className={`flex items-center justify-center gap-2 py-2 rounded-lg text-xs font-medium transition-all ${
+            className={`flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold transition-all ${
               problemType === 'graph'
-                ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/30'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-glow-indigo'
+                : 'text-slate-400 hover:text-white hover:bg-slate-800/40'
             }`}
           >
             <Network className="w-3.5 h-3.5" />
@@ -94,73 +116,94 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
         </div>
       </div>
 
-      {/* Algorithm Selection */}
-      <div className="space-y-1.5">
-        <label className="flex items-center justify-between text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-          <span>Search Algorithm</span>
+      {/* Algorithm Selection with Live Spec Pill */}
+      <div className="space-y-2">
+        <label className="flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+          <span>Search Engine Core</span>
           <Cpu className="w-3.5 h-3.5 text-indigo-400" />
         </label>
         <select
           value={algorithm}
           onChange={(e) => onAlgorithmChange(e.target.value as AlgorithmType)}
-          className="w-full bg-[#0b0e17] border border-lab-border rounded-xl px-3 py-2 text-xs font-medium text-white focus:outline-none focus:ring-1 focus:ring-indigo-500"
+          className="w-full bg-[#050813] border border-lab-border rounded-2xl px-3.5 py-2.5 text-xs font-semibold text-white focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-colors cursor-pointer"
         >
-          <optgroup label="Uninformed Search">
+          <optgroup label="Uninformed Search (Blind)">
             <option value="bfs">Breadth-First Search (BFS)</option>
             <option value="dfs">Depth-First Search (DFS)</option>
             <option value="ucs">Uniform Cost Search (UCS / Dijkstra)</option>
           </optgroup>
-          <optgroup label="Informed (Heuristic) Search">
+          <optgroup label="Informed Search (Heuristic)">
             <option value="greedy">Greedy Best-First Search</option>
             <option value="astar">A* Search</option>
             <option value="idastar">Iterative Deepening A* (IDA*)</option>
           </optgroup>
-          <optgroup label="Local Search">
+          <optgroup label="Local Optimization">
             <option value="hill_climbing">Hill Climbing (Steepest Descent)</option>
           </optgroup>
         </select>
+
+        {/* Algorithm Live Spec Card */}
+        <div className="p-2.5 rounded-xl bg-[#060914] border border-lab-border/60 text-[11px] space-y-1">
+          <div className="flex items-center justify-between">
+            <span className="font-semibold text-slate-300">{meta.name}</span>
+            <span className="px-1.5 py-0.2 rounded text-[9px] font-bold uppercase bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
+              {meta.tag}
+            </span>
+          </div>
+          <div className="flex items-center justify-between text-slate-400 font-mono text-[10px] pt-0.5">
+            <span>Time: {meta.time}</span>
+            <span>Space: {meta.space}</span>
+          </div>
+          <div className="text-[10px] text-emerald-400 font-sans flex items-center gap-1 pt-0.5">
+            <ShieldCheck className="w-3 h-3 text-emerald-400 shrink-0" />
+            <span>Optimal: {meta.optimal}</span>
+          </div>
+        </div>
       </div>
 
-      {/* Heuristic Selection (Active for informed algorithms) */}
-      <div className={`space-y-1.5 transition-opacity ${isHeuristicRequired ? 'opacity-100' : 'opacity-40'}`}>
-        <label className="flex items-center justify-between text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-          <span>Heuristic Function h(n)</span>
+      {/* Heuristic Function Selection */}
+      <div className={`space-y-2 transition-opacity ${isHeuristicRequired ? 'opacity-100' : 'opacity-40 pointer-events-none'}`}>
+        <label className="flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+          <span>Heuristic Estimator h(n)</span>
           <Compass className="w-3.5 h-3.5 text-violet-400" />
         </label>
         <select
           value={heuristic}
           disabled={!isHeuristicRequired}
           onChange={(e) => onHeuristicChange(e.target.value as HeuristicType)}
-          className="w-full bg-[#0b0e17] border border-lab-border rounded-xl px-3 py-2 text-xs font-medium text-white focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:cursor-not-allowed"
+          className="w-full bg-[#050813] border border-lab-border rounded-2xl px-3.5 py-2.5 text-xs font-semibold text-white focus:outline-none focus:ring-1 focus:ring-indigo-500 cursor-pointer"
         >
           {problemType === 'grid' ? (
             <>
-              <option value="manhattan">Manhattan Distance (Orthogonal)</option>
-              <option value="euclidean">Euclidean Distance (Straight Line)</option>
-              <option value="octile">Octile Distance (Diagonal 8-Way)</option>
-              <option value="chebyshev">Chebyshev Distance</option>
-              <option value="zero">Zero Heuristic h(n) = 0 (Dijkstra)</option>
+              <option value="manhattan">Manhattan Distance (Orthogonal |Δx| + |Δy|)</option>
+              <option value="euclidean">Euclidean Distance (Straight Line √(Δx² + Δy²))</option>
+              <option value="octile">Octile Distance (8-Directional Diagonal)</option>
+              <option value="chebyshev">Chebyshev Distance (King's Movement)</option>
+              <option value="zero">Zero Heuristic h(n) = 0 (Equivalent to UCS)</option>
             </>
           ) : (
             <>
-              <option value="graph_euclidean">Graph Euclidean (Canvas Coordinates)</option>
-              <option value="zero">Zero Heuristic (Uniform Cost)</option>
+              <option value="graph_euclidean">Graph Euclidean (Canvas Coordinate Distance)</option>
+              <option value="zero">Zero Heuristic (Uniform Cost / Dijkstra)</option>
             </>
           )}
         </select>
       </div>
 
-      {/* Grid Settings: Diagonal movement */}
+      {/* Diagonal 8-Way Movement Toggle */}
       {problemType === 'grid' && (
-        <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#0b0e17] border border-lab-border/70 text-xs">
-          <div>
-            <div className="font-medium text-slate-200">8-Directional Diagonal</div>
-            <div className="text-[10px] text-slate-400">Step cost = √2 ≈ 1.414</div>
+        <div className="flex items-center justify-between p-3 rounded-2xl bg-[#050813] border border-lab-border/70 text-xs shadow-inner">
+          <div className="space-y-0.5">
+            <div className="font-semibold text-slate-200 flex items-center gap-1.5">
+              <CompassIcon className="w-3.5 h-3.5 text-cyan-400" />
+              <span>8-Way Diagonal Steps</span>
+            </div>
+            <div className="text-[10px] text-slate-400">Step cost: √2 ≈ 1.414</div>
           </div>
           <button
             onClick={() => onDiagonalMovementChange(!diagonalMovement)}
             className={`w-11 h-6 rounded-full transition-colors relative ${
-              diagonalMovement ? 'bg-indigo-600' : 'bg-slate-700'
+              diagonalMovement ? 'bg-indigo-600 shadow-glow-indigo' : 'bg-slate-800'
             }`}
           >
             <span
@@ -172,11 +215,11 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
         </div>
       )}
 
-      {/* Hill Climbing Settings */}
+      {/* Hill Climbing Controls */}
       {isHillClimbing && (
-        <div className="space-y-3 p-3 rounded-xl bg-[#0b0e17] border border-amber-500/20 text-xs">
+        <div className="space-y-3 p-3.5 rounded-2xl bg-[#050813] border border-amber-500/30 text-xs shadow-inner">
           <div className="flex items-center justify-between">
-            <span className="font-medium text-amber-300">Max Sideways Moves: {maxSideways}</span>
+            <span className="font-semibold text-amber-300">Max Sideways Moves: {maxSideways}</span>
           </div>
           <input
             type="range"
@@ -184,7 +227,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             max="30"
             value={maxSideways}
             onChange={(e) => onMaxSidewaysChange(Number(e.target.value))}
-            className="w-full accent-amber-500"
+            className="w-full accent-amber-500 cursor-pointer"
           />
 
           <div className="flex items-center justify-between pt-1">
@@ -193,25 +236,25 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
               type="checkbox"
               checked={allowRestarts}
               onChange={(e) => onAllowRestartsChange(e.target.checked)}
-              className="accent-amber-500 w-4 h-4"
+              className="accent-amber-500 w-4 h-4 rounded cursor-pointer"
             />
           </div>
         </div>
       )}
 
-      {/* Presets Selector */}
-      <div className="space-y-1.5">
-        <label className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
-          Preset Environments
+      {/* Preset Environments & Maze Generator */}
+      <div className="space-y-2">
+        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+          Curated Benchmark Presets
         </label>
         <select
           onChange={(e) => {
             if (e.target.value) onSelectPreset(e.target.value);
           }}
-          className="w-full bg-[#0b0e17] border border-lab-border rounded-xl px-3 py-2 text-xs font-medium text-white focus:outline-none focus:ring-1 focus:ring-indigo-500"
+          className="w-full bg-[#050813] border border-lab-border rounded-2xl px-3.5 py-2.5 text-xs font-semibold text-white focus:outline-none focus:ring-1 focus:ring-indigo-500 cursor-pointer"
           defaultValue=""
         >
-          <option value="" disabled>Select a preset...</option>
+          <option value="" disabled>Load benchmark preset...</option>
           {problemType === 'grid' ? (
             <>
               <option value="classic_labyrinth">Classic Labyrinth Maze</option>
@@ -221,22 +264,21 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             </>
           ) : (
             <>
-              <option value="romania">Romania Map (AIMA Classic)</option>
-              <option value="diamond">Diamond Multi-Path Network</option>
+              <option value="romania">Romania Road Map (AIMA Classic)</option>
             </>
           )}
         </select>
       </div>
 
-      {/* Maze Generator Quick Actions (for Grid) */}
+      {/* Random Maze Generator Quick Action */}
       {problemType === 'grid' && (
-        <div className="pt-1">
+        <div>
           <button
             onClick={() => onGenerateMaze('medium', 'recursive_division', false)}
-            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-xs font-medium text-slate-200 border border-slate-700/70 transition-colors"
+            className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-2xl bg-slate-800/80 hover:bg-slate-700/80 text-xs font-semibold text-slate-200 border border-slate-700/70 transition-all active:scale-95"
           >
             <Dices className="w-3.5 h-3.5 text-indigo-400" />
-            <span>Generate Random Maze</span>
+            <span>Generate Labyrinth Maze</span>
           </button>
         </div>
       )}
@@ -246,17 +288,17 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
         <button
           onClick={onExecuteSearch}
           disabled={isLoading}
-          className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold text-xs shadow-lg shadow-indigo-600/30 transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50"
+          className="w-full flex items-center justify-center gap-2.5 py-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-bold text-xs tracking-wide shadow-glow-indigo transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoading ? (
             <>
               <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              <span>Computing Search Space...</span>
+              <span>COMPUTING STATE SPACE...</span>
             </>
           ) : (
             <>
               <Play className="w-4 h-4 fill-current" />
-              <span>Execute Search Algorithm</span>
+              <span>EXECUTE SEARCH ALGORITHM</span>
             </>
           )}
         </button>
@@ -264,3 +306,4 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
     </div>
   );
 };
+

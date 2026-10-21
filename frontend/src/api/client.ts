@@ -22,25 +22,29 @@ const RAW_BASE = (import.meta as any).env?.VITE_API_BASE_URL || '';
 const API_BASE = RAW_BASE ? `${RAW_BASE.replace(/\/$/, '')}/api` : '/api';
 
 export async function fetchHealth(): Promise<{ status: string; version: string; available_algorithms: string[] }> {
-  try {
-    const res = await fetch(`${API_BASE}/health`, { signal: AbortSignal.timeout(2000) });
-    if (res.ok) return await res.json();
-  } catch (err) {
-    // Graceful fallback to pure Node/TypeScript engine
+  if (RAW_BASE) {
+    try {
+      const res = await fetch(`${API_BASE}/health`, { signal: AbortSignal.timeout(2000) });
+      if (res.ok) return await res.json();
+    } catch (err) {
+      // Graceful fallback to pure Node/TypeScript engine
+    }
   }
   return {
     status: 'healthy',
-    version: '1.0.0 (Node.js & TypeScript Engine)',
+    version: '1.0.0 (High-Speed Client Engine)',
     available_algorithms: ['bfs', 'dfs', 'ucs', 'greedy', 'astar', 'idastar', 'hill_climbing'],
   };
 }
 
 export async function fetchAlgorithms(): Promise<AlgorithmMetadata[]> {
-  try {
-    const res = await fetch(`${API_BASE}/algorithms`, { signal: AbortSignal.timeout(2000) });
-    if (res.ok) return await res.json();
-  } catch (err) {
-    // Fallback to embedded metadata
+  if (RAW_BASE) {
+    try {
+      const res = await fetch(`${API_BASE}/algorithms`, { signal: AbortSignal.timeout(2000) });
+      if (res.ok) return await res.json();
+    } catch (err) {
+      // Fallback
+    }
   }
   return ALGORITHM_METADATA;
 }
@@ -50,11 +54,13 @@ export async function fetchPresets(): Promise<{
   graphs: Record<string, { id: string; name: string; description: string; state: GraphState }>;
   experiments: string[];
 }> {
-  try {
-    const res = await fetch(`${API_BASE}/presets`, { signal: AbortSignal.timeout(2000) });
-    if (res.ok) return await res.json();
-  } catch (err) {
-    // Fallback to embedded presets
+  if (RAW_BASE) {
+    try {
+      const res = await fetch(`${API_BASE}/presets`, { signal: AbortSignal.timeout(2000) });
+      if (res.ok) return await res.json();
+    } catch (err) {
+      // Fallback
+    }
   }
   return {
     grids: {
@@ -95,31 +101,35 @@ export async function fetchPresets(): Promise<{
 }
 
 export async function runSearch(payload: any): Promise<SearchResult> {
-  try {
-    const res = await fetch(`${API_BASE}/search`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-      signal: AbortSignal.timeout(4000),
-    });
-    if (res.ok) return await res.json();
-  } catch (err) {
-    // Fallback to TypeScript engine
+  if (RAW_BASE) {
+    try {
+      const res = await fetch(`${API_BASE}/search`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(4000),
+      });
+      if (res.ok) return await res.json();
+    } catch (err) {
+      // Fallback
+    }
   }
   return executeSearch(payload);
 }
 
 export async function runCompare(payload: any): Promise<CompareResponse> {
-  try {
-    const res = await fetch(`${API_BASE}/compare`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-      signal: AbortSignal.timeout(6000),
-    });
-    if (res.ok) return await res.json();
-  } catch (err) {
-    // Fallback to TypeScript engine
+  if (RAW_BASE) {
+    try {
+      const res = await fetch(`${API_BASE}/compare`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(6000),
+      });
+      if (res.ok) return await res.json();
+    } catch (err) {
+      // Fallback
+    }
   }
   return executeCompare(payload);
 }
@@ -132,16 +142,18 @@ export async function generateMazeAPI(payload: {
   seed?: number;
   add_terrain?: boolean;
 }): Promise<MazeGenerateResponse> {
-  try {
-    const res = await fetch(`${API_BASE}/maze/generate`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-      signal: AbortSignal.timeout(3000),
-    });
-    if (res.ok) return await res.json();
-  } catch (err) {
-    // Fallback to TypeScript generator
+  if (RAW_BASE) {
+    try {
+      const res = await fetch(`${API_BASE}/maze/generate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(3000),
+      });
+      if (res.ok) return await res.json();
+    } catch (err) {
+      // Fallback
+    }
   }
   return engineGenerateMaze(payload);
 }
@@ -151,16 +163,18 @@ export async function runExperimentAPI(payload: {
   algorithms?: any[];
   seed?: number;
 }): Promise<ExperimentReport> {
-  try {
-    const res = await fetch(`${API_BASE}/experiments/run`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-      signal: AbortSignal.timeout(6000),
-    });
-    if (res.ok) return await res.json();
-  } catch (err) {
-    // Fallback to TypeScript experiment runner
+  if (RAW_BASE) {
+    try {
+      const res = await fetch(`${API_BASE}/experiments/run`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(6000),
+      });
+      if (res.ok) return await res.json();
+    } catch (err) {
+      // Fallback
+    }
   }
   return executeExperiment(payload.preset_id, payload.algorithms, payload.seed);
 }

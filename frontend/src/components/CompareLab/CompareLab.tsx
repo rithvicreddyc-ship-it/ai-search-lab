@@ -157,9 +157,9 @@ export const CompareLab: React.FC<CompareLabProps> = ({
       </div>
 
       {/* Algorithm Checkboxes Selector */}
-      <div className="p-4 rounded-2xl bg-lab-panel/90 border border-lab-border space-y-2.5">
-        <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">
-          Select Algorithms to Compare on Current Problem ({problemType.toUpperCase()}):
+      <div className="p-5 rounded-3xl bg-[#0b101e]/90 border border-lab-border/80 shadow-glass-card backdrop-blur-2xl space-y-3">
+        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+          Select Algorithms to Benchmark on Current Problem ({problemType.toUpperCase()}):
         </span>
         <div className="flex flex-wrap gap-2.5">
           {allAlgorithms.map((alg) => {
@@ -168,10 +168,10 @@ export const CompareLab: React.FC<CompareLabProps> = ({
               <button
                 key={alg.id}
                 onClick={() => toggleAlgorithm(alg.id)}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all ${
                   isChecked
-                    ? 'bg-indigo-600 text-white shadow-sm ring-1 ring-indigo-400'
-                    : 'bg-[#0b0e17] text-slate-400 border border-lab-border/70 hover:text-white'
+                    ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-glow-indigo'
+                    : 'bg-[#050813] text-slate-400 border border-lab-border/70 hover:text-white hover:bg-slate-800/40'
                 }`}
               >
                 <input
@@ -191,7 +191,7 @@ export const CompareLab: React.FC<CompareLabProps> = ({
       {compareData ? (
         <div className="space-y-6">
           {/* Analytical Narrative Banner */}
-          <div className="p-5 rounded-2xl bg-gradient-to-r from-indigo-950/40 via-purple-950/30 to-[#0f1420] border border-indigo-500/30 space-y-2">
+          <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-r from-indigo-950/40 via-purple-950/30 to-[#0b101e] border border-indigo-500/30 shadow-glass-card backdrop-blur-2xl space-y-2">
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-indigo-400" />
               <h3 className="text-xs font-bold text-indigo-300 uppercase tracking-wider">
@@ -204,10 +204,10 @@ export const CompareLab: React.FC<CompareLabProps> = ({
           </div>
 
           {/* Results Table */}
-          <div className="rounded-2xl bg-lab-panel/90 border border-lab-border overflow-hidden shadow-xl">
+          <div className="rounded-3xl bg-[#0b101e]/90 border border-lab-border/80 shadow-glass-card backdrop-blur-2xl overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
-                <thead className="bg-[#0b0e17] text-slate-400 font-semibold border-b border-lab-border/70">
+                <thead className="bg-[#050813] text-slate-400 font-semibold border-b border-lab-border/70">
                   <tr>
                     <th className="px-4 py-3">Algorithm</th>
                     <th className="px-3 py-3">Found?</th>
@@ -289,7 +289,7 @@ export const CompareLab: React.FC<CompareLabProps> = ({
             </div>
 
             {/* Chart 2: Path Cost (Optimality) */}
-            <div className="p-5 rounded-2xl bg-[#0b0e17] border border-lab-border space-y-3">
+            <div className="p-5 sm:p-6 rounded-3xl bg-[#0b101e]/90 border border-lab-border/80 shadow-glass-card backdrop-blur-2xl space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
                   <Award className="w-4 h-4 text-emerald-400" />
@@ -316,7 +316,7 @@ export const CompareLab: React.FC<CompareLabProps> = ({
             </div>
 
             {/* Chart 3: Max Frontier Size (Memory Proxy) */}
-            <div className="p-5 rounded-2xl bg-[#0b0e17] border border-lab-border space-y-3">
+            <div className="p-5 sm:p-6 rounded-3xl bg-[#0b101e]/90 border border-lab-border/80 shadow-glass-card backdrop-blur-2xl space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
                   <TrendingDown className="w-4 h-4 text-violet-400" />
@@ -339,7 +339,7 @@ export const CompareLab: React.FC<CompareLabProps> = ({
             </div>
 
             {/* Chart 4: Execution Time */}
-            <div className="p-5 rounded-2xl bg-[#0b0e17] border border-lab-border space-y-3">
+            <div className="p-5 sm:p-6 rounded-3xl bg-[#0b101e]/90 border border-lab-border/80 shadow-glass-card backdrop-blur-2xl space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
                   <Clock className="w-4 h-4 text-amber-400" />

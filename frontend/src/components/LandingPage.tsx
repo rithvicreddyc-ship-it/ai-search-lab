@@ -249,20 +249,20 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
 
         {/* Live Interactive Hero Maze Preview */}
         <div className="max-w-4xl mx-auto px-4 mt-10">
-          <div className="p-5 rounded-3xl bg-[#0b0f19]/90 border border-indigo-500/25 shadow-2xl backdrop-blur-xl space-y-4">
-            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div className="p-5 sm:p-6 rounded-3xl bg-[#0b101e]/90 border border-indigo-500/30 shadow-glass-card backdrop-blur-2xl space-y-4">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-lab-border/70 pb-3">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
                 <span className="text-xs font-bold text-white uppercase tracking-wider">
                   Live Interactive Engine Demo
                 </span>
-                <span className="text-[10px] font-mono text-slate-400 bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
-                  FastAPI Backend Active
+                <span className="text-[10px] font-mono text-cyan-300 bg-cyan-950/60 px-2.5 py-0.5 rounded-full border border-cyan-500/30">
+                  Node.js & TypeScript Engine
                 </span>
               </div>
 
               {/* Demo Algorithm Switcher */}
-              <div className="flex items-center gap-1.5 bg-[#070a12] p-1 rounded-xl border border-slate-800">
+              <div className="flex items-center gap-1.5 bg-[#050813] p-1.5 rounded-2xl border border-lab-border/60">
                 {(['astar', 'bfs', 'greedy', 'dfs'] as AlgorithmType[]).map((alg) => (
                   <button
                     key={alg}
@@ -271,10 +271,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                       runHeroDemo(alg);
                     }}
                     disabled={isDemoRunning}
-                    className={`px-2.5 py-1 rounded-lg text-xs font-semibold uppercase transition-all ${
+                    className={`px-3 py-1 rounded-xl text-xs font-bold uppercase transition-all ${
                       demoAlg === alg
-                        ? 'bg-indigo-600 text-white shadow-sm'
-                        : 'text-slate-400 hover:text-white'
+                        ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-glow-indigo'
+                        : 'text-slate-400 hover:text-white hover:bg-slate-800/40'
                     } disabled:opacity-40`}
                   >
                     {alg}
@@ -284,9 +284,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             </div>
 
             {/* Mini Grid Canvas */}
-            <div className="flex items-center justify-center p-3 rounded-2xl bg-[#06080e] border border-slate-800/80 overflow-x-auto">
+            <div className="flex items-center justify-center p-3.5 rounded-2xl bg-[#050813] border border-slate-800/80 overflow-x-auto shadow-inner">
               <div
-                className="grid gap-[2px] p-2 bg-[#04060a] rounded-xl border border-slate-800"
+                className="grid gap-[2px] p-2 bg-[#020409] rounded-xl border border-slate-800"
                 style={{
                   gridTemplateRows: `repeat(${demoMaze.rows}, minmax(0, 1fr))`,
                   gridTemplateColumns: `repeat(${demoMaze.cols}, minmax(0, 1fr))`,
@@ -303,21 +303,21 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                     const isFrontier = frontierSet.has(coordStr);
                     const isExplored = exploredSet.has(coordStr);
 
-                    let cellClass = 'bg-[#0f1422] border border-slate-900';
+                    let cellClass = 'bg-[#0a0f1d] border border-slate-800/70 rounded-[3px]';
                     if (isWall) {
-                      cellClass = 'bg-slate-700/80 border border-slate-600/60 rounded-sm';
+                      cellClass = 'bg-slate-700/80 border border-slate-600/60 rounded-[3px]';
                     } else if (isStart) {
-                      cellClass = 'bg-emerald-500 text-slate-950 font-bold glow-emerald rounded-sm';
+                      cellClass = 'bg-gradient-to-tr from-emerald-500 to-teal-400 text-slate-950 font-bold glow-emerald rounded-[3px]';
                     } else if (isGoal) {
-                      cellClass = 'bg-rose-500 text-white font-bold glow-rose rounded-sm';
+                      cellClass = 'bg-gradient-to-tr from-rose-500 to-pink-500 text-white font-bold glow-rose rounded-[3px]';
                     } else if (isPath) {
-                      cellClass = 'bg-emerald-400 font-bold glow-emerald ring-1 ring-emerald-300 rounded-sm';
+                      cellClass = 'bg-emerald-400 font-bold glow-emerald ring-1 ring-emerald-300 rounded-[3px] animate-path-pulse';
                     } else if (isActive) {
-                      cellClass = 'bg-amber-400 font-bold ring-2 ring-amber-300 animate-pulse rounded-sm';
+                      cellClass = 'bg-amber-400 font-bold ring-2 ring-amber-300 animate-pulse rounded-[3px]';
                     } else if (isFrontier) {
-                      cellClass = 'bg-cyan-500/35 border border-cyan-400/60 animate-node-pulse rounded-sm';
+                      cellClass = 'bg-cyan-500/35 border border-cyan-400/80 animate-frontier-pulse rounded-[3px]';
                     } else if (isExplored) {
-                      cellClass = 'bg-indigo-600/35 border border-indigo-500/40 rounded-sm';
+                      cellClass = 'bg-indigo-600/35 border border-indigo-500/50 rounded-[3px]';
                     }
 
                     return (
@@ -356,7 +356,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
               <button
                 onClick={() => runHeroDemo(demoAlg)}
                 disabled={isDemoRunning}
-                className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-sans font-medium transition-all disabled:opacity-40"
+                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white text-xs font-sans font-semibold shadow-glow-indigo transition-all active:scale-95 disabled:opacity-40"
               >
                 <RotateCcw className="w-3 h-3" />
                 <span>Re-Run {demoAlg.toUpperCase()}</span>

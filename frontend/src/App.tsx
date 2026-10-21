@@ -11,14 +11,14 @@ import { AlgorithmType, GraphState, GridState, ProblemType } from './types';
 import { exportToJson } from './utils/export';
 
 export const App: React.FC = () => {
-  // Initialize directly to the interactive Search Lab interface
+  // Initialize to the Overview (Landing) page on start
   const getInitialTab = (): NavTab => {
     if (typeof window !== 'undefined' && window.location.hash) {
       const hash = window.location.hash.replace('#', '') as NavTab;
-      const validTabs: NavTab[] = ['lab', 'explorer', 'compare', 'heuristics', 'tutorial', 'experiments', 'landing'];
+      const validTabs: NavTab[] = ['landing', 'lab', 'explorer', 'compare', 'heuristics', 'tutorial', 'experiments'];
       if (validTabs.includes(hash)) return hash;
     }
-    return 'lab'; // Opens the interactive visualizer workbench directly
+    return 'landing'; // Starts with Overview
   };
 
   const [currentTab, setCurrentTab] = useState<NavTab>(getInitialTab);

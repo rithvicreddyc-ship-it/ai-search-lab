@@ -145,7 +145,7 @@ export const App: React.FC = () => {
             <span>Artificial Intelligence Foundations • Search Algorithms</span>
           </div>
           <div className="text-[11px] font-mono text-slate-600">
-            React + TypeScript + Vite + Tailwind CSS | FastAPI + Python Engine
+            React + TypeScript + Vite + Tailwind CSS | Node.js Engine
           </div>
         </div>
       </footer>

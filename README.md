@@ -47,7 +47,7 @@ Students and educators can construct custom grid mazes with non-uniform weighted
 
 ```mermaid
 graph TD
-    subgraph Frontend ["React 18 + TypeScript + Vite + Tailwind CSS"]
+    subgraph App ["AI Search Lab — Full-Stack Node.js & TypeScript Architecture"]
         UI[User Interface & Navbar]
         SL[Search Lab Workspace]
         GE[Grid & Graph Interactive Editors]
@@ -57,26 +57,8 @@ graph TD
         HL[Heuristics Sandbox]
         GT[Guided Tutorial Lessons]
         EL[Experiments Runner]
-        API_Client[REST API Client]
         
-        UI --> SL
-        UI --> CL
-        UI --> HL
-        UI --> GT
-        UI --> EL
-        SL --> GE
-        SL --> PB
-        SL --> NI
-        SL --> API_Client
-        CL --> API_Client
-        EL --> API_Client
-    end
-
-    subgraph Backend ["FastAPI Python Engine (Port 8000)"]
-        Router[FastAPI Application & CORS]
-        Validation[Pydantic Request & State Validation]
-        
-        subgraph Algorithms ["app/algorithms/"]
+        subgraph Engine ["engine/ (TypeScript AI Search Core)"]
             BFS[Breadth-First Search]
             DFS[Depth-First Search]
             UCS[Uniform Cost Search]
@@ -85,23 +67,23 @@ graph TD
             IDAStar[Iterative Deepening A*]
             HC[Hill Climbing]
             Heuristics[Heuristic Library]
-        end
-
-        subgraph MazePresets ["app/maze/ & app/experiments/"]
             Gen[Maze Generator]
-            Presets[Grid & Graph Benchmark Presets]
-            Runner[Automated Benchmark Runner]
+            Presets[Benchmark Presets]
+            Runner[Benchmark Runner]
         end
 
-        Router --> Validation
-        Validation --> Algorithms
-        Algorithms --> Heuristics
-        Router --> Gen
-        Router --> Presets
-        Router --> Runner
+        UI --> SL
+        UI --> CL
+        UI --> HL
+        UI --> GT
+        UI --> EL
+        SL --> GE
+        SL --> PB
+        SL --> NI
+        SL --> Engine
+        CL --> Engine
+        EL --> Engine
     end
-
-    API_Client <==>|JSON over HTTP /api/*| Router
 ```
 
 ### Search Execution Lifecycle Flowchart
@@ -168,24 +150,23 @@ flowchart TD
 ## 6. Installation & Execution Guide
 
 ### Prerequisites
-- Python 3.10+ (Python 3.13 installed)
 - Node.js 18+ and npm (Node.js v20.18.0 installed)
 
-### 1. Backend Setup & Startup
+### 1. One-Click Launch
+Double-click `START_APP.bat` in the project root to start the server and automatically launch the browser at `http://localhost:5173/`.
+
+### 2. Manual Terminal Commands
 ```powershell
-# Navigate to backend directory
-cd backend
+# Navigate to frontend directory
+cd frontend
 
 # Install dependencies
-pip install -r requirements.txt
+npm install
 
-# Run automated test suite (22 unit & integration tests)
-pytest tests -v
-
-# Start FastAPI development & production server on port 8000
-python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
+# Start Vite dev server on port 5173
+npm run dev
 ```
-The FastAPI interactive documentation is available at `http://127.0.0.1:8000/api/docs`.
+Open your browser and visit: `http://localhost:5173/`.
 
 ### 2. Frontend Setup & Startup
 ```powershell
@@ -250,8 +231,8 @@ Open your browser and visit: `http://127.0.0.1:5173/`.
 | **Non-Uniform Weighted Terrain** | Completed | Mud terrain ($4.5\times$ cost multiplier) proves UCS/A\* optimality over BFS. |
 | **Heuristics Evaluation & Sandbox** | Completed | Manhattan, Euclidean, Octile, Chebyshev, and Zero distance formulas with admissibility analysis. |
 | **Academic Benchmark Experiments** | Completed | Reproducible seeded benchmarks with exportable CSV/JSON reports and print styling. |
-| **Automated Testing Suite** | Completed | 22 comprehensive backend unit and integration tests passing with 100% success rate. |
-| **Production Build & Documentation** | Completed | Clean TypeScript Vite build, OpenAPI docs, Mermaid system diagrams, and Viva prep. |
+| **Pure Node.js & TypeScript Engine** | Completed | Fast in-memory execution, standalone client-side and server-side deployment with zero Python setup. |
+| **Production Build & Documentation** | Completed | Clean TypeScript Vite build, Netlify-ready configuration, system diagrams, and Viva prep. |
 
 ---
 

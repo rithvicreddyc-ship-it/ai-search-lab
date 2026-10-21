@@ -461,11 +461,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-xs text-slate-300">
             <div className="flex items-start gap-2.5">
               <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-              <span><strong>Separation of Concerns:</strong> FastAPI backend drives algorithms; React delivers high-frequency rendering.</span>
+              <span><strong>Separation of Concerns:</strong> High-performance TypeScript & Node engine drives algorithms; React delivers high-frequency rendering.</span>
             </div>
             <div className="flex items-start gap-2.5">
               <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-              <span><strong>No Fabricated Order:</strong> Playback faithfully follows true priority queue / stack pops from the backend.</span>
+              <span><strong>No Fabricated Order:</strong> Playback faithfully follows true priority queue / stack pops from the search engine.</span>
             </div>
             <div className="flex items-start gap-2.5">
               <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />

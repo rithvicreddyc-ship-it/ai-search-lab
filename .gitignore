@@ -7,20 +7,6 @@ frontend/dist/
 frontend/dist-ssr/
 *.local
 
-# Python bytecode & pytest caches
-__pycache__/
-*.py[cod]
-*$py.class
-backend/__pycache__/
-backend/**/__pycache__/
-backend/.pytest_cache/
-.pytest_cache/
-
-# Virtual environments
-venv/
-.venv/
-env/
-
 # Editor and system files
 .vscode/
 .idea/

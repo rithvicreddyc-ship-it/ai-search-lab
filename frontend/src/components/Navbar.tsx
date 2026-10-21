@@ -73,7 +73,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <div className="flex items-center gap-2">
                   <span className="font-bold text-lg text-white tracking-tight">AI Search Lab</span>
                   <span className="text-[10px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded bg-indigo-500/15 text-indigo-400 border border-indigo-500/30">
-                    CSE276
+                    AI Foundations
                   </span>
                 </div>
                 <p className="text-[11px] text-slate-400 font-mono">Interactive Algorithm Visualiser</p>

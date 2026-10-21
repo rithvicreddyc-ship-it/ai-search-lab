@@ -27,7 +27,7 @@ from app.models.responses import (
 
 app = FastAPI(
     title="AI Search Lab API",
-    description="Interactive Search Algorithm Visualiser & Teaching Tool for Classical AI Search (CSE276)",
+    description="Interactive Search Algorithm Visualiser & Teaching Tool for Classical AI Search",
     version="1.0.0",
     docs_url="/api/docs",
     openapi_url="/api/openapi.json",
@@ -49,7 +49,7 @@ def health_check() -> Dict[str, Any]:
         "status": "healthy",
         "app": "AI Search Lab",
         "version": "1.0.0",
-        "course": "CSE276 Artificial Intelligence Foundations",
+        "course": "Artificial Intelligence Foundations",
         "algorithms_count": len(ALGORITHM_REGISTRY),
         "available_algorithms": list(ALGORITHM_REGISTRY.keys()),
         "available_heuristics": ["manhattan", "euclidean", "octile", "chebyshev", "graph_euclidean", "zero"],

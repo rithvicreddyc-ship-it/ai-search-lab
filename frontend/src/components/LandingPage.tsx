@@ -202,9 +202,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
         <div className="max-w-5xl mx-auto px-4 text-center relative z-10 space-y-6">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-medium shadow-sm shadow-indigo-500/10">
             <Sparkles className="w-3.5 h-3.5 text-indigo-400 animate-pulse" />
-            <span className="font-semibold">CSE276 • Artificial Intelligence Foundations</span>
+            <span className="font-semibold">Artificial Intelligence Foundations</span>
             <span className="text-indigo-400/60">•</span>
-            <span>University Project 21</span>
+            <span>Search Algorithm Visualiser</span>
           </div>
 
           <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-tight">
@@ -453,7 +453,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
               <ShieldCheck className="w-6 h-6" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-white">Built for CSE276 Project 21 Evaluation</h3>
+              <h3 className="text-lg font-bold text-white">Built for Artificial Intelligence Foundations</h3>
               <p className="text-xs text-slate-400">Designed to exceed academic criteria and empower students during viva discussions.</p>
             </div>
           </div>

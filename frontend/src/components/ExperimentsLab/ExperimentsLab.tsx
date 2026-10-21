@@ -75,7 +75,7 @@ export const ExperimentsLab: React.FC = () => {
         <div>
           <h1 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2.5">
             <FlaskConical className="w-6 h-6 text-emerald-400" />
-            <span>CSE276 Educational Experiments & Research Reports</span>
+            <span>AI Search Educational Experiments & Research Reports</span>
           </h1>
           <p className="text-xs sm:text-sm text-slate-400 mt-1">
             Reproducible benchmark experiments designed to generate empirical evidence for academic submission.
@@ -145,7 +145,7 @@ export const ExperimentsLab: React.FC = () => {
           <div className="border-b border-lab-border/70 pb-4 space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono font-semibold text-emerald-400 uppercase tracking-wider print:text-black">
-                CSE276 Project 21 Experimental Report
+                AI Search Benchmark Experimental Report
               </span>
               <span className="text-xs font-mono text-slate-400 print:text-gray-600">
                 Seed: {report.configuration.seed || 42}

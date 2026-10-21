@@ -1,11 +1,11 @@
 # AI Search Lab — Interactive Search Algorithm Visualiser & Teaching Tool
-### University Course: CSE276 — Artificial Intelligence Foundations (Project 21)
+### Topic: Artificial Intelligence Foundations — Search Algorithms
 
 ---
 
 ## 1. Abstract & Project Statement
 
-**AI Search Lab** is a full-stack educational web platform engineered to demonstrate, visualize, and benchmark classical state-space search algorithms. Built specifically for the **CSE276 Artificial Intelligence Foundations** curriculum, it bridges the gap between theoretical algorithmic proofs and dynamic visual intuition.
+**AI Search Lab** is a full-stack educational web platform engineered to demonstrate, visualize, and benchmark classical state-space search algorithms. Built specifically for the **Artificial Intelligence Foundations** curriculum, it bridges the gap between theoretical algorithmic proofs and dynamic visual intuition.
 
 Students and educators can construct custom grid mazes with non-uniform weighted terrain (e.g., mud swamps) and arbitrary graph networks (including the classic Russell & Norvig Romania road map), execute seven distinct classical AI search algorithms with deterministic step-by-step playback, inspect mathematical evaluation functions ($g(n)$, $h(n)$, and $f(n)$), compare performance side-by-side using interactive charts, conduct reproducible benchmark experiments, and prepare for university viva examinations.
 
@@ -56,7 +56,7 @@ graph TD
         CL[Compare Lab & Recharts]
         HL[Heuristics Sandbox]
         GT[Guided Tutorial Lessons]
-        EL[CSE276 Experiments Runner]
+        EL[Experiments Runner]
         API_Client[REST API Client]
         
         UI --> SL
@@ -216,7 +216,7 @@ Open your browser and visit: `http://127.0.0.1:5173/`.
 | `POST` | `/api/search` | Executes a single algorithm; returns path, metrics, and structured event history. |
 | `POST` | `/api/compare` | Runs multiple algorithms on identical problem state; returns comparison items and narrative. |
 | `POST` | `/api/maze/generate` | Algorithmic maze generator (Recursive division, Prim's, Rooms, Random) with seeds. |
-| `POST` | `/api/experiments/run`| Runs reproducible benchmark suites for CSE276 evaluation. |
+| `POST` | `/api/experiments/run`| Runs reproducible benchmark suites for algorithm evaluation. |
 
 ---
 
@@ -239,9 +239,9 @@ Open your browser and visit: `http://127.0.0.1:5173/`.
 
 ---
 
-## 9. CSE276 Project 21 Compliance Verification
+## 9. Feature Compliance Verification
 
-| Project 21 Requirement | Status | Implementation Details |
+| Requirement | Status | Implementation Details |
 | :--- | :---: | :--- |
 | **All 7 Classical AI Search Algorithms** | Completed | BFS, DFS, UCS, Greedy, A\*, IDA\*, and Hill Climbing implemented with correct data structures. |
 | **Interactive Grid & Graph Editors** | Completed | Grid with wall drawing, mud painting, and start/goal repositioning; SVG Graph editor with weighted edges. |
@@ -257,5 +257,5 @@ Open your browser and visit: `http://127.0.0.1:5173/`.
 
 ## 10. License & Credits
 
-Developed for **CSE276: Artificial Intelligence Foundations**.  
+Developed for **Artificial Intelligence Foundations**.  
 Built with classical AI principles adapted from *Artificial Intelligence: A Modern Approach (4th Edition)* by Stuart Russell & Peter Norvig.

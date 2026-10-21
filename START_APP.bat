@@ -1,10 +1,10 @@
 @echo off
-title AI Search Lab - Interactive Algorithm Visualiser (CSE276)
+title AI Search Lab - Interactive Algorithm Visualiser
 cd /d "%~dp0"
 
 echo ==============================================================================
 echo   AI Search Lab - Interactive Search Algorithm Visualiser
-echo   CSE276 Artificial Intelligence Foundations - Project 21
+echo   Artificial Intelligence Foundations - Search Algorithms
 echo ==============================================================================
 echo.
 echo [1/3] Configuring environment paths for Node.js and Python...

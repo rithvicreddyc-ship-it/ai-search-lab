@@ -54,7 +54,7 @@ export const App: React.FC = () => {
 
   const handleExportConfig = () => {
     const config = {
-      project: 'AI Search Lab (CSE276)',
+      project: 'AI Search Lab (Artificial Intelligence Foundations)',
       problemType,
       grid: currentGrid,
       graph: currentGraph,
@@ -142,7 +142,7 @@ export const App: React.FC = () => {
           <div className="flex items-center gap-2">
             <span className="font-bold text-slate-400">AI Search Lab</span>
             <span>—</span>
-            <span>CSE276 Artificial Intelligence Foundations (Project 21)</span>
+            <span>Artificial Intelligence Foundations • Search Algorithms</span>
           </div>
           <div className="text-[11px] font-mono text-slate-600">
             React + TypeScript + Vite + Tailwind CSS | FastAPI + Python Engine

@@ -12,6 +12,7 @@ import { generateMaze as engineGenerateMaze } from '../engine/maze';
 import {
   ALGORITHM_METADATA,
   PRESET_CLASSIC_LABYRINTH,
+  PRESET_LOCAL_OPTIMUM_TRAP,
   PRESET_ROMANIA,
   PRESET_UNREACHABLE_FORTRESS,
   PRESET_WEIGHTED_SWAMP,
@@ -67,7 +68,7 @@ export async function fetchPresets(): Promise<{
       classic_labyrinth: {
         id: 'classic_labyrinth',
         name: 'Classic Labyrinth',
-        description: 'Standard maze with obstacles and multiple corridors.',
+        description: 'Challenging benchmark labyrinth with winding corridors and deceptive cul-de-sacs.',
         state: PRESET_CLASSIC_LABYRINTH,
       },
       weighted_swamp: {
@@ -75,6 +76,12 @@ export async function fetchPresets(): Promise<{
         name: 'Weighted Mud Swamp (4.5x Cost)',
         description: 'Mud swamp with 4.5x cost multiplier; demonstrates UCS/A* optimality over BFS.',
         state: PRESET_WEIGHTED_SWAMP,
+      },
+      local_optimum_trap: {
+        id: 'local_optimum_trap',
+        name: 'U-Shaped Obstacle Trap (Hill Climbing)',
+        description: 'Concave obstacle trap demonstrating hill climbing local optimum trapping and plateaus.',
+        state: PRESET_LOCAL_OPTIMUM_TRAP,
       },
       unreachable_fortress: {
         id: 'unreachable_fortress',

@@ -13,6 +13,7 @@ import {
   Sliders
 } from 'lucide-react';
 import { GridCoordinate, GridState } from '../../types';
+import { PRESET_CLASSIC_LABYRINTH } from '../../engine/presets';
 
 export type ToolMode = 'wall' | 'eraser' | 'mud' | 'start' | 'goal';
 
@@ -107,6 +108,7 @@ export const GridEditor: React.FC<GridEditorProps> = ({
 
   const clearWalls = () => onGridChange({ ...grid, walls: [] });
   const clearTerrain = () => onGridChange({ ...grid, terrain: {} });
+  const resetToBenchmark = () => onGridChange(PRESET_CLASSIC_LABYRINTH);
   const resetAll = () => {
     onGridChange({
       ...grid,
@@ -216,6 +218,14 @@ export const GridEditor: React.FC<GridEditorProps> = ({
             className="px-2.5 py-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 disabled:opacity-30 transition-colors"
           >
             Clear Mud
+          </button>
+          <button
+            onClick={resetToBenchmark}
+            className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-indigo-400 hover:text-indigo-200 hover:bg-indigo-950/60 border border-indigo-500/30 transition-all font-medium text-xs shadow-sm"
+            title="Restore default benchmark maze layout"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
+            <span>Benchmark Maze</span>
           </button>
           <button
             onClick={resetAll}

@@ -18,20 +18,13 @@ import {
   SearchResult,
 } from '../../types';
 import { fetchPresets, generateMaze, runSearch } from '../../api/client';
+import { PRESET_CLASSIC_LABYRINTH } from '../../engine/presets';
 
 export const SearchLab: React.FC = () => {
   // Problem State
   const [problemType, setProblemType] = useState<ProblemType>('grid');
 
-  const [grid, setGrid] = useState<GridState>({
-    rows: 15,
-    cols: 25,
-    start: [1, 1],
-    goal: [13, 23],
-    walls: [],
-    terrain: {},
-    diagonal_movement: false,
-  });
+  const [grid, setGrid] = useState<GridState>(PRESET_CLASSIC_LABYRINTH);
 
   const [graph, setGraph] = useState<GraphState>({
     nodes: [],

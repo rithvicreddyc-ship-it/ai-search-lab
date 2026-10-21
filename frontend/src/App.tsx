@@ -7,6 +7,7 @@ import { CompareLab } from './components/CompareLab/CompareLab';
 import { HeuristicsLab } from './components/HeuristicsLab/HeuristicsLab';
 import { GuidedTutorial } from './components/GuidedTutorial/GuidedTutorial';
 import { ExperimentsLab } from './components/ExperimentsLab/ExperimentsLab';
+import { WaterBackground } from './components/WaterBackground';
 import { AlgorithmType, GraphState, GridState, ProblemType } from './types';
 import { exportToJson } from './utils/export';
 
@@ -91,7 +92,10 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-lab-bg text-slate-100 flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
+    <div className="min-h-screen bg-lab-bg text-slate-100 flex flex-col font-sans selection:bg-indigo-500 selection:text-white relative overflow-x-hidden">
+      {/* Animated Moving Watermark & Water Waves Background */}
+      <WaterBackground />
+
       {/* Hidden file input for importing configurations */}
       <input
         type="file"
@@ -110,7 +114,7 @@ export const App: React.FC = () => {
       />
 
       {/* Main View Area */}
-      <main className="flex-1 py-6">
+      <main className="flex-1 py-6 relative z-10">
         {currentTab === 'landing' && <LandingPage onNavigate={handleTabChange} />}
         {currentTab === 'lab' && <SearchLab />}
         {currentTab === 'explorer' && (
@@ -137,7 +141,7 @@ export const App: React.FC = () => {
       </main>
 
       {/* University Footer */}
-      <footer className="border-t border-lab-border/60 py-6 text-center text-xs text-slate-500 print:hidden">
+      <footer className="border-t border-lab-border/60 py-6 text-center text-xs text-slate-500 relative z-10 print:hidden">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <span className="font-bold text-slate-400">AI Search Lab</span>

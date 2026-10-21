@@ -1,0 +1,139 @@
+import React, { useState, useRef } from 'react';
+import { Navbar, NavTab } from './components/Navbar';
+import { LandingPage } from './components/LandingPage';
+import { SearchLab } from './components/SearchLab/SearchLab';
+import { AlgorithmExplorer } from './components/AlgorithmExplorer/AlgorithmExplorer';
+import { CompareLab } from './components/CompareLab/CompareLab';
+import { HeuristicsLab } from './components/HeuristicsLab/HeuristicsLab';
+import { GuidedTutorial } from './components/GuidedTutorial/GuidedTutorial';
+import { ExperimentsLab } from './components/ExperimentsLab/ExperimentsLab';
+import { AlgorithmType, GraphState, GridState, ProblemType } from './types';
+import { exportToJson } from './utils/export';
+
+export const App: React.FC = () => {
+  const [currentTab, setCurrentTab] = useState<NavTab>('landing');
+
+  // Shared Problem States
+  const [problemType, setProblemType] = useState<ProblemType>('grid');
+
+  const [currentGrid, setCurrentGrid] = useState<GridState>({
+    rows: 15,
+    cols: 25,
+    start: [1, 1],
+    goal: [13, 23],
+    walls: [],
+    terrain: {},
+    diagonal_movement: false,
+  });
+
+  const [currentGraph, setCurrentGraph] = useState<GraphState>({
+    nodes: [],
+    edges: [],
+    start: '',
+    goal: '',
+  });
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleExportConfig = () => {
+    const config = {
+      project: 'AI Search Lab (CSE276)',
+      problemType,
+      grid: currentGrid,
+      graph: currentGraph,
+      exportedAt: new Date().toISOString(),
+    };
+    exportToJson(config, `ai_search_${problemType}_config.json`);
+  };
+
+  const handleImportConfig = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const parsed = JSON.parse(event.target?.result as string);
+        if (parsed.problemType) setProblemType(parsed.problemType);
+        if (parsed.grid) setCurrentGrid(parsed.grid);
+        if (parsed.graph) setCurrentGraph(parsed.graph);
+        alert('Configuration imported successfully! Navigating to Search Lab.');
+        setCurrentTab('lab');
+      } catch (err) {
+        alert('Failed to parse JSON file. Please provide a valid configuration export.');
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  };
+
+  return (
+    <div className="min-h-screen bg-lab-bg text-slate-100 flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
+      {/* Hidden file input for importing configurations */}
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleFileChange}
+        accept=".json"
+        className="hidden"
+      />
+
+      {/* Main Top Navigation */}
+      <Navbar
+        currentTab={currentTab}
+        onTabChange={setCurrentTab}
+        onExportConfig={handleExportConfig}
+        onImportConfig={handleImportConfig}
+      />
+
+      {/* Main View Area */}
+      <main className="flex-1 py-6">
+        {currentTab === 'landing' && <LandingPage onNavigate={setCurrentTab} />}
+        {currentTab === 'lab' && <SearchLab />}
+        {currentTab === 'explorer' && (
+          <AlgorithmExplorer
+            onLoadAlgorithmInLab={() => setCurrentTab('lab')}
+            onNavigate={setCurrentTab}
+          />
+        )}
+        {currentTab === 'compare' && (
+          <CompareLab
+            currentGrid={currentGrid}
+            currentGraph={currentGraph}
+            problemType={problemType}
+          />
+        )}
+        {currentTab === 'heuristics' && <HeuristicsLab />}
+        {currentTab === 'tutorial' && (
+          <GuidedTutorial
+            onLoadTutorialSetup={() => setCurrentTab('lab')}
+            onNavigate={setCurrentTab}
+          />
+        )}
+        {currentTab === 'experiments' && <ExperimentsLab />}
+      </main>
+
+      {/* University Footer */}
+      <footer className="border-t border-lab-border/60 py-6 text-center text-xs text-slate-500 print:hidden">
+        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <span className="font-bold text-slate-400">AI Search Lab</span>
+            <span>—</span>
+            <span>CSE276 Artificial Intelligence Foundations (Project 21)</span>
+          </div>
+          <div className="text-[11px] font-mono text-slate-600">
+            React + TypeScript + Vite + Tailwind CSS | FastAPI + Python Engine
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default App;

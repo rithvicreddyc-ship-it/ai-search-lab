@@ -11,7 +11,24 @@ import { AlgorithmType, GraphState, GridState, ProblemType } from './types';
 import { exportToJson } from './utils/export';
 
 export const App: React.FC = () => {
-  const [currentTab, setCurrentTab] = useState<NavTab>('landing');
+  // Initialize directly to the interactive Search Lab interface
+  const getInitialTab = (): NavTab => {
+    if (typeof window !== 'undefined' && window.location.hash) {
+      const hash = window.location.hash.replace('#', '') as NavTab;
+      const validTabs: NavTab[] = ['lab', 'explorer', 'compare', 'heuristics', 'tutorial', 'experiments', 'landing'];
+      if (validTabs.includes(hash)) return hash;
+    }
+    return 'lab'; // Opens the interactive visualizer workbench directly
+  };
+
+  const [currentTab, setCurrentTab] = useState<NavTab>(getInitialTab);
+
+  const handleTabChange = (tab: NavTab) => {
+    setCurrentTab(tab);
+    if (typeof window !== 'undefined') {
+      window.location.hash = tab;
+    }
+  };
 
   // Shared Problem States
   const [problemType, setProblemType] = useState<ProblemType>('grid');
@@ -64,7 +81,7 @@ export const App: React.FC = () => {
         if (parsed.grid) setCurrentGrid(parsed.grid);
         if (parsed.graph) setCurrentGraph(parsed.graph);
         alert('Configuration imported successfully! Navigating to Search Lab.');
-        setCurrentTab('lab');
+        handleTabChange('lab');
       } catch (err) {
         alert('Failed to parse JSON file. Please provide a valid configuration export.');
       }
@@ -87,19 +104,19 @@ export const App: React.FC = () => {
       {/* Main Top Navigation */}
       <Navbar
         currentTab={currentTab}
-        onTabChange={setCurrentTab}
+        onTabChange={handleTabChange}
         onExportConfig={handleExportConfig}
         onImportConfig={handleImportConfig}
       />
 
       {/* Main View Area */}
       <main className="flex-1 py-6">
-        {currentTab === 'landing' && <LandingPage onNavigate={setCurrentTab} />}
+        {currentTab === 'landing' && <LandingPage onNavigate={handleTabChange} />}
         {currentTab === 'lab' && <SearchLab />}
         {currentTab === 'explorer' && (
           <AlgorithmExplorer
-            onLoadAlgorithmInLab={() => setCurrentTab('lab')}
-            onNavigate={setCurrentTab}
+            onLoadAlgorithmInLab={() => handleTabChange('lab')}
+            onNavigate={handleTabChange}
           />
         )}
         {currentTab === 'compare' && (
@@ -112,8 +129,8 @@ export const App: React.FC = () => {
         {currentTab === 'heuristics' && <HeuristicsLab />}
         {currentTab === 'tutorial' && (
           <GuidedTutorial
-            onLoadTutorialSetup={() => setCurrentTab('lab')}
-            onNavigate={setCurrentTab}
+            onLoadTutorialSetup={() => handleTabChange('lab')}
+            onNavigate={handleTabChange}
           />
         )}
         {currentTab === 'experiments' && <ExperimentsLab />}

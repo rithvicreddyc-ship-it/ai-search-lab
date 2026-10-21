@@ -106,26 +106,58 @@
         Interactive Search Algorithm Visualiser & Teaching Tool
       </p>
 
+      <div id="status-box" style="margin: 1.25rem 0; padding: 0.85rem 1rem; border-radius: 0.75rem; font-size: 0.85rem; background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.25); color: #cbd5e1; text-align: left; line-height: 1.5;">
+        <div style="font-weight: 600; color: #a5b4fc; margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.5rem;">
+          <span id="status-dot" style="display:inline-block; width: 8px; height: 8px; border-radius: 50%; background: #fbbf24;"></span>
+          <span id="status-title">Checking local development server...</span>
+        </div>
+        <div id="status-desc" style="font-size: 0.8rem; color: #94a3b8;">
+          If the app does not launch automatically, run <strong>START_APP.bat</strong> in this folder to start the backend and frontend.
+        </div>
+      </div>
+
       <a id="auto-launch-link" href="http://localhost:5173/" class="launch-btn">
-        <span>Open AI Search Lab (Port 5173) &rarr;</span>
+        <span id="btn-text">Open AI Search Lab &rarr;</span>
       </a>
 
       <div class="secondary-links">
-        <a href="http://localhost:5173/" target="_blank">🌐 Live Frontend App</a>
-        <a href="http://127.0.0.1:8000/api/docs" target="_blank">📑 FastAPI Interactive Docs</a>
+        <a href="http://localhost:5173/" target="_blank">🌐 Live Frontend App (Port 5173)</a>
+        <a href="http://127.0.0.1:8000/api/docs" target="_blank">📑 FastAPI Interactive Docs (Port 8000)</a>
         <a href="https://github.com/rithvicreddyc-ship-it/ai-search-lab" target="_blank">🐙 GitHub Repository</a>
       </div>
     </div>
 
-    <!-- Automatic redirection script -->
+    <!-- Automatic server detection and redirection script -->
     <script>
-      fetch('http://localhost:5173/', { mode: 'no-cors' })
-        .then(function() {
-          window.location.href = 'http://localhost:5173/';
-        })
-        .catch(function() {
-          // Keep portal visible
-        });
+      const statusDot = document.getElementById('status-dot');
+      const statusTitle = document.getElementById('status-title');
+      const statusDesc = document.getElementById('status-desc');
+      const btnText = document.getElementById('btn-text');
+      const launchBtn = document.getElementById('auto-launch-link');
+
+      function checkServer() {
+        fetch('http://localhost:5173/', { mode: 'no-cors' })
+          .then(function() {
+            statusDot.style.background = '#22c55e';
+            statusTitle.textContent = 'Server is running! Redirecting...';
+            statusTitle.style.color = '#86efac';
+            statusDesc.textContent = 'Opening the interactive Search Lab visualizer now.';
+            btnText.textContent = 'Enter AI Search Lab (Ready) →';
+            launchBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+            setTimeout(function() {
+              window.location.href = 'http://localhost:5173/';
+            }, 600);
+          })
+          .catch(function() {
+            statusDot.style.background = '#ef4444';
+            statusTitle.textContent = 'Server not running yet';
+            statusTitle.style.color = '#fca5a5';
+            statusDesc.innerHTML = 'Double-click <strong>START_APP.bat</strong> in the project folder to start both servers.';
+            setTimeout(checkServer, 1500);
+          });
+      }
+
+      checkServer();
     </script>
   </body>
 </html>

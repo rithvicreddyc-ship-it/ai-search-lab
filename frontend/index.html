@@ -1,144 +1,160 @@
 <!doctype html>
 <html lang="en" class="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236366f1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><path d='m10 15 5-3-5-3v6Z'/></svg>" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="AI Search Lab — Interactive Search Algorithm Visualiser & Teaching Tool for CSE276 Artificial Intelligence Foundations." />
-    <title>AI Search Lab — Interactive Search Algorithm Visualiser & Teaching Tool</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-      /* Fallback styling if opened directly via file:// protocol */
-      .file-protocol-screen {
-        display: none;
-        min-height: 100vh;
-        background: #060911;
-        color: #e2e8f0;
-        font-family: 'Inter', -apple-system, sans-serif;
-        padding: 2rem 1rem;
-        box-sizing: border-box;
-      }
-      .file-protocol-card {
-        max-width: 680px;
-        margin: 2rem auto;
-        background: rgba(13, 18, 30, 0.95);
-        border: 1px solid rgba(99, 102, 241, 0.3);
-        border-radius: 1.5rem;
-        padding: 2.5rem;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(99, 102, 241, 0.15);
-        text-align: center;
-      }
-      .badge-tag {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.35rem 0.85rem;
-        background: rgba(99, 102, 241, 0.15);
-        border: 1px solid rgba(99, 102, 241, 0.3);
-        border-radius: 9999px;
-        color: #a5b4fc;
-        font-size: 0.75rem;
-        font-weight: 600;
-        margin-bottom: 1.25rem;
-      }
-      .launch-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        width: 100%;
-        max-width: 360px;
-        padding: 0.9rem 1.5rem;
-        background: linear-gradient(135deg, #6366f1, #4f46e5);
-        color: #ffffff;
-        font-weight: 600;
-        font-size: 0.95rem;
-        border-radius: 0.75rem;
-        text-decoration: none;
-        box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
-        transition: transform 0.15s ease, background 0.15s ease;
-        margin: 1.5rem auto 0;
-      }
-      .launch-btn:hover {
-        background: linear-gradient(135deg, #4f46e5, #4338ca);
-        transform: translateY(-2px);
-      }
-      .secondary-links {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 0.75rem;
-        margin-top: 1.5rem;
-        font-size: 0.8rem;
-      }
-      .secondary-links a {
-        color: #94a3b8;
-        text-decoration: none;
-        padding: 0.4rem 0.8rem;
-        border-radius: 0.5rem;
-        background: #0f1422;
-        border: 1px solid #1e293b;
-        transition: color 0.15s;
-      }
-      .secondary-links a:hover {
-        color: #ffffff;
-        border-color: #3b82f6;
-      }
-    </style>
-  </head>
-  <body class="bg-lab-bg text-slate-100 antialiased selection:bg-indigo-500 selection:text-white min-h-screen">
-    <!-- React Root Mount -->
-    <div id="root"></div>
 
-    <!-- Fallback Splash Screen (Only visible if opened directly as a file://) -->
-    <div id="file-protocol-portal" class="file-protocol-screen">
-      <div class="file-protocol-card">
-        <div class="badge-tag">
-          <span>✨ CSE276 • Artificial Intelligence Foundations</span>
-        </div>
-        <h1 style="font-size: 2rem; font-weight: 800; color: #ffffff; margin: 0 0 0.5rem; letter-spacing: -0.025em;">
-          AI Search Lab
-        </h1>
-        <p style="font-size: 0.95rem; color: #94a3b8; margin: 0 0 1.5rem; line-height: 1.5;">
-          Interactive Search Algorithm Visualiser & Teaching Tool
-        </p>
-        <p style="font-size: 0.85rem; color: #cbd5e1; background: #0b0e17; padding: 1rem; border-radius: 0.75rem; border: 1px solid #1e293b; line-height: 1.6; text-align: left;">
-          ⚡ <strong>Notice:</strong> You opened this file directly from your disk (<code>file:///</code>). Modern React & TypeScript web applications run through the local web server to execute AI algorithms and live APIs.
-        </p>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236366f1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><path d='m10 15 5-3-5-3v6Z'/></svg>" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="AI Search Lab — Interactive Search Algorithm Visualiser & Teaching Tool for CSE276 Artificial Intelligence Foundations." />
+  <title>AI Search Lab — Interactive Search Algorithm Visualiser & Teaching Tool</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    /* Fallback styling if opened directly via file:// protocol */
+    .file-protocol-screen {
+      display: none;
+      min-height: 100vh;
+      background: #060911;
+      color: #e2e8f0;
+      font-family: 'Inter', -apple-system, sans-serif;
+      padding: 2rem 1rem;
+      box-sizing: border-box;
+    }
 
-        <a id="auto-launch-link" href="http://localhost:5173/" class="launch-btn">
-          <span>Launch AI Search Lab &rarr;</span>
-        </a>
+    .file-protocol-card {
+      max-width: 680px;
+      margin: 2rem auto;
+      background: rgba(13, 18, 30, 0.95);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: 1.5rem;
+      padding: 2.5rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(99, 102, 241, 0.15);
+      text-align: center;
+    }
 
-        <div class="secondary-links">
-          <a href="http://localhost:5173/" target="_blank">🌐 Frontend (Port 5173)</a>
-          <a href="http://127.0.0.1:8000/api/docs" target="_blank">📑 FastAPI Docs (Port 8000)</a>
-          <a href="https://github.com/rithvicreddyc-ship-it/ai-search-lab" target="_blank">🐙 GitHub Repository</a>
-        </div>
+    .badge-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.85rem;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: 9999px;
+      color: #a5b4fc;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+    }
+
+    .launch-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      max-width: 360px;
+      padding: 0.9rem 1.5rem;
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border-radius: 0.75rem;
+      text-decoration: none;
+      box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
+      transition: transform 0.15s ease, background 0.15s ease;
+      margin: 1.5rem auto 0;
+    }
+
+    .launch-btn:hover {
+      background: linear-gradient(135deg, #4f46e5, #4338ca);
+      transform: translateY(-2px);
+    }
+
+    .secondary-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+      font-size: 0.8rem;
+    }
+
+    .secondary-links a {
+      color: #94a3b8;
+      text-decoration: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 0.5rem;
+      background: #0f1422;
+      border: 1px solid #1e293b;
+      transition: color 0.15s;
+    }
+
+    .secondary-links a:hover {
+      color: #ffffff;
+      border-color: #3b82f6;
+    }
+  </style>
+</head>
+
+<body class="bg-lab-bg text-slate-100 antialiased selection:bg-indigo-500 selection:text-white min-h-screen">
+  <!-- React Root Mount -->
+  <div id="root"></div>
+
+  <!-- Fallback Splash Screen (Only visible if opened directly as a file://) -->
+  <div id="file-protocol-portal" class="file-protocol-screen">
+    <div class="file-protocol-card">
+      <div class="badge-tag">
+        <span>✨ CSE276 • Artificial Intelligence Foundations</span>
+      </div>
+      <h1 style="font-size: 2rem; font-weight: 800; color: #ffffff; margin: 0 0 0.5rem; letter-spacing: -0.025em;">
+        AI Search Lab
+      </h1>
+      <p style="font-size: 0.95rem; color: #94a3b8; margin: 0 0 1.5rem; line-height: 1.5;">
+        Interactive Search Algorithm Visualiser & Teaching Tool
+      </p>
+      <p
+        style="font-size: 0.85rem; color: #cbd5e1; background: #0b0e17; padding: 1rem; border-radius: 0.75rem; border: 1px solid #1e293b; line-height: 1.6; text-align: left;">
+        ⚡ <strong>Notice:</strong> You opened this file directly from your disk (<code>file:///</code>). Modern React &
+        TypeScript web applications run through the local web server to execute AI algorithms and live APIs.
+      </p>
+
+      <a id="auto-launch-link" href="http://localhost:5173/" class="launch-btn">
+        <span>Launch AI Search Lab &rarr;</span>
+      </a>
+
+      <div class="secondary-links">
+        <a href="http://localhost:5173/" target="_blank">🌐 Frontend (Port 5173)</a>
+        <a href="http://127.0.0.1:8000/api/docs" target="_blank">📑 FastAPI Docs (Port 8000)</a>
+        <a href="https://github.com/rithvicreddyc-ship-it/ai-search-lab" target="_blank">🐙 GitHub Repository</a>
       </div>
     </div>
+  </div>
 
-    <!-- Detection script for file:// protocol vs web server -->
-    <script>
-      if (window.location.protocol === 'file:') {
-        // User double-clicked index.html directly from Windows Explorer
-        document.getElementById('file-protocol-portal').style.display = 'block';
-        document.getElementById('root').style.display = 'none';
+  <!-- Detection script for file:// protocol vs web server -->
+  <script>
+    if (window.location.protocol === 'file:') {
+      // User double-clicked index.html directly from Windows Explorer
+      document.getElementById('file-protocol-portal').style.display = 'block';
+      document.getElementById('root').style.display = 'none';
 
-        // Check if server is running and auto-redirect
-        fetch('http://localhost:5173/', { mode: 'no-cors' })
-          .then(function() {
-            window.location.href = 'http://localhost:5173/';
-          })
-          .catch(function() {
-            // Keep the portal open with links
-          });
-      }
-    </script>
+      // Check if server is running and auto-redirect
+      fetch('http://localhost:5173/', { mode: 'no-cors' })
+        .then(function () {
+          window.location.href = 'http://localhost:5173/';
+        })
+        .catch(function () {
+          // Keep the portal open with links
+        });
+    }
+  </script>
 
-    <!-- Main React Entry Point (Runs under web server http://localhost:5173/) -->
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+  <!-- Main React Entry Point (Runs under web server http://localhost:5173/) -->
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>

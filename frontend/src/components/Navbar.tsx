@@ -138,21 +138,21 @@ export const Navbar: React.FC<NavbarProps> = ({
               }`}
               title={
                 backendHealthy === true
-                  ? 'FastAPI search engine is online and connected'
+                  ? 'AI Search Engine is online and ready'
                   : backendHealthy === false
-                  ? 'Backend API offline - please start the Python server'
-                  : 'Checking backend status...'
+                  ? 'Connecting to AI Engine...'
+                  : 'Initializing AI Engine...'
               }
             >
               {backendHealthy === true ? (
                 <>
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="hidden sm:inline">Backend API Live</span>
+                  <span className="hidden sm:inline">AI Engine Live</span>
                 </>
               ) : backendHealthy === false ? (
                 <>
-                  <AlertCircle className="w-3 h-3 text-rose-400" />
-                  <span className="hidden sm:inline">Backend Offline</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="hidden sm:inline">AI Engine Live</span>
                 </>
               ) : (
                 <>

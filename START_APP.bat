@@ -4,21 +4,18 @@ cd /d "%~dp0"
 
 echo ==============================================================================
 echo   AI Search Lab - Interactive Search Algorithm Visualiser
-echo   Artificial Intelligence Foundations - Search Algorithms
+echo   Artificial Intelligence Foundations - Search Algorithms (Node.js)
 echo ==============================================================================
 echo.
-echo [1/3] Configuring environment paths for Node.js and Python...
-set "PATH=%LOCALAPPDATA%\Programs\nodejs;C:\Program Files\nodejs;%LOCALAPPDATA%\Programs\Python\Python313;%LOCALAPPDATA%\Programs\Python\Python313\Scripts;%PATH%"
+echo [1/2] Configuring environment paths for Node.js...
+set "PATH=%LOCALAPPDATA%\Programs\nodejs;C:\Program Files\nodejs;%PATH%"
 
-echo [2/3] Starting Python FastAPI Backend Server on port 8000...
-start "AI Search Lab - Backend Server" cmd /k "cd /d "%~dp0backend" && python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload"
-
-echo [3/3] Starting Vite React Frontend Server on port 5173...
-start "AI Search Lab - Frontend Server" cmd /k "cd /d "%~dp0frontend" && set "PATH=%LOCALAPPDATA%\Programs\nodejs;C:\Program Files\nodejs;%PATH%" && npm run dev -- --host 127.0.0.1 --port 5173"
+echo [2/2] Starting AI Search Lab on port 5173...
+start "AI Search Lab Server" cmd /k "cd /d "%~dp0frontend" && set "PATH=%LOCALAPPDATA%\Programs\nodejs;C:\Program Files\nodejs;%PATH%" && npm run dev -- --host 127.0.0.1 --port 5173"
 
 echo.
-echo Waiting 4 seconds for servers to initialize...
-timeout /t 4 /nobreak >nul
+echo Waiting 3 seconds for server to initialize...
+timeout /t 3 /nobreak >nul
 
 echo.
 echo Launching AI Search Lab in your default web browser...
@@ -26,7 +23,6 @@ start http://localhost:5173/
 
 echo.
 echo ==============================================================================
-echo   Both Servers are now running!
-echo   Frontend: http://localhost:5173/
-echo   Backend:  http://127.0.0.1:8000 (API Docs: http://127.0.0.1:8000/api/docs)
+echo   AI Search Lab is now running!
+echo   URL: http://localhost:5173/
 echo ==============================================================================

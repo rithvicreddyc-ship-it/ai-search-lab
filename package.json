@@ -1,0 +1,22 @@
+{
+  "name": "ai-search-lab",
+  "version": "1.0.0",
+  "description": "Interactive Search Algorithm Visualiser & Teaching Tool for Artificial Intelligence Foundations",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "cd frontend && npm install && npm run build",
+    "dev": "cd frontend && npm run dev"
+  },
+  "keywords": [
+    "artificial-intelligence",
+    "search-algorithms",
+    "bfs",
+    "dfs",
+    "astar",
+    "visualizer"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

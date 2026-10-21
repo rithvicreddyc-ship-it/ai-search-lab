@@ -71,13 +71,13 @@ export const ExperimentsLab: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-lab-border/70 pb-4 print:hidden">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/80 pb-4 print:hidden">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2.5">
-            <FlaskConical className="w-6 h-6 text-emerald-400" />
+          <h1 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
+            <FlaskConical className="w-6 h-6 text-emerald-600" />
             <span>AI Search Educational Experiments & Research Reports</span>
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-slate-500 mt-1">
             Reproducible benchmark experiments designed to generate empirical evidence for academic submission.
           </p>
         </div>
@@ -86,23 +86,23 @@ export const ExperimentsLab: React.FC = () => {
           <div className="flex items-center gap-2">
             <button
               onClick={() => exportComparisonToCsv(report.results, `${report.title.replace(/\s+/g, '_')}.csv`)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 border border-slate-700 transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white hover:bg-slate-100 text-xs font-medium text-slate-700 border border-slate-200 shadow-xs transition-colors"
             >
-              <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-400" />
+              <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600" />
               <span>Export CSV</span>
             </button>
 
             <button
               onClick={() => exportToJson(report, `${report.title.replace(/\s+/g, '_')}.json`)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 border border-slate-700 transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white hover:bg-slate-100 text-xs font-medium text-slate-700 border border-slate-200 shadow-xs transition-colors"
             >
-              <FileJson className="w-3.5 h-3.5 text-cyan-400" />
+              <FileJson className="w-3.5 h-3.5 text-sky-600" />
               <span>Export JSON</span>
             </button>
 
             <button
               onClick={() => window.print()}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs font-medium text-white shadow-md shadow-indigo-600/30 transition-colors"
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-xs font-medium text-white shadow-md shadow-indigo-200 transition-colors"
             >
               <Printer className="w-3.5 h-3.5" />
               <span>Print Report</span>
@@ -124,15 +124,15 @@ export const ExperimentsLab: React.FC = () => {
               }}
               className={`p-5 rounded-3xl text-left border transition-all ${
                 isSelected
-                  ? 'bg-[#0e1526] border-indigo-500 text-white shadow-glow-indigo'
-                  : 'bg-[#0b101e]/90 hover:bg-[#11182c] border-lab-border/80 text-slate-300'
+                  ? 'bg-white border-2 border-indigo-600 text-slate-900 shadow-md ring-2 ring-indigo-100'
+                  : 'bg-white/80 hover:bg-slate-50 border border-slate-200 text-slate-700 shadow-xs'
               }`}
             >
-              <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-400 block mb-1">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-600 block mb-1">
                 Benchmark Suite
               </span>
-              <h3 className="text-xs font-bold text-white mb-1">{preset.title.split(':')[1] || preset.title}</h3>
-              <p className="text-[11px] text-slate-400 leading-relaxed">{preset.subtitle}</p>
+              <h3 className="text-xs font-bold text-slate-900 mb-1">{preset.title.split(':')[1] || preset.title}</h3>
+              <p className="text-[11px] text-slate-500 leading-relaxed">{preset.subtitle}</p>
             </button>
           );
         })}
@@ -140,39 +140,39 @@ export const ExperimentsLab: React.FC = () => {
 
       {/* Report Container */}
       {report && (
-        <div className="p-6 sm:p-8 rounded-3xl bg-[#0b101e]/90 border border-lab-border/80 shadow-glass-card backdrop-blur-2xl space-y-6 print:bg-white print:text-black print:border-none print:shadow-none">
+        <div className="p-6 sm:p-8 rounded-3xl bg-white/95 border border-slate-200/90 shadow-glass-card backdrop-blur-2xl space-y-6 print:bg-white print:text-black print:border-none print:shadow-none">
           {/* Title & Metadata */}
-          <div className="border-b border-lab-border/70 pb-4 space-y-2">
+          <div className="border-b border-slate-200/80 pb-4 space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider print:text-black">
+              <span className="text-xs font-mono font-bold text-emerald-700 uppercase tracking-wider print:text-black">
                 AI Search Benchmark Experimental Report
               </span>
-              <span className="text-xs font-mono text-slate-400 bg-[#050813] px-2.5 py-0.5 rounded-full border border-slate-800 print:text-gray-600">
+              <span className="text-xs font-mono text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-full border border-slate-200 print:text-gray-600">
                 Seed: {report.configuration.seed || 42}
               </span>
             </div>
-            <h2 className="text-2xl font-extrabold text-white tracking-tight print:text-black">{report.title}</h2>
-            <p className="text-xs sm:text-sm text-slate-300 print:text-gray-700">{report.description}</p>
+            <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight print:text-black">{report.title}</h2>
+            <p className="text-xs sm:text-sm text-slate-600 print:text-gray-700">{report.description}</p>
           </div>
 
           {/* Research Question */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-[#050813] border border-lab-border/70 space-y-1 shadow-inner print:bg-gray-100 print:border-gray-300">
-            <span className="text-[11px] font-bold text-indigo-400 uppercase tracking-wider block print:text-indigo-800">
+          <div className="p-4 sm:p-5 rounded-2xl bg-indigo-50/70 border border-indigo-200 space-y-1 shadow-xs print:bg-gray-100 print:border-gray-300">
+            <span className="text-[11px] font-bold text-indigo-900 uppercase tracking-wider block print:text-indigo-800">
               Research Question:
             </span>
-            <p className="text-xs font-medium text-slate-200 leading-relaxed print:text-black">
+            <p className="text-xs font-medium text-slate-800 leading-relaxed print:text-black">
               {report.research_question}
             </p>
           </div>
 
           {/* Experimental Results Table */}
           <div className="space-y-2">
-            <span className="text-xs font-bold text-white uppercase tracking-wider block print:text-black">
+            <span className="text-xs font-bold text-slate-900 uppercase tracking-wider block print:text-black">
               Measured Performance Table:
             </span>
-            <div className="rounded-2xl border border-lab-border/80 overflow-hidden shadow-inner print:border-gray-300">
+            <div className="rounded-2xl border border-slate-200 overflow-hidden shadow-xs print:border-gray-300">
               <table className="w-full text-left text-xs font-mono">
-                <thead className="bg-[#050813] text-slate-400 font-sans border-b border-lab-border/70 print:bg-gray-200 print:text-black">
+                <thead className="bg-slate-50 text-slate-600 font-sans border-b border-slate-200 print:bg-gray-200 print:text-black">
                   <tr>
                     <th className="px-4 py-2.5">Algorithm</th>
                     <th className="px-3 py-2.5">Solved</th>
@@ -184,23 +184,23 @@ export const ExperimentsLab: React.FC = () => {
                     <th className="px-4 py-2.5 font-sans">Optimality Property</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-lab-border/50 text-slate-200 print:text-black print:divide-gray-300">
+                <tbody className="divide-y divide-slate-100 text-slate-700 print:text-black print:divide-gray-300">
                   {report.results.map((res) => (
-                    <tr key={res.algorithm} className="hover:bg-slate-800/30">
-                      <td className="px-4 py-2.5 font-sans font-bold text-white print:text-black">{res.name}</td>
+                    <tr key={res.algorithm} className="hover:bg-slate-50">
+                      <td className="px-4 py-2.5 font-sans font-bold text-slate-900 print:text-black">{res.name}</td>
                       <td className="px-3 py-2.5 font-sans">
                         {res.solution_found ? 'YES' : 'NO'}
                       </td>
-                      <td className="px-3 py-2.5 font-bold text-emerald-400 print:text-green-800">
+                      <td className="px-3 py-2.5 font-bold text-emerald-700 print:text-green-800">
                         {res.solution_found ? res.path_cost : '—'}
                       </td>
-                      <td className="px-3 py-2.5 text-amber-300 print:text-black">
+                      <td className="px-3 py-2.5 text-amber-700 print:text-black">
                         {res.solution_found ? res.path_length : '—'}
                       </td>
-                      <td className="px-3 py-2.5 text-cyan-300 print:text-black">{res.nodes_expanded}</td>
-                      <td className="px-3 py-2.5 text-violet-300 print:text-black">{res.max_frontier_size}</td>
-                      <td className="px-3 py-2.5 text-slate-300 print:text-black">{res.execution_time_ms}</td>
-                      <td className="px-4 py-2.5 font-sans text-[11px] text-slate-400 print:text-gray-700">
+                      <td className="px-3 py-2.5 text-sky-700 print:text-black">{res.nodes_expanded}</td>
+                      <td className="px-3 py-2.5 text-purple-700 print:text-black">{res.max_frontier_size}</td>
+                      <td className="px-3 py-2.5 text-slate-700 print:text-black">{res.execution_time_ms}</td>
+                      <td className="px-4 py-2.5 font-sans text-[11px] text-slate-500 print:text-gray-700">
                         {res.optimality_guarantee}
                       </td>
                     </tr>
@@ -211,28 +211,28 @@ export const ExperimentsLab: React.FC = () => {
           </div>
 
           {/* Analysis Narrative */}
-          <div className="p-4 rounded-xl bg-gradient-to-r from-indigo-950/40 to-slate-900 border border-indigo-500/30 space-y-2 print:bg-gray-100 print:border-gray-300">
-            <span className="text-xs font-bold text-indigo-300 uppercase tracking-wider block print:text-indigo-800">
+          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 print:bg-gray-100 print:border-gray-300">
+            <span className="text-xs font-bold text-indigo-700 uppercase tracking-wider block print:text-indigo-800">
               Empirical Discussion & Findings:
             </span>
-            <p className="text-xs sm:text-sm text-slate-200 leading-relaxed print:text-black font-normal">
+            <p className="text-xs sm:text-sm text-slate-700 leading-relaxed print:text-black font-normal">
               {report.narrative}
             </p>
           </div>
 
           {/* Viva Takeaways */}
-          <div className="space-y-2 pt-2 border-t border-lab-border/70 print:border-gray-300">
-            <span className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5 print:text-amber-800">
-              <HelpCircle className="w-4 h-4" />
+          <div className="space-y-2 pt-2 border-t border-slate-200/80 print:border-gray-300">
+            <span className="text-xs font-bold text-amber-800 uppercase tracking-wider flex items-center gap-1.5 print:text-amber-800">
+              <HelpCircle className="w-4 h-4 text-amber-600" />
               <span>University Viva Defense Points:</span>
             </span>
-            <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-slate-300 print:text-black">
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-slate-700 print:text-black">
               {report.viva_takeaways.map((takeaway, idx) => (
                 <li
                   key={idx}
-                  className="p-3 rounded-xl bg-[#0b0e17] border border-lab-border/60 flex items-start gap-2.5 print:bg-gray-50 print:border-gray-300"
+                  className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-2.5 print:bg-gray-50 print:border-gray-300"
                 >
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5 print:text-green-700" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5 print:text-green-700" />
                   <span>{takeaway}</span>
                 </li>
               ))}

@@ -92,7 +92,7 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-lab-bg text-slate-100 flex flex-col font-sans selection:bg-indigo-500 selection:text-white relative overflow-x-hidden">
+    <div className="min-h-screen bg-lab-bg text-slate-800 flex flex-col font-sans selection:bg-indigo-600 selection:text-white relative overflow-x-hidden">
       {/* Animated Moving Watermark & Water Waves Background */}
       <WaterBackground />
 
@@ -141,14 +141,14 @@ export const App: React.FC = () => {
       </main>
 
       {/* University Footer */}
-      <footer className="border-t border-lab-border/60 py-6 text-center text-xs text-slate-500 relative z-10 print:hidden">
+      <footer className="border-t border-slate-200/80 py-6 text-center text-xs text-slate-500 bg-white/70 backdrop-blur-md relative z-10 print:hidden">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-400">AI Search Lab</span>
+            <span className="font-bold text-slate-700">AI Search Lab</span>
             <span>—</span>
             <span>Artificial Intelligence Foundations • Search Algorithms</span>
           </div>
-          <div className="text-[11px] font-mono text-slate-600">
+          <div className="text-[11px] font-mono text-slate-500">
             React + TypeScript + Vite + Tailwind CSS | Node.js Engine
           </div>
         </div>

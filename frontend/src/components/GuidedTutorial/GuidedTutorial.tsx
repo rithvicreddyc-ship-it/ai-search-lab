@@ -123,12 +123,12 @@ export const GuidedTutorial: React.FC<GuidedTutorialProps> = ({
   return (
     <div className="max-w-7xl mx-auto px-4 space-y-6">
       {/* Header */}
-      <div className="border-b border-lab-border/70 pb-4">
-        <h1 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2.5">
-          <GraduationCap className="w-6 h-6 text-indigo-400" />
+      <div className="border-b border-slate-200/80 pb-4">
+        <h1 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
+          <GraduationCap className="w-6 h-6 text-indigo-600" />
           <span>Interactive Guided Tutorial</span>
         </h1>
-        <p className="text-xs sm:text-sm text-slate-400 mt-1">
+        <p className="text-xs sm:text-sm text-slate-500 mt-1">
           Master classical search algorithms through progressive, hands-on pedagogical lessons designed for university examinations.
         </p>
       </div>
@@ -143,8 +143,8 @@ export const GuidedTutorial: React.FC<GuidedTutorialProps> = ({
               onClick={() => setActiveLesson(idx)}
               className={`px-3 py-2 rounded-xl text-xs font-medium transition-all ${
                 isActive
-                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30 ring-1 ring-indigo-400'
-                  : 'bg-lab-panel/80 hover:bg-slate-800 text-slate-300 border border-lab-border/60'
+                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-200 ring-2 ring-indigo-400/40'
+                  : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 shadow-xs'
               }`}
             >
               Lesson {idx + 1}
@@ -154,13 +154,13 @@ export const GuidedTutorial: React.FC<GuidedTutorialProps> = ({
       </div>
 
       {/* Active Lesson Card */}
-      <div className="p-6 sm:p-7 rounded-3xl bg-[#0b101e]/90 border border-lab-border/80 shadow-glass-card backdrop-blur-2xl space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-lab-border/70 pb-4">
+      <div className="p-6 sm:p-7 rounded-3xl bg-white/95 border border-slate-200/90 shadow-glass-card backdrop-blur-2xl space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200/80 pb-4">
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
+            <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
               {current.badge}
             </span>
-            <h2 className="text-xl font-extrabold text-white mt-1.5">{current.title}</h2>
+            <h2 className="text-xl font-extrabold text-slate-900 mt-1.5">{current.title}</h2>
           </div>
 
           <button
@@ -168,7 +168,7 @@ export const GuidedTutorial: React.FC<GuidedTutorialProps> = ({
               onLoadTutorialSetup(current.presetId, current.algId);
               onNavigate('lab');
             }}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-bold text-xs shadow-glow-indigo transition-all self-start sm:self-auto active:scale-95"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-200 transition-all self-start sm:self-auto active:scale-95"
           >
             <PlayCircle className="w-4 h-4" />
             <span>{current.actionText}</span>
@@ -177,26 +177,26 @@ export const GuidedTutorial: React.FC<GuidedTutorialProps> = ({
         </div>
 
         {/* Concept Description */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-[#050813] border border-lab-border/70 space-y-2 shadow-inner">
-          <span className="text-xs font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-1.5">
-            <Sparkles className="w-4 h-4 text-indigo-400" />
+        <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 shadow-xs">
+          <span className="text-xs font-bold text-indigo-700 uppercase tracking-wider flex items-center gap-1.5">
+            <Sparkles className="w-4 h-4 text-indigo-600" />
             Core Theoretical Principle
           </span>
-          <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">{current.concept}</p>
+          <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">{current.concept}</p>
         </div>
 
         {/* Bullet Points */}
         <div className="space-y-2">
-          <span className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+          <span className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
             Key Conceptual Mechanics:
           </span>
-          <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-slate-300">
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-slate-700">
             {current.details.map((point, i) => (
               <li
                 key={i}
-                className="flex items-start gap-2.5 p-3.5 rounded-2xl bg-[#050813] border border-lab-border/60 shadow-inner"
+                className="flex items-start gap-2.5 p-3.5 rounded-2xl bg-slate-50 border border-slate-200 shadow-xs"
               >
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                 <span>{point}</span>
               </li>
             ))}
@@ -204,9 +204,9 @@ export const GuidedTutorial: React.FC<GuidedTutorialProps> = ({
         </div>
 
         {/* Viva Key Tip */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-amber-950/30 border border-amber-500/30 text-xs text-amber-200 leading-relaxed space-y-1.5 shadow-inner">
-          <span className="font-bold flex items-center gap-1.5 text-amber-300">
-            <HelpCircle className="w-4 h-4 text-amber-400" />
+        <div className="p-4 sm:p-5 rounded-2xl bg-amber-50/70 border border-amber-200 text-xs text-amber-900 leading-relaxed space-y-1.5 shadow-xs">
+          <span className="font-bold flex items-center gap-1.5 text-amber-800">
+            <HelpCircle className="w-4 h-4 text-amber-600" />
             University Viva Takeaway
           </span>
           <p>{current.vivaTip}</p>

@@ -140,7 +140,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
       category: 'Uninformed',
       complexity: 'Time: O(b^d) • Space: O(b^d)',
       highlight: 'Level-by-level queue traversal. Optimal on uniform cost.',
-      badgeColor: 'bg-blue-500/15 text-blue-400 border-blue-500/30'
+      badgeColor: 'bg-blue-50 text-blue-700 border-blue-200'
     },
     {
       id: 'dfs' as AlgorithmType,
@@ -148,7 +148,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
       category: 'Uninformed',
       complexity: 'Time: O(b^m) • Space: O(b·m)',
       highlight: 'LIFO stack exploration. Minimal memory, non-optimal.',
-      badgeColor: 'bg-purple-500/15 text-purple-400 border-purple-500/30'
+      badgeColor: 'bg-purple-50 text-purple-700 border-purple-200'
     },
     {
       id: 'ucs' as AlgorithmType,
@@ -156,7 +156,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
       category: 'Uninformed',
       complexity: 'Time: O(b^(1+C*/ε)) • Space: O(b^(1+C*/ε))',
       highlight: 'Priority queue by g(n). Guaranteed optimal on weighted graphs.',
-      badgeColor: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
+      badgeColor: 'bg-emerald-50 text-emerald-700 border-emerald-200'
     },
     {
       id: 'greedy' as AlgorithmType,
@@ -164,7 +164,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
       category: 'Informed',
       complexity: 'Time: O(b^m) worst • Space: O(b^m)',
       highlight: 'Heuristic-guided by h(n). Extremely rapid, non-optimal.',
-      badgeColor: 'bg-amber-500/15 text-amber-400 border-amber-500/30'
+      badgeColor: 'bg-amber-50 text-amber-800 border-amber-200'
     },
     {
       id: 'astar' as AlgorithmType,
@@ -172,7 +172,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
       category: 'Informed',
       complexity: 'Time: O(b^d) worst • Space: O(b^d)',
       highlight: 'Evaluation f(n) = g(n) + h(n). Optimal with admissible heuristics.',
-      badgeColor: 'bg-indigo-500/15 text-indigo-400 border-indigo-500/30'
+      badgeColor: 'bg-indigo-50 text-indigo-700 border-indigo-200'
     },
     {
       id: 'idastar' as AlgorithmType,
@@ -180,7 +180,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
       category: 'Informed',
       complexity: 'Time: O(b^d) • Space: O(d) Linear',
       highlight: 'Iterative f-cost bounding. Eliminates exponential memory.',
-      badgeColor: 'bg-rose-500/15 text-rose-400 border-rose-500/30'
+      badgeColor: 'bg-rose-50 text-rose-700 border-rose-200'
     },
     {
       id: 'hill_climbing' as AlgorithmType,
@@ -188,7 +188,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
       category: 'Local Search',
       complexity: 'Time: O(∞) loops • Space: O(1) Constant',
       highlight: 'Local steepest descent. Detects local optima & plateaus.',
-      badgeColor: 'bg-cyan-500/15 text-cyan-400 border-cyan-500/30'
+      badgeColor: 'bg-cyan-50 text-cyan-800 border-cyan-200'
     }
   ];
 
@@ -196,25 +196,25 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
     <div className="space-y-16 pb-20">
       {/* Hero Section */}
       <section className="relative pt-8 pb-4 overflow-hidden">
-        {/* Ambient Cosmic Radial Glows */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gradient-to-tr from-indigo-600/20 via-violet-600/15 to-cyan-500/10 blur-[130px] pointer-events-none" />
+        {/* Ambient Subtle Radial Glows for Light Theme */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gradient-to-tr from-indigo-200/40 via-sky-200/30 to-teal-100/30 blur-[130px] pointer-events-none" />
 
         <div className="max-w-5xl mx-auto px-4 text-center relative z-10 space-y-6">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-medium shadow-sm shadow-indigo-500/10">
-            <Sparkles className="w-3.5 h-3.5 text-indigo-400 animate-pulse" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-semibold shadow-sm">
+            <Sparkles className="w-3.5 h-3.5 text-indigo-500 animate-pulse" />
             <span className="font-semibold">Artificial Intelligence Foundations</span>
-            <span className="text-indigo-400/60">•</span>
+            <span className="text-indigo-300">•</span>
             <span>Search Algorithm Visualiser</span>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-tight">
+          <h1 className="text-4xl sm:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight">
             AI Search Lab
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-violet-300 to-cyan-400 mt-2">
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-violet-600 to-sky-600 mt-2">
               Interactive Search Algorithm Visualiser
             </span>
           </h1>
 
-          <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-300 font-normal leading-relaxed">
+          <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-600 font-normal leading-relaxed">
             Construct custom mazes and weighted graphs, execute 7 classical AI search algorithms with genuine step-by-step state inspection, benchmark performance metrics, and prepare for viva examinations.
           </p>
 
@@ -222,7 +222,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
           <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
             <button
               onClick={() => onNavigate('lab')}
-              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold text-sm shadow-xl shadow-indigo-600/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold text-sm shadow-lg shadow-indigo-600/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
             >
               <PlayCircle className="w-4 h-4" />
               <span>Launch Full Search Lab</span>
@@ -231,17 +231,17 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
 
             <button
               onClick={() => onNavigate('compare')}
-              className="flex items-center gap-2 px-5 py-3 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-200 font-medium text-sm border border-slate-700/80 transition-colors"
+              className="flex items-center gap-2 px-5 py-3 rounded-xl bg-white hover:bg-slate-50 text-slate-700 font-medium text-sm border border-slate-200 shadow-sm transition-colors"
             >
-              <Layers className="w-4 h-4 text-indigo-400" />
+              <Layers className="w-4 h-4 text-indigo-600" />
               <span>Compare Algorithms</span>
             </button>
 
             <button
               onClick={() => onNavigate('explorer')}
-              className="flex items-center gap-2 px-5 py-3 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-200 font-medium text-sm border border-slate-700/80 transition-colors"
+              className="flex items-center gap-2 px-5 py-3 rounded-xl bg-white hover:bg-slate-50 text-slate-700 font-medium text-sm border border-slate-200 shadow-sm transition-colors"
             >
-              <Cpu className="w-4 h-4 text-violet-400" />
+              <Cpu className="w-4 h-4 text-violet-600" />
               <span>Algorithm Explorer & Viva</span>
             </button>
           </div>
@@ -249,20 +249,20 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
 
         {/* Live Interactive Hero Maze Preview */}
         <div className="max-w-4xl mx-auto px-4 mt-10">
-          <div className="p-5 sm:p-6 rounded-3xl bg-[#0b101e]/90 border border-indigo-500/30 shadow-glass-card backdrop-blur-2xl space-y-4">
-            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-lab-border/70 pb-3">
+          <div className="p-5 sm:p-6 rounded-3xl bg-white/90 border border-slate-200/90 shadow-glass-card backdrop-blur-2xl space-y-4">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200/80 pb-3">
               <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
-                <span className="text-xs font-bold text-white uppercase tracking-wider">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
+                <span className="text-xs font-bold text-slate-900 uppercase tracking-wider">
                   Live Interactive Engine Demo
                 </span>
-                <span className="text-[10px] font-mono text-cyan-300 bg-cyan-950/60 px-2.5 py-0.5 rounded-full border border-cyan-500/30">
+                <span className="text-[10px] font-mono text-indigo-700 bg-indigo-50 px-2.5 py-0.5 rounded-full border border-indigo-200">
                   Node.js & TypeScript Engine
                 </span>
               </div>
 
               {/* Demo Algorithm Switcher */}
-              <div className="flex items-center gap-1.5 bg-[#050813] p-1.5 rounded-2xl border border-lab-border/60">
+              <div className="flex items-center gap-1 bg-slate-100 p-1.5 rounded-2xl border border-slate-200 shadow-inner">
                 {(['astar', 'bfs', 'greedy', 'dfs'] as AlgorithmType[]).map((alg) => (
                   <button
                     key={alg}
@@ -273,8 +273,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                     disabled={isDemoRunning}
                     className={`px-3 py-1 rounded-xl text-xs font-bold uppercase transition-all ${
                       demoAlg === alg
-                        ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-glow-indigo'
-                        : 'text-slate-400 hover:text-white hover:bg-slate-800/40'
+                        ? 'bg-white text-indigo-600 shadow-sm border border-slate-200'
+                        : 'text-slate-600 hover:text-slate-900'
                     } disabled:opacity-40`}
                   >
                     {alg}
@@ -284,9 +284,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             </div>
 
             {/* Mini Grid Canvas */}
-            <div className="flex items-center justify-center p-3.5 rounded-2xl bg-[#050813] border border-slate-800/80 overflow-x-auto shadow-inner">
+            <div className="flex items-center justify-center p-3.5 rounded-2xl bg-slate-50/80 border border-slate-200 overflow-x-auto shadow-inner">
               <div
-                className="grid gap-[2px] p-2 bg-[#020409] rounded-xl border border-slate-800"
+                className="grid gap-[2px] p-2 bg-white rounded-xl border border-slate-200 shadow-sm"
                 style={{
                   gridTemplateRows: `repeat(${demoMaze.rows}, minmax(0, 1fr))`,
                   gridTemplateColumns: `repeat(${demoMaze.cols}, minmax(0, 1fr))`,
@@ -303,21 +303,21 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                     const isFrontier = frontierSet.has(coordStr);
                     const isExplored = exploredSet.has(coordStr);
 
-                    let cellClass = 'bg-[#0a0f1d] border border-slate-800/70 rounded-[3px]';
+                    let cellClass = 'bg-slate-50 border border-slate-200/60 rounded-[3px]';
                     if (isWall) {
-                      cellClass = 'bg-slate-700/80 border border-slate-600/60 rounded-[3px]';
+                      cellClass = 'bg-slate-800 border border-slate-700 rounded-[3px]';
                     } else if (isStart) {
-                      cellClass = 'bg-gradient-to-tr from-emerald-500 to-teal-400 text-slate-950 font-bold glow-emerald rounded-[3px]';
+                      cellClass = 'bg-emerald-500 text-white font-bold glow-emerald rounded-[3px]';
                     } else if (isGoal) {
-                      cellClass = 'bg-gradient-to-tr from-rose-500 to-pink-500 text-white font-bold glow-rose rounded-[3px]';
+                      cellClass = 'bg-rose-500 text-white font-bold glow-rose rounded-[3px]';
                     } else if (isPath) {
-                      cellClass = 'bg-emerald-400 font-bold glow-emerald ring-1 ring-emerald-300 rounded-[3px] animate-path-pulse';
+                      cellClass = 'bg-emerald-400 text-emerald-950 font-bold ring-1 ring-emerald-400 rounded-[3px] animate-path-pulse';
                     } else if (isActive) {
                       cellClass = 'bg-amber-400 font-bold ring-2 ring-amber-300 animate-pulse rounded-[3px]';
                     } else if (isFrontier) {
-                      cellClass = 'bg-cyan-500/35 border border-cyan-400/80 animate-frontier-pulse rounded-[3px]';
+                      cellClass = 'bg-amber-100 border border-amber-300 text-amber-900 animate-frontier-pulse rounded-[3px]';
                     } else if (isExplored) {
-                      cellClass = 'bg-indigo-600/35 border border-indigo-500/50 rounded-[3px]';
+                      cellClass = 'bg-sky-100 border border-sky-200 text-sky-800 rounded-[3px]';
                     }
 
                     return (
@@ -334,20 +334,20 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             </div>
 
             {/* Live Demo Status Bar */}
-            <div className="flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-slate-300 px-2">
+            <div className="flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-slate-600 px-2">
               <div className="flex items-center gap-3">
                 <span>
-                  Step: <strong className="text-white">{demoStep}</strong> / {demoEvents.length}
+                  Step: <strong className="text-slate-900">{demoStep}</strong> / {demoEvents.length}
                 </span>
                 {demoStats && (
                   <>
-                    <span className="text-slate-600">•</span>
+                    <span className="text-slate-300">•</span>
                     <span>
-                      Expanded: <strong className="text-cyan-400">{demoStats.expanded}</strong>
+                      Expanded: <strong className="text-indigo-600">{demoStats.expanded}</strong>
                     </span>
-                    <span className="text-slate-600">•</span>
+                    <span className="text-slate-300">•</span>
                     <span>
-                      Path Cost: <strong className="text-emerald-400">{demoStats.cost}</strong>
+                      Path Cost: <strong className="text-emerald-600">{demoStats.cost}</strong>
                     </span>
                   </>
                 )}
@@ -356,7 +356,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
               <button
                 onClick={() => runHeroDemo(demoAlg)}
                 disabled={isDemoRunning}
-                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white text-xs font-sans font-semibold shadow-glow-indigo transition-all active:scale-95 disabled:opacity-40"
+                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-sans font-semibold shadow-sm transition-all active:scale-95 disabled:opacity-40"
               >
                 <RotateCcw className="w-3 h-3" />
                 <span>Re-Run {demoAlg.toUpperCase()}</span>
@@ -369,32 +369,32 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
       {/* Feature Highlights Grid */}
       <section className="max-w-6xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-6 rounded-2xl bg-[#0d121d]/90 border border-lab-border hover:border-indigo-500/40 transition-all shadow-xl space-y-3">
-            <div className="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+          <div className="p-6 rounded-2xl bg-white/90 border border-slate-200 hover:border-indigo-400 transition-all shadow-sm space-y-3">
+            <div className="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600">
               <BrainCircuit className="w-5 h-5" />
             </div>
-            <h3 className="font-semibold text-base text-white">7 Classical AI Algorithms</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <h3 className="font-bold text-base text-slate-900">7 Classical AI Algorithms</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
               Implements BFS, DFS, Uniform Cost Search, Greedy Best-First, A*, IDA*, and Hill Climbing with genuine state-space exploration and non-negative cost guarantees.
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-[#0d121d]/90 border border-lab-border hover:border-violet-500/40 transition-all shadow-xl space-y-3">
-            <div className="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-violet-400">
+          <div className="p-6 rounded-2xl bg-white/90 border border-slate-200 hover:border-violet-400 transition-all shadow-sm space-y-3">
+            <div className="w-10 h-10 rounded-xl bg-violet-50 border border-violet-200 flex items-center justify-center text-violet-600">
               <Zap className="w-5 h-5" />
             </div>
-            <h3 className="font-semibold text-base text-white">Step-by-Step Replay Engine</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <h3 className="font-bold text-base text-slate-900">Step-by-Step Replay Engine</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
               Complete playback controls: step forward, backward, pause, scrub timeline, and inspect frontier, explored set, and real-time g(n), h(n), and f(n) values.
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-[#0d121d]/90 border border-lab-border hover:border-cyan-500/40 transition-all shadow-xl space-y-3">
-            <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
+          <div className="p-6 rounded-2xl bg-white/90 border border-slate-200 hover:border-sky-400 transition-all shadow-sm space-y-3">
+            <div className="w-10 h-10 rounded-xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600">
               <Layers className="w-5 h-5" />
             </div>
-            <h3 className="font-semibold text-base text-white">Grid & Graph Dual Editors</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <h3 className="font-bold text-base text-slate-900">Grid & Graph Dual Editors</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
               Draw obstacles, paint mud terrain costs, toggle 4-dir and 8-dir diagonal moves, or switch to an interactive graph editor featuring the classic Romania road map.
             </p>
           </div>
@@ -405,14 +405,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
       <section className="max-w-6xl mx-auto px-4 space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <h2 className="text-2xl font-bold text-white tracking-tight">Supported AI Search Algorithms</h2>
-            <p className="text-xs sm:text-sm text-slate-400 mt-1">
+            <h2 className="text-2xl font-bold text-slate-900 tracking-tight">Supported AI Search Algorithms</h2>
+            <p className="text-xs sm:text-sm text-slate-600 mt-1">
               Every algorithm shares a unified problem model while retaining its distinctive exploration mechanics.
             </p>
           </div>
           <button
             onClick={() => onNavigate('explorer')}
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-600 hover:text-indigo-700 transition-colors"
           >
             <span>View detailed pseudocode & viva prep</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -423,19 +423,19 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
           {algorithms.map((alg) => (
             <div
               key={alg.id}
-              className="p-5 rounded-2xl border border-lab-border/80 bg-[#0d121d]/80 hover:bg-[#111726] hover:border-indigo-500/40 space-y-3 transition-all hover:-translate-y-1 shadow-lg"
+              className="p-5 rounded-2xl border border-slate-200 bg-white/90 hover:border-indigo-400 space-y-3 transition-all hover:-translate-y-1 shadow-sm"
             >
               <div className="flex items-center justify-between">
                 <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border ${alg.badgeColor}`}>
                   {alg.category}
                 </span>
-                <span className="text-[11px] font-mono text-slate-400">{alg.complexity.split('•')[0]}</span>
+                <span className="text-[11px] font-mono text-slate-500">{alg.complexity.split('•')[0]}</span>
               </div>
-              <h3 className="font-bold text-sm text-white">{alg.name}</h3>
-              <p className="text-xs text-slate-300 leading-relaxed">{alg.highlight}</p>
+              <h3 className="font-bold text-sm text-slate-900">{alg.name}</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">{alg.highlight}</p>
               <button
                 onClick={() => onNavigate('lab')}
-                className="inline-flex items-center gap-1 text-[11px] font-medium text-indigo-400 hover:text-indigo-300 pt-1"
+                className="inline-flex items-center gap-1 text-[11px] font-semibold text-indigo-600 hover:text-indigo-700 pt-1"
               >
                 <span>Launch in workspace</span>
                 <ArrowRight className="w-3 h-3" />
@@ -447,40 +447,40 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
 
       {/* Learning Objectives & Viva Readiness */}
       <section className="max-w-6xl mx-auto px-4">
-        <div className="p-8 rounded-3xl bg-gradient-to-br from-[#0d121d] via-[#111728] to-[#151c30] border border-lab-border shadow-2xl space-y-6">
+        <div className="p-8 rounded-3xl bg-white/95 border border-slate-200 shadow-glass-card space-y-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+            <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600">
               <ShieldCheck className="w-6 h-6" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-white">Built for Artificial Intelligence Foundations</h3>
-              <p className="text-xs text-slate-400">Designed to exceed academic criteria and empower students during viva discussions.</p>
+              <h3 className="text-lg font-bold text-slate-900">Built for Artificial Intelligence Foundations</h3>
+              <p className="text-xs text-slate-600">Designed to exceed academic criteria and empower students during viva discussions.</p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-xs text-slate-300">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-xs text-slate-700">
             <div className="flex items-start gap-2.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
               <span><strong>Separation of Concerns:</strong> High-performance TypeScript & Node engine drives algorithms; React delivers high-frequency rendering.</span>
             </div>
             <div className="flex items-start gap-2.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
               <span><strong>No Fabricated Order:</strong> Playback faithfully follows true priority queue / stack pops from the search engine.</span>
             </div>
             <div className="flex items-start gap-2.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
               <span><strong>Admissibility & Consistency:</strong> Clear mathematical explanations for Manhattan vs Euclidean on diagonal movement.</span>
             </div>
             <div className="flex items-start gap-2.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
               <span><strong>Cost-Aware Terrain:</strong> Weighted mud swamps prove when BFS fails to find optimal path costs compared to UCS and A*.</span>
             </div>
             <div className="flex items-start gap-2.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
               <span><strong>Reproducible Benchmarks:</strong> Seeded automated experiments exportable to JSON and CSV for formal lab reports.</span>
             </div>
             <div className="flex items-start gap-2.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
               <span><strong>Interactive Viva Prep:</strong> Curated oral examination questions on completeness, time/space Big-O, and heuristic pruning.</span>
             </div>
           </div>

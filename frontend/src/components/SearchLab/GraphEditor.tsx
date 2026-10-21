@@ -133,23 +133,23 @@ export const GraphEditor: React.FC<GraphEditorProps> = ({
   return (
     <div className="flex flex-col h-full space-y-3">
       {/* Graph Toolbar */}
-      <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 rounded-2xl bg-[#0b101e]/90 border border-lab-border/80 shadow-glass-card backdrop-blur-xl">
-        <div className="flex items-center gap-1 bg-[#060914] p-1 rounded-xl border border-lab-border/60">
+      <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 rounded-2xl bg-white/95 border border-slate-200/90 shadow-glass-card backdrop-blur-xl">
+        <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200">
           <button
             onClick={() => {
               setMode('move');
               setEdgeSource(null);
             }}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               mode === 'move'
-                ? 'bg-indigo-600 text-white shadow-sm ring-1 ring-indigo-400'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+                ? 'bg-indigo-600 text-white shadow-sm ring-1 ring-indigo-500'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
             }`}
             title="Move & Inspect Nodes [Hotkey: V]"
           >
             <Move className="w-3.5 h-3.5" />
             <span>Move</span>
-            <span className="hidden sm:inline text-[9px] font-mono px-1 py-0.2 rounded bg-slate-800 text-slate-400">V</span>
+            <span className="hidden sm:inline text-[9px] font-mono px-1 py-0.2 rounded bg-slate-200 text-slate-600">V</span>
           </button>
 
           <button
@@ -157,16 +157,16 @@ export const GraphEditor: React.FC<GraphEditorProps> = ({
               setMode('add_node');
               setEdgeSource(null);
             }}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               mode === 'add_node'
-                ? 'bg-emerald-950/80 text-emerald-300 shadow-sm ring-1 ring-emerald-500/60'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+                ? 'bg-emerald-50 text-emerald-800 shadow-sm ring-1 ring-emerald-300'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
             }`}
             title="Click canvas to spawn a new node [Hotkey: N]"
           >
-            <Plus className="w-3.5 h-3.5 text-emerald-400" />
+            <Plus className="w-3.5 h-3.5 text-emerald-600" />
             <span>Add Node</span>
-            <span className="hidden sm:inline text-[9px] font-mono px-1 py-0.2 rounded bg-slate-800 text-slate-400">N</span>
+            <span className="hidden sm:inline text-[9px] font-mono px-1 py-0.2 rounded bg-slate-200 text-slate-600">N</span>
           </button>
 
           <button
@@ -174,16 +174,16 @@ export const GraphEditor: React.FC<GraphEditorProps> = ({
               setMode('add_edge');
               setEdgeSource(null);
             }}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               mode === 'add_edge'
-                ? 'bg-amber-950/80 text-amber-300 shadow-sm ring-1 ring-amber-500/60'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+                ? 'bg-amber-100 text-amber-900 shadow-sm ring-1 ring-amber-300'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
             }`}
             title="Click source node then target node [Hotkey: C]"
           >
-            <Link2 className="w-3.5 h-3.5 text-amber-400" />
+            <Link2 className="w-3.5 h-3.5 text-amber-600" />
             <span>{edgeSource ? `Target for ${edgeSource}` : 'Connect'}</span>
-            <span className="hidden sm:inline text-[9px] font-mono px-1 py-0.2 rounded bg-slate-800 text-slate-400">C</span>
+            <span className="hidden sm:inline text-[9px] font-mono px-1 py-0.2 rounded bg-slate-200 text-slate-600">C</span>
           </button>
 
           <button
@@ -191,49 +191,49 @@ export const GraphEditor: React.FC<GraphEditorProps> = ({
               setMode('delete');
               setEdgeSource(null);
             }}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               mode === 'delete'
-                ? 'bg-rose-950/80 text-rose-300 shadow-sm ring-1 ring-rose-500/60'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+                ? 'bg-rose-50 text-rose-800 shadow-sm ring-1 ring-rose-300'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
             }`}
             title="Delete node or edge [Hotkey: D]"
           >
-            <Trash2 className="w-3.5 h-3.5 text-rose-400" />
+            <Trash2 className="w-3.5 h-3.5 text-rose-600" />
             <span>Delete</span>
-            <span className="hidden sm:inline text-[9px] font-mono px-1 py-0.2 rounded bg-slate-800 text-slate-400">D</span>
+            <span className="hidden sm:inline text-[9px] font-mono px-1 py-0.2 rounded bg-slate-200 text-slate-600">D</span>
           </button>
         </div>
 
         {/* Start / Goal Dropdowns */}
         <div className="flex items-center gap-3 text-xs">
-          <div className="flex items-center gap-1.5 bg-[#060914] px-2.5 py-1 rounded-xl border border-lab-border/60">
-            <Flag className="w-3.5 h-3.5 text-emerald-400" />
-            <span className="text-slate-400">Start:</span>
+          <div className="flex items-center gap-1.5 bg-slate-50 px-2.5 py-1 rounded-xl border border-slate-200">
+            <Flag className="w-3.5 h-3.5 text-emerald-600" />
+            <span className="text-slate-500 font-medium">Start:</span>
             <select
               value={graph.start}
               onChange={(e) => onGraphChange({ ...graph, start: e.target.value })}
               disabled={isSearching}
-              className="bg-transparent border-none text-xs text-white font-semibold focus:outline-none cursor-pointer"
+              className="bg-transparent border-none text-xs text-slate-800 font-semibold focus:outline-none cursor-pointer"
             >
               {graph.nodes.map((n) => (
-                <option key={n.id} value={n.id} className="bg-slate-900 text-white">
+                <option key={n.id} value={n.id} className="bg-white text-slate-800">
                   {n.label || n.id}
                 </option>
               ))}
             </select>
           </div>
 
-          <div className="flex items-center gap-1.5 bg-[#060914] px-2.5 py-1 rounded-xl border border-lab-border/60">
-            <Target className="w-3.5 h-3.5 text-rose-400" />
-            <span className="text-slate-400">Goal:</span>
+          <div className="flex items-center gap-1.5 bg-slate-50 px-2.5 py-1 rounded-xl border border-slate-200">
+            <Target className="w-3.5 h-3.5 text-rose-600" />
+            <span className="text-slate-500 font-medium">Goal:</span>
             <select
               value={graph.goal}
               onChange={(e) => onGraphChange({ ...graph, goal: e.target.value })}
               disabled={isSearching}
-              className="bg-transparent border-none text-xs text-white font-semibold focus:outline-none cursor-pointer"
+              className="bg-transparent border-none text-xs text-slate-800 font-semibold focus:outline-none cursor-pointer"
             >
               {graph.nodes.map((n) => (
-                <option key={n.id} value={n.id} className="bg-slate-900 text-white">
+                <option key={n.id} value={n.id} className="bg-white text-slate-800">
                   {n.label || n.id}
                 </option>
               ))}
@@ -243,13 +243,13 @@ export const GraphEditor: React.FC<GraphEditorProps> = ({
       </div>
 
       {/* SVG Canvas Container */}
-      <div className="flex-1 rounded-3xl bg-gradient-to-b from-[#080d19] to-[#040710] border border-lab-border relative overflow-hidden min-h-[410px] shadow-2xl">
-        {/* Subtle Ambient Cosmic Glow Behind Graph */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-violet-600/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="flex-1 rounded-3xl bg-gradient-to-b from-white to-slate-50 border border-slate-200 relative overflow-hidden min-h-[410px] shadow-xl">
+        {/* Subtle Ambient Glow Behind Graph */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-200/30 rounded-full blur-[120px] pointer-events-none" />
 
         {/* Mode helper pill in top left */}
-        <div className="absolute top-3 left-4 z-20 flex items-center gap-2 px-3 py-1 rounded-full bg-[#070b16]/80 border border-slate-800/80 backdrop-blur-md text-[11px] font-mono text-slate-300 pointer-events-none">
-          <Info className="w-3 h-3 text-indigo-400" />
+        <div className="absolute top-3 left-4 z-20 flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 border border-slate-200 backdrop-blur-md text-[11px] font-mono text-slate-700 shadow-sm pointer-events-none">
+          <Info className="w-3 h-3 text-indigo-600" />
           <span>
             {mode === 'move'
               ? 'Click & drag nodes • Click to inspect'
@@ -273,7 +273,7 @@ export const GraphEditor: React.FC<GraphEditorProps> = ({
           {/* Subtle Grid background dots */}
           <defs>
             <pattern id="graph-dot-grid" width="28" height="28" patternUnits="userSpaceOnUse">
-              <circle cx="2" cy="2" r="1" fill="#1b253b" />
+              <circle cx="2" cy="2" r="1" fill="#cbd5e1" />
             </pattern>
             {/* Glow filters for edges and nodes */}
             <filter id="emerald-glow" x="-20%" y="-20%" width="140%" height="140%">
@@ -293,7 +293,7 @@ export const GraphEditor: React.FC<GraphEditorProps> = ({
             if (!u || !v) return null;
 
             const isEdgeInPath = pathSet.has(edge.source) && pathSet.has(edge.target);
-            const strokeColor = isEdgeInPath ? '#34d399' : '#27354f';
+            const strokeColor = isEdgeInPath ? '#059669' : '#94a3b8';
             const strokeWidth = isEdgeInPath ? 3.5 : 1.8;
 
             const midX = (u.x + v.x) / 2;
@@ -320,7 +320,7 @@ export const GraphEditor: React.FC<GraphEditorProps> = ({
                   strokeWidth={strokeWidth}
                   strokeLinecap="round"
                   filter={isEdgeInPath ? 'url(#emerald-glow)' : undefined}
-                  className={isEdgeInPath ? 'animate-path-draw' : 'group-hover:stroke-indigo-400 transition-colors'}
+                  className={isEdgeInPath ? 'animate-path-draw' : 'group-hover:stroke-indigo-600 transition-colors'}
                 />
                 {/* Weight badge */}
                 <rect
@@ -329,15 +329,16 @@ export const GraphEditor: React.FC<GraphEditorProps> = ({
                   width="32"
                   height="20"
                   rx="6"
-                  fill="#0a0f1d"
-                  stroke={isEdgeInPath ? '#059669' : '#27354f'}
+                  fill="#ffffff"
+                  stroke={isEdgeInPath ? '#059669' : '#cbd5e1'}
                   strokeWidth="1.2"
+                  className="shadow-sm"
                 />
                 <text
                   x={midX}
                   y={midY + 3.5}
                   textAnchor="middle"
-                  className="text-[10px] font-mono font-bold fill-slate-300 select-none"
+                  className="text-[10px] font-mono font-bold fill-slate-700 select-none"
                 >
                   {edge.weight}
                 </text>
@@ -355,34 +356,34 @@ export const GraphEditor: React.FC<GraphEditorProps> = ({
             const isPath = pathSet.has(node.id);
             const isSourceSelected = edgeSource === node.id;
 
-            let nodeFill = '#0f172a';
-            let strokeColor = '#334155';
-            let textColor = '#e2e8f0';
+            let nodeFill = '#ffffff';
+            let strokeColor = '#64748b';
+            let textColor = '#0f172a';
 
             if (isStart) {
               nodeFill = '#10b981';
-              strokeColor = '#6ee7b7';
-              textColor = '#022c22';
+              strokeColor = '#059669';
+              textColor = '#ffffff';
             } else if (isGoal) {
               nodeFill = '#f43f5e';
-              strokeColor = '#fda4af';
+              strokeColor = '#e11d48';
               textColor = '#ffffff';
             } else if (isPath) {
               nodeFill = '#34d399';
-              strokeColor = '#a7f3d0';
+              strokeColor = '#059669';
               textColor = '#064e3b';
             } else if (isActive) {
               nodeFill = '#f59e0b';
-              strokeColor = '#fde68a';
-              textColor = '#451a03';
+              strokeColor = '#d97706';
+              textColor = '#ffffff';
             } else if (isFrontier) {
-              nodeFill = '#06b6d4';
-              strokeColor = '#67e8f9';
-              textColor = '#083344';
+              nodeFill = '#fde68a';
+              strokeColor = '#f59e0b';
+              textColor = '#78350f';
             } else if (isExplored) {
-              nodeFill = '#4f46e5';
+              nodeFill = '#e0e7ff';
               strokeColor = '#818cf8';
-              textColor = '#e0e7ff';
+              textColor = '#312e81';
             }
 
             return (
@@ -401,7 +402,7 @@ export const GraphEditor: React.FC<GraphEditorProps> = ({
                     cy={node.y}
                     r={26}
                     fill="none"
-                    stroke={isActive ? '#f59e0b' : isSourceSelected ? '#06b6d4' : '#10b981'}
+                    stroke={isActive ? '#f59e0b' : isSourceSelected ? '#0284c7' : '#10b981'}
                     strokeWidth="1.5"
                     strokeDasharray={isSourceSelected ? '4 2' : 'none'}
                     className={isActive ? 'animate-ping' : ''}
@@ -416,6 +417,7 @@ export const GraphEditor: React.FC<GraphEditorProps> = ({
                   fill={nodeFill}
                   stroke={strokeColor}
                   strokeWidth={isActive || isPath || isStart || isGoal ? 2.5 : 1.5}
+                  className="shadow-sm"
                 />
                 <text
                   x={node.x}

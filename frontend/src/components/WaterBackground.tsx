@@ -11,40 +11,40 @@ export const WaterBackground: React.FC = () => {
       aria-hidden="true"
       className="fixed inset-0 pointer-events-none overflow-hidden z-0 select-none"
     >
-      {/* Dynamic Fluid Water Waves & Liquid Glows */}
+      {/* Dynamic Fluid Water Waves & Liquid Glows for Light Theme */}
       <div className="absolute inset-0">
-        {/* Deep Water Ripple Pool 1 */}
+        {/* Soft Water Ripple Pool 1 */}
         <div
-          className="absolute -top-[15%] -left-[10%] w-[70vw] h-[70vw] rounded-full bg-gradient-to-br from-cyan-600/12 via-indigo-600/10 to-teal-500/8 blur-[120px] animate-water-wave-1"
+          className="absolute -top-[15%] -left-[10%] w-[70vw] h-[70vw] rounded-full bg-gradient-to-br from-sky-300/20 via-indigo-200/15 to-teal-200/15 blur-[120px] animate-water-wave-1"
         />
 
-        {/* Deep Water Ripple Pool 2 */}
+        {/* Soft Water Ripple Pool 2 */}
         <div
-          className="absolute top-[35%] -right-[15%] w-[65vw] h-[65vw] rounded-full bg-gradient-to-tl from-indigo-600/14 via-violet-600/10 to-cyan-500/8 blur-[130px] animate-water-wave-2"
+          className="absolute top-[35%] -right-[15%] w-[65vw] h-[65vw] rounded-full bg-gradient-to-tl from-indigo-200/20 via-purple-200/15 to-cyan-200/15 blur-[130px] animate-water-wave-2"
         />
 
         {/* Ambient Moving Center Water Caustic */}
         <div
-          className="absolute bottom-[-10%] left-[20%] w-[55vw] h-[55vw] rounded-full bg-gradient-to-tr from-teal-500/10 via-cyan-600/12 to-indigo-600/10 blur-[110px] animate-water-ripple"
+          className="absolute bottom-[-10%] left-[20%] w-[55vw] h-[55vw] rounded-full bg-gradient-to-tr from-emerald-200/15 via-sky-300/18 to-indigo-200/15 blur-[110px] animate-water-ripple"
         />
       </div>
 
       {/* Moving SVG Wave Caustic Ribbons */}
       <svg
-        className="absolute inset-0 w-full h-full opacity-25 animate-water-wave-1"
+        className="absolute inset-0 w-full h-full opacity-40 animate-water-wave-1"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 1440 900"
         preserveAspectRatio="none"
       >
         <defs>
           <linearGradient id="waterWaveGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#06b6d4" stopOpacity="0.08" />
-            <stop offset="50%" stopColor="#6366f1" stopOpacity="0.12" />
-            <stop offset="100%" stopColor="#14b8a6" stopOpacity="0.06" />
+            <stop offset="0%" stopColor="#0284c7" stopOpacity="0.06" />
+            <stop offset="50%" stopColor="#6366f1" stopOpacity="0.08" />
+            <stop offset="100%" stopColor="#0d9488" stopOpacity="0.05" />
           </linearGradient>
           <linearGradient id="waterWaveGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.08" />
-            <stop offset="50%" stopColor="#06b6d4" stopOpacity="0.10" />
+            <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.06" />
+            <stop offset="50%" stopColor="#06b6d4" stopOpacity="0.08" />
             <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.05" />
           </linearGradient>
         </defs>
@@ -63,33 +63,33 @@ export const WaterBackground: React.FC = () => {
       </svg>
 
       {/* Moving Watermark Streams (Angled Kinetic Rivers of Typography) */}
-      <div className="absolute inset-0 flex flex-col justify-around -rotate-12 scale-125 opacity-70">
+      <div className="absolute inset-0 flex flex-col justify-around -rotate-12 scale-125 opacity-75">
         {/* Stream 1 - Flowing Left */}
         <div className="flex whitespace-nowrap animate-watermark-left">
-          <span className="text-[7vw] font-black uppercase tracking-[0.25em] text-transparent bg-clip-text bg-gradient-to-r from-cyan-400/[0.04] via-indigo-400/[0.06] to-teal-400/[0.04]">
+          <span className="text-[7vw] font-black uppercase tracking-[0.25em] text-transparent bg-clip-text bg-gradient-to-r from-sky-600/[0.04] via-indigo-600/[0.05] to-teal-600/[0.04]">
             {row1Text.repeat(4)}
           </span>
-          <span className="text-[7vw] font-black uppercase tracking-[0.25em] text-transparent bg-clip-text bg-gradient-to-r from-cyan-400/[0.04] via-indigo-400/[0.06] to-teal-400/[0.04]">
+          <span className="text-[7vw] font-black uppercase tracking-[0.25em] text-transparent bg-clip-text bg-gradient-to-r from-sky-600/[0.04] via-indigo-600/[0.05] to-teal-600/[0.04]">
             {row1Text.repeat(4)}
           </span>
         </div>
 
         {/* Stream 2 - Flowing Right */}
         <div className="flex whitespace-nowrap animate-watermark-right">
-          <span className="text-[6.5vw] font-black uppercase tracking-[0.28em] text-transparent bg-clip-text bg-gradient-to-r from-violet-400/[0.035] via-cyan-400/[0.055] to-indigo-400/[0.035]">
+          <span className="text-[6.5vw] font-black uppercase tracking-[0.28em] text-transparent bg-clip-text bg-gradient-to-r from-purple-600/[0.035] via-sky-600/[0.05] to-indigo-600/[0.035]">
             {row2Text.repeat(4)}
           </span>
-          <span className="text-[6.5vw] font-black uppercase tracking-[0.28em] text-transparent bg-clip-text bg-gradient-to-r from-violet-400/[0.035] via-cyan-400/[0.055] to-indigo-400/[0.035]">
+          <span className="text-[6.5vw] font-black uppercase tracking-[0.28em] text-transparent bg-clip-text bg-gradient-to-r from-purple-600/[0.035] via-sky-600/[0.05] to-indigo-600/[0.035]">
             {row2Text.repeat(4)}
           </span>
         </div>
 
         {/* Stream 3 - Flowing Left (Deeper Subtle River) */}
         <div className="flex whitespace-nowrap animate-watermark-left">
-          <span className="text-[8vw] font-black uppercase tracking-[0.3em] text-transparent bg-clip-text bg-gradient-to-r from-teal-400/[0.03] via-indigo-400/[0.05] to-cyan-400/[0.03]">
+          <span className="text-[8vw] font-black uppercase tracking-[0.3em] text-transparent bg-clip-text bg-gradient-to-r from-teal-600/[0.035] via-indigo-600/[0.045] to-sky-600/[0.035]">
             {row1Text.repeat(4)}
           </span>
-          <span className="text-[8vw] font-black uppercase tracking-[0.3em] text-transparent bg-clip-text bg-gradient-to-r from-teal-400/[0.03] via-indigo-400/[0.05] to-cyan-400/[0.03]">
+          <span className="text-[8vw] font-black uppercase tracking-[0.3em] text-transparent bg-clip-text bg-gradient-to-r from-teal-600/[0.035] via-indigo-600/[0.045] to-sky-600/[0.035]">
             {row1Text.repeat(4)}
           </span>
         </div>

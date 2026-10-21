@@ -57,7 +57,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-[#070b16]/85 backdrop-blur-2xl border-b border-lab-border/80 select-none shadow-sm">
+    <header className="sticky top-0 z-50 bg-white/85 backdrop-blur-2xl border-b border-slate-200/80 select-none shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo & Course Badge */}
@@ -66,23 +66,23 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => onTabChange('landing')}
               className="flex items-center gap-2.5 text-left group transition-all"
             >
-              <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-indigo-500 via-violet-500 to-cyan-400 flex items-center justify-center shadow-glow-indigo group-hover:scale-105 transition-transform">
+              <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-sky-500 flex items-center justify-center shadow-glow-indigo group-hover:scale-105 transition-transform">
                 <Cpu className="w-5 h-5 text-white" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="font-extrabold text-lg text-white tracking-tight">AI Search Lab</span>
-                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
+                  <span className="font-extrabold text-lg text-slate-900 tracking-tight">AI Search Lab</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
                     AI Foundations
                   </span>
                 </div>
-                <p className="text-[11px] text-slate-400 font-mono">Interactive Algorithm Visualiser</p>
+                <p className="text-[11px] text-slate-500 font-mono">Interactive Algorithm Visualiser</p>
               </div>
             </button>
           </div>
 
           {/* Navigation Tabs Pill Bar */}
-          <nav className="hidden md:flex items-center gap-1 bg-[#050813] p-1.5 rounded-2xl border border-lab-border/70 shadow-inner">
+          <nav className="hidden md:flex items-center gap-1 bg-slate-100/80 p-1.5 rounded-2xl border border-slate-200 shadow-inner">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = currentTab === item.id;
@@ -92,8 +92,8 @@ export const Navbar: React.FC<NavbarProps> = ({
                   onClick={() => onTabChange(item.id)}
                   className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all ${
                     isActive
-                      ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-glow-indigo'
-                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/40'
+                      ? 'bg-white text-indigo-600 shadow-sm border border-slate-200/80'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
                   }`}
                 >
                   <Icon className="w-3.5 h-3.5" />
@@ -109,7 +109,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 onClick={onExportConfig}
                 title="Export current problem configuration (JSON)"
-                className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-300 bg-[#0c1222] hover:bg-slate-800 border border-slate-700/60 shadow-glass-button transition-all active:scale-95"
+                className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 shadow-sm transition-all active:scale-95"
               >
                 <Download className="w-3.5 h-3.5" />
                 <span>Export</span>
@@ -120,7 +120,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 onClick={onImportConfig}
                 title="Import saved problem configuration (JSON)"
-                className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-300 bg-[#0c1222] hover:bg-slate-800 border border-slate-700/60 shadow-glass-button transition-all active:scale-95"
+                className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 shadow-sm transition-all active:scale-95"
               >
                 <Upload className="w-3.5 h-3.5" />
                 <span>Import</span>
@@ -129,17 +129,17 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Health status pill */}
             <div
-              className="flex items-center gap-2 px-3 py-1.5 rounded-full text-[11px] font-semibold bg-emerald-950/80 text-emerald-300 border border-emerald-500/30 shadow-glow-emerald"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-sm"
               title="AI Search Engine is online and ready (Zero Latency)"
             >
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span className="hidden sm:inline">Engine Live</span>
             </div>
           </div>
         </div>
 
         {/* Mobile Navigation bar */}
-        <div className="flex md:hidden overflow-x-auto py-2 gap-1 border-t border-lab-border/40 scrollbar-none">
+        <div className="flex md:hidden overflow-x-auto py-2 gap-1 border-t border-slate-200/60 scrollbar-none">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = currentTab === item.id;
@@ -150,7 +150,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs whitespace-nowrap ${
                   isActive
                     ? 'bg-indigo-600 text-white font-medium'
-                    : 'text-slate-400 hover:text-slate-200'
+                    : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 <Icon className="w-3.5 h-3.5" />

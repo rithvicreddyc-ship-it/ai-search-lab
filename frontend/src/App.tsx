@@ -8,7 +8,7 @@ import { HeuristicsLab } from './components/HeuristicsLab/HeuristicsLab';
 import { GuidedTutorial } from './components/GuidedTutorial/GuidedTutorial';
 import { ExperimentsLab } from './components/ExperimentsLab/ExperimentsLab';
 import { WaterBackground } from './components/WaterBackground';
-import { AlgorithmType, GraphState, GridState, ProblemType } from './types';
+import { AlgorithmType, GraphState, GridState, LabLaunchConfig, ProblemType } from './types';
 import { exportToJson } from './utils/export';
 
 export const App: React.FC = () => {
@@ -91,6 +91,13 @@ export const App: React.FC = () => {
     e.target.value = '';
   };
 
+  const [labLaunchConfig, setLabLaunchConfig] = useState<LabLaunchConfig | null>(null);
+
+  const handleLaunchInLab = (config: LabLaunchConfig) => {
+    setLabLaunchConfig(config);
+    handleTabChange('lab');
+  };
+
   return (
     <div className="min-h-screen bg-lab-bg text-slate-800 flex flex-col font-sans selection:bg-indigo-600 selection:text-white relative overflow-x-hidden">
       {/* Animated Moving Watermark & Water Waves Background */}
@@ -113,13 +120,19 @@ export const App: React.FC = () => {
         onImportConfig={handleImportConfig}
       />
 
-      {/* Main View Area */}
-      <main className="flex-1 py-6 relative z-10">
+      {/* Main View Area with Classy Page Mount Animation */}
+      <main key={currentTab} className="flex-1 py-6 relative z-10 animate-fade-in-up">
         {currentTab === 'landing' && <LandingPage onNavigate={handleTabChange} />}
-        {currentTab === 'lab' && <SearchLab />}
+        {currentTab === 'lab' && <SearchLab launchConfig={labLaunchConfig} />}
         {currentTab === 'explorer' && (
           <AlgorithmExplorer
-            onLoadAlgorithmInLab={() => handleTabChange('lab')}
+            onLoadAlgorithmInLab={(alg) => {
+              if (alg) {
+                handleLaunchInLab({ algorithm: alg });
+              } else {
+                handleTabChange('lab');
+              }
+            }}
             onNavigate={handleTabChange}
           />
         )}
@@ -133,11 +146,23 @@ export const App: React.FC = () => {
         {currentTab === 'heuristics' && <HeuristicsLab />}
         {currentTab === 'tutorial' && (
           <GuidedTutorial
-            onLoadTutorialSetup={() => handleTabChange('lab')}
+            onLoadTutorialSetup={(presetId, alg, heuristic, diagonal, pType) =>
+              handleLaunchInLab({
+                presetId,
+                algorithm: alg,
+                heuristic,
+                diagonal,
+                problemType: pType,
+              })
+            }
             onNavigate={handleTabChange}
           />
         )}
-        {currentTab === 'experiments' && <ExperimentsLab />}
+        {currentTab === 'experiments' && (
+          <ExperimentsLab
+            onLoadExperimentInLab={(config) => handleLaunchInLab(config)}
+          />
+        )}
       </main>
 
       {/* University Footer */}

@@ -1,20 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   GraduationCap,
   CheckCircle2,
   BookOpen,
   ArrowRight,
+  ArrowLeft,
   PlayCircle,
   HelpCircle,
   Layers,
   Sparkles,
-  Zap
+  Zap,
+  Search,
+  Clock,
+  Award,
+  AlertTriangle,
+  ChevronDown,
+  ChevronUp,
+  Brain,
+  ShieldCheck,
+  Check,
+  RotateCcw,
 } from 'lucide-react';
-import { AlgorithmType } from '../../types';
+import { AlgorithmType, HeuristicType, ProblemType, TutorialLesson, TutorialModuleType } from '../../types';
 import { NavTab } from '../Navbar';
+import { TUTORIAL_LESSONS } from './tutorialData';
 
 interface GuidedTutorialProps {
-  onLoadTutorialSetup: (presetId: string, alg: AlgorithmType) => void;
+  onLoadTutorialSetup: (
+    presetId: string,
+    alg: AlgorithmType,
+    heuristic?: HeuristicType,
+    diagonal?: boolean,
+    problemType?: ProblemType
+  ) => void;
   onNavigate: (tab: NavTab) => void;
 }
 
@@ -22,194 +40,670 @@ export const GuidedTutorial: React.FC<GuidedTutorialProps> = ({
   onLoadTutorialSetup,
   onNavigate,
 }) => {
-  const [activeLesson, setActiveLesson] = useState<number>(0);
+  const [activeLessonId, setActiveLessonId] = useState<number>(1);
+  const [selectedModule, setSelectedModule] = useState<string>('All');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [completedLessons, setCompletedLessons] = useState<Set<number>>(new Set([1]));
+  const [revealedAnswers, setRevealedAnswers] = useState<Record<string, boolean>>({});
+  const [quizAnswers, setQuizAnswers] = useState<Record<number, number | null>>({});
 
-  const lessons = [
-    {
-      title: 'Lesson 1: Anatomy of Classical State-Space Search',
-      badge: 'Foundations',
-      concept:
-        'In classical AI, problem-solving is formulated as searching through a state space. Every state has transitions (actions), a cost model, and a goal test.',
-      details: [
-        'State Space: All valid configurations of the agent (e.g. coordinates (row, col) or graph nodes).',
-        'Frontier (Open Set): Data structure holding all candidate states discovered but not yet expanded.',
-        'Explored Set (Closed Set): States that have already been expanded, preventing infinite cycles.',
-        'Parent Pointers: Backwards references used to reconstruct the final solution trajectory once the goal is discovered.'
-      ],
-      presetId: 'classic_labyrinth',
-      algId: 'bfs' as AlgorithmType,
-      actionText: 'Load Simple Maze with BFS',
-      vivaTip: 'Always be prepared to explain the cycle prevention mechanism: without an explored set, graph search will loop indefinitely on cyclical graphs.'
-    },
-    {
-      title: 'Lesson 2: BFS (Queue) vs DFS (Stack)',
-      badge: 'Uninformed Search',
-      concept:
-        'Breadth-First Search uses a FIFO queue to expand nodes level-by-level, guaranteeing the shortest path on unit costs at the price of exponential memory O(b^d). Depth-First Search uses a LIFO stack to dive deep, requiring only linear memory O(bm) but risking huge suboptimal detours.',
-      details: [
-        'BFS expands circularly like a ripple in water. It is optimal only if all step costs are equal.',
-        'DFS pursues the first branch to its deepest leaf before backtracking. It is never guaranteed to be optimal.',
-        'Run both on the Classic Labyrinth to observe how BFS finds the direct exit while DFS wanders through dead ends.'
-      ],
-      presetId: 'classic_labyrinth',
-      algId: 'dfs' as AlgorithmType,
-      actionText: 'Experience DFS Meandering Trajectory',
-      vivaTip: 'Why does BFS fail on graphs with step costs of 1 vs 10? Because BFS only counts the number of hops (edges), completely blind to edge weights.'
-    },
-    {
-      title: 'Lesson 3: Why UCS (Dijkstra) is Optimal on Weighted Terrain',
-      badge: 'Cost-Aware Search',
-      concept:
-        'When moving through mud, mountains, or toll roads, edge costs vary. Uniform Cost Search sorts the frontier by cumulative path cost g(n) instead of depth, ensuring that nodes with lowest true cost are expanded first.',
-      details: [
-        'Priority queue ordered by g(n) = sum of all step costs from start to n.',
-        'Goal test MUST occur when the goal is popped from the priority queue, not when generated.',
-        'In the Weighted Mud Swamp preset, BFS plows through expensive mud (cost 4.5) while UCS discovers the cheap detour (cost 1.0).'
-      ],
-      presetId: 'weighted_swamp',
-      algId: 'ucs' as AlgorithmType,
-      actionText: 'Load Weighted Swamp with UCS',
-      vivaTip: 'Remember: UCS is Dijkstra’s algorithm applied to goal-directed search. It requires non-negative edge costs.'
-    },
-    {
-      title: 'Lesson 4: Heuristics & A* Optimality',
-      badge: 'Informed Search',
-      concept:
-        'A* Search combines the cumulative path cost g(n) from UCS with an estimated future distance h(n) from Greedy Best-First Search: f(n) = g(n) + h(n). This achieves optimal efficiency without wasting expansions in directions away from the goal.',
-      details: [
-        'f(n) = g(n) + h(n): estimated total cost of path through node n to the goal.',
-        'If h(n) is admissible (never overestimates) and consistent, A* is guaranteed to be optimal.',
-        'A* prunes huge swaths of the search space compared to uninformed UCS.'
-      ],
-      presetId: 'classic_labyrinth',
-      algId: 'astar' as AlgorithmType,
-      actionText: 'Load A* with Manhattan Heuristic',
-      vivaTip: 'Explain what happens if h(n) = 0: A* becomes identical to Uniform Cost Search. If g(n) = 0, A* becomes Greedy Best-First Search.'
-    },
-    {
-      title: 'Lesson 5: Overcoming Exponential Memory with IDA*',
-      badge: 'Advanced Heuristics',
-      concept:
-        'Standard A* stores all open and closed nodes in RAM, rapidly exhausting memory on large problems. Iterative Deepening A* (IDA*) solves this by doing depth-first search bounded by an f-cost threshold, using only linear space O(d).',
-      details: [
-        'Initial threshold is set to h(start).',
-        'Branches exceeding the current f-bound are pruned, and the minimum exceeded f-cost becomes the next bound.',
-        'Generates iteration threshold updates during playback!'
-      ],
-      presetId: 'classic_labyrinth',
-      algId: 'idastar' as AlgorithmType,
-      actionText: 'Observe IDA* Threshold Iterations',
-      vivaTip: 'The fundamental trade-off: IDA* uses minimal linear memory, but repeats computation across shallow depths in each iteration.'
-    },
-    {
-      title: 'Lesson 6: Local Search & Hill Climbing Traps',
-      badge: 'Local Search',
-      concept:
-        'Unlike pathfinding algorithms that keep an exploration frontier, Hill Climbing only keeps the single current state and greedily moves to the best neighbor. It uses constant O(1) memory, but is vulnerable to local minima, plateaus, and ridges.',
-      details: [
-        'Steepest descent: evaluates all immediate neighbors and picks the one minimizing distance to goal.',
-        'When facing a U-shaped wall, Hill Climbing terminates at the concave local minimum because stepping back increases heuristic distance.',
-        'Random restarts can help escape local optima.'
-      ],
-      presetId: 'local_optimum_trap',
-      algId: 'hill_climbing' as AlgorithmType,
-      actionText: 'Load U-Trap to see Hill Climbing Fail',
-      vivaTip: 'Why does Hill Climbing fail even when a path exists? Because it has no memory or backtracking capability: it refuses moves that temporarily increase h(n).'
-    }
+  const modules: { id: string; label: string; count: number }[] = [
+    { id: 'All', label: 'All Topics', count: TUTORIAL_LESSONS.length },
+    { id: 'Foundations', label: '1. Foundations', count: 3 },
+    { id: 'Uninformed', label: '2. Blind Search', count: 4 },
+    { id: 'Heuristics', label: '3. Informed Search', count: 4 },
+    { id: 'LocalSearch', label: '4. Memory & Local', count: 3 },
+    { id: 'AdvancedRealWorld', label: '5. Real-World & Viva', count: 2 },
   ];
 
-  const current = lessons[activeLesson];
+  // Filter lessons based on module and search query
+  const filteredLessons = useMemo(() => {
+    return TUTORIAL_LESSONS.filter((l) => {
+      const matchesModule = selectedModule === 'All' || l.module === selectedModule;
+      const matchesSearch =
+        searchQuery.trim() === '' ||
+        l.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        l.concept.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        l.badge.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesModule && matchesSearch;
+    });
+  }, [selectedModule, searchQuery]);
+
+  const currentLesson: TutorialLesson =
+    TUTORIAL_LESSONS.find((l) => l.id === activeLessonId) || TUTORIAL_LESSONS[0];
+
+  const currentIndex = TUTORIAL_LESSONS.findIndex((l) => l.id === currentLesson.id);
+  const prevLesson = currentIndex > 0 ? TUTORIAL_LESSONS[currentIndex - 1] : null;
+  const nextLesson = currentIndex < TUTORIAL_LESSONS.length - 1 ? TUTORIAL_LESSONS[currentIndex + 1] : null;
+
+  const toggleComplete = (id: number) => {
+    setCompletedLessons((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  };
+
+  const toggleAnswer = (key: string) => {
+    setRevealedAnswers((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const handleSelectQuizOption = (lessonId: number, optIdx: number) => {
+    setQuizAnswers((prev) => ({ ...prev, [lessonId]: optIdx }));
+  };
+
+  const progressPct = Math.round((completedLessons.size / TUTORIAL_LESSONS.length) * 100);
 
   return (
     <div className="max-w-7xl mx-auto px-4 space-y-6">
-      {/* Header */}
-      <div className="border-b border-slate-200/80 pb-4">
-        <h1 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
-          <GraduationCap className="w-6 h-6 text-indigo-600" />
-          <span>Interactive Guided Tutorial</span>
-        </h1>
-        <p className="text-xs sm:text-sm text-slate-500 mt-1">
-          Master classical search algorithms through progressive, hands-on pedagogical lessons designed for university examinations.
-        </p>
+      {/* Header Banner */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200/80 pb-5">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
+              Interactive Academic Curriculum
+            </span>
+            <span className="text-xs text-slate-500 font-mono">16 Comprehensive Modules</span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2.5">
+            <GraduationCap className="w-8 h-8 text-indigo-600 shrink-0" />
+            <span>AI Search Foundations & Pedagogical Tutorial</span>
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-3xl leading-relaxed">
+            University-level curriculum covering state-space formulation, blind strategies, heuristic admissibility proofs, local landscape pathologies, and formal viva defense questions.
+          </p>
+        </div>
+
+        {/* Progress Tracker Card */}
+        <div className="p-4 rounded-2xl bg-white/90 border border-slate-200 shadow-glass-card backdrop-blur-xl shrink-0 w-full sm:w-72 space-y-2">
+          <div className="flex items-center justify-between text-xs">
+            <span className="font-bold text-slate-700 flex items-center gap-1.5">
+              <Award className="w-4 h-4 text-amber-500" />
+              Course Mastery
+            </span>
+            <span className="font-mono font-bold text-indigo-600">
+              {completedLessons.size} / {TUTORIAL_LESSONS.length} ({progressPct}%)
+            </span>
+          </div>
+          <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+            <div
+              className="bg-indigo-600 h-2.5 rounded-full transition-all duration-500 shadow-sm shadow-indigo-300"
+              style={{ width: `${progressPct}%` }}
+            />
+          </div>
+          <div className="flex items-center justify-between text-[11px] text-slate-500">
+            <span>{completedLessons.has(currentLesson.id) ? '✓ Current Lesson Mastered' : 'In Progress'}</span>
+            <button
+              onClick={() => toggleComplete(currentLesson.id)}
+              className="text-indigo-600 hover:text-indigo-800 font-semibold underline"
+            >
+              {completedLessons.has(currentLesson.id) ? 'Mark Incomplete' : 'Mark as Mastered'}
+            </button>
+          </div>
+        </div>
       </div>
 
-      {/* Lesson Navigation Tabs */}
-      <div className="flex flex-wrap gap-2">
-        {lessons.map((lesson, idx) => {
-          const isActive = idx === activeLesson;
+      {/* Module Navigation Tabs & Search Bar */}
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+        {/* Module Pills */}
+        <div className="flex flex-wrap items-center gap-1.5 overflow-x-auto pb-1">
+          {modules.map((m) => {
+            const isSelected = selectedModule === m.id;
+            return (
+              <button
+                key={m.id}
+                onClick={() => setSelectedModule(m.id)}
+                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all whitespace-nowrap flex items-center gap-1.5 ${
+                  isSelected
+                    ? 'bg-indigo-600 text-white shadow-md shadow-indigo-200 ring-2 ring-indigo-400/40'
+                    : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
+                }`}
+              >
+                <span>{m.label}</span>
+                <span
+                  className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
+                    isSelected ? 'bg-indigo-700 text-white' : 'bg-slate-100 text-slate-600'
+                  }`}
+                >
+                  {m.count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Search Input */}
+        <div className="relative w-full sm:w-64">
+          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search concepts, heuristics..."
+            className="w-full pl-9 pr-3 py-1.5 rounded-xl text-xs bg-white border border-slate-200 shadow-xs focus:outline-hidden focus:ring-2 focus:ring-indigo-500 text-slate-800"
+          />
+        </div>
+      </div>
+
+      {/* Lesson Selector Carousel / List */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-2">
+        {filteredLessons.map((lesson) => {
+          const isActive = lesson.id === currentLesson.id;
+          const isDone = completedLessons.has(lesson.id);
           return (
             <button
-              key={idx}
-              onClick={() => setActiveLesson(idx)}
-              className={`px-3 py-2 rounded-xl text-xs font-medium transition-all ${
+              key={lesson.id}
+              onClick={() => setActiveLessonId(lesson.id)}
+              className={`p-2.5 rounded-2xl text-left border transition-all flex flex-col justify-between relative group ${
                 isActive
-                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-200 ring-2 ring-indigo-400/40'
-                  : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 shadow-xs'
+                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-200 ring-2 ring-indigo-400/40 scale-[1.02]'
+                  : 'bg-white/90 hover:bg-slate-50 text-slate-700 border-slate-200 shadow-xs'
               }`}
             >
-              Lesson {idx + 1}
+              <div className="flex items-center justify-between w-full mb-1">
+                <span
+                  className={`text-[10px] font-mono font-bold ${
+                    isActive ? 'text-indigo-200' : 'text-slate-600'
+                  }`}
+                >
+                  #{lesson.id}
+                </span>
+                {isDone && (
+                  <CheckCircle2
+                    className={`w-3.5 h-3.5 ${isActive ? 'text-emerald-300' : 'text-emerald-600'}`}
+                  />
+                )}
+              </div>
+              <div
+                className={`text-[11px] font-bold line-clamp-2 leading-tight ${
+                  isActive ? 'text-white' : 'text-slate-800'
+                }`}
+              >
+                {lesson.title.split(':')[1]?.trim() || lesson.title}
+              </div>
+              <div
+                className={`text-[9px] mt-2 font-mono uppercase tracking-wider ${
+                  isActive ? 'text-indigo-200' : 'text-indigo-600'
+                }`}
+              >
+                {lesson.badge}
+              </div>
             </button>
           );
         })}
       </div>
 
-      {/* Active Lesson Card */}
-      <div className="p-6 sm:p-7 rounded-3xl bg-white/95 border border-slate-200/90 shadow-glass-card backdrop-blur-2xl space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200/80 pb-4">
-          <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
-              {current.badge}
-            </span>
-            <h2 className="text-xl font-extrabold text-slate-900 mt-1.5">{current.title}</h2>
+      {/* Main Interactive Lesson Card with Classy Fade In */}
+      <div key={currentLesson.id} className="p-6 sm:p-8 rounded-3xl bg-white/95 border border-slate-200/90 shadow-glass-card backdrop-blur-2xl space-y-7 animate-fade-in">
+        {/* Top Header of Lesson */}
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-200/80 pb-5">
+          <div className="space-y-1.5">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
+                {currentLesson.moduleLabel}
+              </span>
+              <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
+                {currentLesson.badge}
+              </span>
+              <span className="text-xs text-slate-500 flex items-center gap-1 font-mono">
+                <Clock className="w-3.5 h-3.5 text-slate-400" />
+                {currentLesson.estMinutes} min study
+              </span>
+            </div>
+            <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+              {currentLesson.title}
+            </h2>
           </div>
 
+          {/* Action Button: Load into Search Lab */}
           <button
             onClick={() => {
-              onLoadTutorialSetup(current.presetId, current.algId);
+              onLoadTutorialSetup(
+                currentLesson.presetId,
+                currentLesson.algId,
+                currentLesson.heuristic,
+                currentLesson.diagonal,
+                currentLesson.problemType
+              );
               onNavigate('lab');
             }}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-200 transition-all self-start sm:self-auto active:scale-95"
+            className="flex items-center gap-2.5 px-6 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-lg shadow-indigo-200 transition-all self-start lg:self-auto active:scale-95 group"
           >
-            <PlayCircle className="w-4 h-4" />
-            <span>{current.actionText}</span>
-            <ArrowRight className="w-3.5 h-3.5 ml-1" />
+            <PlayCircle className="w-4 h-4 text-indigo-200 group-hover:scale-110 transition-transform" />
+            <span>{currentLesson.actionText}</span>
+            <ArrowRight className="w-4 h-4 text-indigo-200 group-hover:translate-x-0.5 transition-transform" />
           </button>
         </div>
 
-        {/* Concept Description */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 shadow-xs">
-          <span className="text-xs font-bold text-indigo-700 uppercase tracking-wider flex items-center gap-1.5">
-            <Sparkles className="w-4 h-4 text-indigo-600" />
-            Core Theoretical Principle
-          </span>
-          <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">{current.concept}</p>
+        {/* Formal Mathematical Model & Core Concept */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          {/* Mathematical Formulation */}
+          <div className="p-5 rounded-2xl bg-slate-900 text-white space-y-2 shadow-xs">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-indigo-300 flex items-center gap-1.5">
+              <Zap className="w-3.5 h-3.5 text-amber-400" />
+              Mathematical & Formal Model
+            </span>
+            <div className="font-mono text-xs sm:text-sm text-indigo-100 bg-slate-800/80 p-3 rounded-xl border border-slate-700/80 overflow-x-auto">
+              {currentLesson.formalDefinition.math}
+            </div>
+            <p className="text-xs text-slate-300 leading-relaxed font-normal">
+              {currentLesson.formalDefinition.description}
+            </p>
+          </div>
+
+          {/* Core Theoretical Principle */}
+          <div className="p-5 rounded-2xl bg-indigo-50/70 border border-indigo-200 space-y-2 shadow-xs flex flex-col justify-between">
+            <div>
+              <span className="text-[10px] font-bold text-indigo-800 uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
+                <Sparkles className="w-4 h-4 text-indigo-600" />
+                Pedagogical Principle
+              </span>
+              <p className="text-xs sm:text-sm text-slate-800 font-medium leading-relaxed">
+                {currentLesson.concept}
+              </p>
+            </div>
+            <div className="pt-2 border-t border-indigo-200/60 flex items-center justify-between text-[11px] text-indigo-800 font-mono">
+              <span>Preset: {currentLesson.presetId}</span>
+              <span className="font-bold">Algorithm: {currentLesson.algId.toUpperCase()}</span>
+            </div>
+          </div>
         </div>
 
-        {/* Bullet Points */}
+        {/* Complexity & Guarantee Matrix */}
         <div className="space-y-2">
-          <span className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
-            Key Conceptual Mechanics:
+          <span className="text-xs font-bold text-slate-800 uppercase tracking-wider block">
+            Algorithmic Invariants & Complexity Matrix:
           </span>
-          <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-slate-700">
-            {current.details.map((point, i) => (
-              <li
-                key={i}
-                className="flex items-start gap-2.5 p-3.5 rounded-2xl bg-slate-50 border border-slate-200 shadow-xs"
-              >
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                <span>{point}</span>
-              </li>
-            ))}
-          </ul>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+            <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
+              <span className="text-[10px] font-mono font-bold uppercase text-slate-600 block">
+                Time Complexity
+              </span>
+              <span className="font-mono font-bold text-slate-900 block text-xs">
+                {currentLesson.complexity.time}
+              </span>
+            </div>
+            <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
+              <span className="text-[10px] font-mono font-bold uppercase text-slate-600 block">
+                Space Complexity
+              </span>
+              <span className="font-mono font-bold text-slate-900 block text-xs">
+                {currentLesson.complexity.space}
+              </span>
+            </div>
+            <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
+              <span className="text-[10px] font-mono font-bold uppercase text-slate-600 block">
+                Completeness
+              </span>
+              <span className="font-sans font-semibold text-emerald-700 block text-xs">
+                {currentLesson.complexity.completeness}
+              </span>
+            </div>
+            <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
+              <span className="text-[10px] font-mono font-bold uppercase text-slate-600 block">
+                Optimality
+              </span>
+              <span className="font-sans font-semibold text-indigo-700 block text-xs">
+                {currentLesson.complexity.optimality}
+              </span>
+            </div>
+          </div>
         </div>
 
-        {/* Viva Key Tip */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-amber-50/70 border border-amber-200 text-xs text-amber-900 leading-relaxed space-y-1.5 shadow-xs">
-          <span className="font-bold flex items-center gap-1.5 text-amber-800">
-            <HelpCircle className="w-4 h-4 text-amber-600" />
-            University Viva Takeaway
+        {/* In-Depth Explanation Section */}
+        <div className="space-y-3">
+          <span className="text-xs font-bold text-slate-800 uppercase tracking-wider block">
+            Theoretical Walkthrough & Mechanism:
           </span>
-          <p>{current.vivaTip}</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+            {currentLesson.inDepthExplanation.map((paragraph, idx) => (
+              <div
+                key={idx}
+                className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed shadow-xs flex items-start gap-3"
+              >
+                <span className="w-5 h-5 rounded-full bg-indigo-100 text-indigo-700 font-mono font-bold text-[11px] flex items-center justify-center shrink-0 mt-0.5">
+                  {idx + 1}
+                </span>
+                <p>{paragraph}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Step-by-Step Execution Trace Table (Worked Example) */}
+        {currentLesson.traceExample && (
+          <div className="space-y-2.5">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-slate-800 uppercase tracking-wider block">
+                Step-by-Step Execution Trace Table:
+              </span>
+              <span className="text-[11px] text-slate-500 font-mono">Worked Numerical Walkthrough</span>
+            </div>
+            <p className="text-xs text-slate-600 mb-1">{currentLesson.traceExample.description}</p>
+            <div className="rounded-2xl border border-slate-200 overflow-x-auto shadow-xs">
+              <table className="w-full text-left text-xs font-mono">
+                <thead className="bg-slate-50 text-slate-600 border-b border-slate-200 font-sans font-semibold">
+                  <tr>
+                    <th className="px-3.5 py-2.5">Step</th>
+                    <th className="px-3 py-2.5">Node</th>
+                    <th className="px-3 py-2.5">Action</th>
+                    <th className="px-3 py-2.5">g</th>
+                    <th className="px-3 py-2.5">h</th>
+                    <th className="px-3 py-2.5">f</th>
+                    <th className="px-3.5 py-2.5">Frontier (Open)</th>
+                    <th className="px-3.5 py-2.5">Explored (Closed)</th>
+                    <th className="px-4 py-2.5 font-sans">Pedagogical Observation</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 text-slate-700">
+                  {currentLesson.traceExample.steps.map((st) => (
+                    <tr key={st.step} className="hover:bg-slate-50">
+                      <td className="px-3.5 py-2.5 font-bold text-slate-900">{st.step}</td>
+                      <td className="px-3 py-2.5 font-bold text-indigo-700">{st.node}</td>
+                      <td className="px-3 py-2.5 text-slate-800 font-sans">{st.action}</td>
+                      <td className="px-3 py-2.5 text-emerald-700">{st.g}</td>
+                      <td className="px-3 py-2.5 text-amber-700">{st.h}</td>
+                      <td className="px-3 py-2.5 font-bold text-purple-700">{st.f}</td>
+                      <td className="px-3.5 py-2.5 text-slate-600 text-[11px]">{st.frontier}</td>
+                      <td className="px-3.5 py-2.5 text-slate-600 text-[11px]">{st.explored}</td>
+                      <td className="px-4 py-2.5 font-sans text-[11px] text-slate-600">{st.comment}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* Key Teaching Points & Invariants */}
+        {currentLesson.keyTeachingPoints && currentLesson.keyTeachingPoints.length > 0 && (
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                <Sparkles className="w-4 h-4 text-indigo-600" />
+                <span>Deep Pedagogical Invariants & Key Exam Takeaways:</span>
+              </span>
+              <span className="text-[11px] text-indigo-600 font-semibold font-mono">High-Yield Academic Summary</span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {currentLesson.keyTeachingPoints.map((point, pIdx) => (
+                <div
+                  key={pIdx}
+                  className="p-4 rounded-2xl bg-indigo-50/60 border border-indigo-200/80 text-xs sm:text-sm text-slate-800 leading-relaxed shadow-xs flex items-start gap-3"
+                >
+                  <span className="w-5 h-5 rounded-full bg-indigo-600 text-white font-mono font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">
+                    ✓
+                  </span>
+                  <p>{point}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Formal Mathematical Proof & Derivation Invariant */}
+        {currentLesson.mathematicalDerivation && (
+          <div className="p-5 sm:p-6 rounded-2xl bg-slate-900 text-white space-y-3.5 shadow-md border border-slate-800">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+              <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-amber-400 flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-amber-400" />
+                <span>Formal Mathematical Derivation: {currentLesson.mathematicalDerivation.title}</span>
+              </span>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-400/10 text-amber-300 border border-amber-400/20">
+                Rigorous AI Invariant
+              </span>
+            </div>
+
+            <div className="space-y-2 font-mono text-xs text-slate-300">
+              {currentLesson.mathematicalDerivation.steps.map((step, sIdx) => (
+                <div key={sIdx} className="flex items-start gap-2.5 bg-slate-800/60 p-2.5 rounded-xl border border-slate-700/60">
+                  <span className="w-5 h-5 rounded-md bg-indigo-500/20 text-indigo-300 text-[10px] flex items-center justify-center shrink-0 mt-0.5 font-bold">
+                    {sIdx + 1}
+                  </span>
+                  <span className="leading-relaxed">{step}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="p-3 rounded-xl bg-emerald-950/70 border border-emerald-500/40 text-emerald-200 text-xs flex items-start gap-2.5 font-sans font-medium">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+              <div>
+                <strong className="font-bold text-emerald-300 font-mono text-[11px] uppercase block mb-0.5">Theorem Conclusion:</strong>
+                <span>{currentLesson.mathematicalDerivation.conclusion}</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Real-World Industrial & Robotics Engineering Context */}
+        {currentLesson.industrialApplications && currentLesson.industrialApplications.length > 0 && (
+          <div className="space-y-2.5">
+            <span className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+              <Brain className="w-4 h-4 text-sky-600" />
+              <span>Real-World Engineering & Industrial Production Parallels:</span>
+            </span>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+              {currentLesson.industrialApplications.map((app, aIdx) => (
+                <div
+                  key={aIdx}
+                  className="p-3.5 rounded-2xl bg-sky-50/60 border border-sky-200 text-slate-800 space-y-1.5 shadow-xs"
+                >
+                  <span className="font-bold text-sky-900 text-[11px] uppercase tracking-wider block font-mono">
+                    Production System #{aIdx + 1}
+                  </span>
+                  <p className="leading-relaxed text-slate-700">{app}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Common Student Pitfalls & Misconceptions */}
+        {currentLesson.pitfalls.length > 0 && (
+          <div className="space-y-2.5">
+            <span className="text-xs font-bold text-rose-800 uppercase tracking-wider flex items-center gap-1.5">
+              <AlertTriangle className="w-4 h-4 text-rose-600" />
+              <span>Common Student Pitfalls & Exam Misconceptions:</span>
+            </span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {currentLesson.pitfalls.map((pitfall, i) => (
+                <div
+                  key={i}
+                  className="p-4 rounded-2xl bg-rose-50/70 border border-rose-200 text-xs space-y-1.5 shadow-xs"
+                >
+                  <div className="font-bold text-rose-900 flex items-center gap-1.5">
+                    <span className="w-4 h-4 rounded-full bg-rose-200 text-rose-800 text-[10px] flex items-center justify-center shrink-0">
+                      ✗
+                    </span>
+                    <span>Misconception: {pitfall.misconception}</span>
+                  </div>
+                  <div className="text-slate-700 pl-5.5 font-medium leading-relaxed">
+                    <span className="font-bold text-emerald-800">Correction: </span>
+                    {pitfall.correction}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Examiner Trap High-Alert Box */}
+        {currentLesson.vivaExaminerTrap && (
+          <div className="p-4 rounded-2xl bg-amber-50/80 border-2 border-amber-300 text-amber-950 text-xs space-y-1.5 shadow-xs">
+            <div className="flex items-center gap-2 font-bold uppercase tracking-wider text-[11px] text-amber-900">
+              <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
+              <span>Professor's Oral Defense Trap Warning (Oral Viva Watchout):</span>
+            </div>
+            <p className="leading-relaxed text-amber-900 font-medium pl-6">
+              {currentLesson.vivaExaminerTrap}
+            </p>
+          </div>
+        )}
+
+
+        {/* Interactive Knowledge-Check Quiz */}
+        <div className="p-5 rounded-2xl bg-slate-900 text-white space-y-3.5 shadow-md">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+              <Brain className="w-4 h-4 text-emerald-400" />
+              Interactive Knowledge Check Quiz
+            </span>
+            <span className="text-[11px] text-slate-400 font-mono">1 Question • Immediate Feedback</span>
+          </div>
+
+          <h3 className="text-sm font-bold text-white leading-relaxed">
+            {currentLesson.quiz.question}
+          </h3>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+            {currentLesson.quiz.options.map((opt, optIdx) => {
+              const selectedIdx = quizAnswers[currentLesson.id];
+              const hasAnswered = selectedIdx !== undefined && selectedIdx !== null;
+              const isSelected = selectedIdx === optIdx;
+              const isCorrect = optIdx === currentLesson.quiz.correctIndex;
+
+              let btnStyle = 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700';
+              if (hasAnswered) {
+                if (isCorrect) {
+                  btnStyle = 'bg-emerald-950/80 border-emerald-500 text-emerald-200 ring-1 ring-emerald-500';
+                } else if (isSelected && !isCorrect) {
+                  btnStyle = 'bg-rose-950/80 border-rose-500 text-rose-200 ring-1 ring-rose-500';
+                } else {
+                  btnStyle = 'bg-slate-800/40 border-slate-800 text-slate-500 opacity-60';
+                }
+              }
+
+              return (
+                <button
+                  key={optIdx}
+                  onClick={() => handleSelectQuizOption(currentLesson.id, optIdx)}
+                  className={`p-3 rounded-xl text-left text-xs font-medium border transition-all flex items-start gap-2.5 ${btnStyle}`}
+                >
+                  <span className="w-5 h-5 rounded-full bg-slate-700/80 text-white font-mono text-[10px] flex items-center justify-center shrink-0 mt-0.5">
+                    {String.fromCharCode(65 + optIdx)}
+                  </span>
+                  <span className="leading-relaxed">{opt}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Quiz Feedback Explanation */}
+          {quizAnswers[currentLesson.id] !== undefined && quizAnswers[currentLesson.id] !== null && (
+            <div className="p-3.5 rounded-xl bg-slate-800/90 border border-slate-700 text-xs text-slate-300 leading-relaxed space-y-1">
+              <span className="font-bold text-emerald-400 block font-mono text-[11px] uppercase">
+                {quizAnswers[currentLesson.id] === currentLesson.quiz.correctIndex
+                  ? '✓ Correct Answer!'
+                  : '✗ Incorrect — Review Explanation:'}
+              </span>
+              <p>{currentLesson.quiz.explanation}</p>
+            </div>
+          )}
+        </div>
+
+        {/* University Viva Voce Oral Defense Section */}
+        <div className="space-y-3 pt-2 border-t border-slate-200/80">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-amber-800 uppercase tracking-wider flex items-center gap-1.5">
+              <HelpCircle className="w-4 h-4 text-amber-600" />
+              <span>University Viva Voce Oral Exam Defense:</span>
+            </span>
+            <span className="text-[11px] text-slate-500">Click to reveal model answers</span>
+          </div>
+
+          <div className="space-y-2.5">
+            {currentLesson.vivaQuestions.map((q, qIdx) => {
+              const key = `${currentLesson.id}-${qIdx}`;
+              const isRevealed = !!revealedAnswers[key];
+
+              return (
+                <div
+                  key={qIdx}
+                  className="rounded-2xl border border-amber-200 bg-amber-50/50 overflow-hidden shadow-xs transition-colors"
+                >
+                  <button
+                    onClick={() => toggleAnswer(key)}
+                    className="w-full p-4 text-left flex items-start justify-between gap-3 text-xs sm:text-sm font-bold text-amber-950 hover:bg-amber-100/50 transition-colors"
+                  >
+                    <span className="flex items-center gap-2">
+                      <span className="w-5 h-5 rounded-full bg-amber-200 text-amber-900 font-mono text-[10px] flex items-center justify-center shrink-0">
+                        Q{qIdx + 1}
+                      </span>
+                      <span>{q.question}</span>
+                    </span>
+                    {isRevealed ? (
+                      <ChevronUp className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
+                    ) : (
+                      <ChevronDown className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
+                    )}
+                  </button>
+
+                  {isRevealed && (
+                    <div className="px-4 pb-4 pt-1 border-t border-amber-200/60 text-xs text-slate-800 space-y-2 bg-white/60">
+                      <div className="leading-relaxed">
+                        <span className="font-bold text-emerald-800 block mb-1">Examiner Model Answer:</span>
+                        <p>{q.answer}</p>
+                      </div>
+                      <div className="p-2.5 rounded-xl bg-amber-100/70 text-amber-900 text-[11px] flex items-start gap-2">
+                        <ShieldCheck className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
+                        <span>
+                          <strong className="font-semibold">Faculty Exam Tip: </strong>
+                          {q.examinerTip}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Bottom Pagination & Quick Navigation */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-slate-200/80">
+          <button
+            disabled={!prevLesson}
+            onClick={() => prevLesson && setActiveLessonId(prevLesson.id)}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold border transition-all ${
+              prevLesson
+                ? 'bg-white hover:bg-slate-100 text-slate-700 border-slate-200 shadow-xs'
+                : 'opacity-40 cursor-not-allowed bg-slate-50 text-slate-400 border-slate-100'
+            }`}
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>Previous: {prevLesson?.title.split(':')[0] || 'Start'}</span>
+          </button>
+
+          <button
+            onClick={() => toggleComplete(currentLesson.id)}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all shadow-xs ${
+              completedLessons.has(currentLesson.id)
+                ? 'bg-emerald-600 text-white'
+                : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+            }`}
+          >
+            <Check className="w-4 h-4" />
+            <span>
+              {completedLessons.has(currentLesson.id) ? 'Mastered (Completed)' : 'Mark Lesson as Mastered'}
+            </span>
+          </button>
+
+          <button
+            disabled={!nextLesson}
+            onClick={() => nextLesson && setActiveLessonId(nextLesson.id)}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold border transition-all ${
+              nextLesson
+                ? 'bg-indigo-600 hover:bg-indigo-700 text-white border-indigo-600 shadow-md shadow-indigo-200'
+                : 'opacity-40 cursor-not-allowed bg-slate-50 text-slate-400 border-slate-100'
+            }`}
+          >
+            <span>Next: {nextLesson?.title.split(':')[0] || 'End'}</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
         </div>
       </div>
     </div>

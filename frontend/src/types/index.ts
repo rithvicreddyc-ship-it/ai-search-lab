@@ -158,12 +158,110 @@ export interface ValidationResponse {
   warnings: string[];
 }
 
+export interface LabLaunchConfig {
+  problemType?: ProblemType;
+  presetId?: string;
+  algorithm?: AlgorithmType;
+  heuristic?: HeuristicType;
+  diagonal?: boolean;
+}
+
+export interface DerivedExperimentMetric {
+  algorithm: string;
+  name: string;
+  effective_branching_factor: number;
+  search_penetrance: number;
+  memory_efficiency: number;
+  suboptimality_pct: number;
+}
+
 export interface ExperimentReport {
   title: string;
   description: string;
   research_question: string;
+  hypothesis?: string;
+  theoretical_expectation?: string;
   configuration: Record<string, any>;
   results: CompareResultItem[];
   narrative: string;
+  theoretical_proof?: string;
   viva_takeaways: string[];
+  derived_metrics?: DerivedExperimentMetric[];
+  latex_table?: string;
 }
+
+export type TutorialModuleType =
+  | 'Foundations'
+  | 'Uninformed'
+  | 'Heuristics'
+  | 'LocalSearch'
+  | 'AdvancedRealWorld';
+
+export interface TutorialTraceStep {
+  step: number;
+  node: string;
+  action: string;
+  g: number;
+  h: number;
+  f: number;
+  frontier: string;
+  explored: string;
+  comment: string;
+}
+
+export interface TutorialQuiz {
+  question: string;
+  options: string[];
+  correctIndex: number;
+  explanation: string;
+}
+
+export interface TutorialLesson {
+  id: number;
+  title: string;
+  module: TutorialModuleType;
+  moduleLabel: string;
+  badge: string;
+  estMinutes: number;
+  complexity: {
+    time: string;
+    space: string;
+    completeness: string;
+    optimality: string;
+  };
+  formalDefinition: {
+    math: string;
+    description: string;
+  };
+  concept: string;
+  inDepthExplanation: string[];
+  traceExample?: {
+    description: string;
+    steps: TutorialTraceStep[];
+  };
+  pitfalls: {
+    misconception: string;
+    correction: string;
+  }[];
+  keyTeachingPoints?: string[];
+  mathematicalDerivation?: {
+    title: string;
+    steps: string[];
+    conclusion: string;
+  };
+  industrialApplications?: string[];
+  vivaExaminerTrap?: string;
+  presetId: string;
+  algId: AlgorithmType;
+  heuristic?: HeuristicType;
+  diagonal?: boolean;
+  problemType?: ProblemType;
+  actionText: string;
+  vivaQuestions: {
+    question: string;
+    answer: string;
+    examinerTip: string;
+  }[];
+  quiz: TutorialQuiz;
+}
+

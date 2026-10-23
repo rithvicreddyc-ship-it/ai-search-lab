@@ -9,6 +9,7 @@ import {
   Database,
   ExternalLink,
   Flame,
+  FlaskConical,
   GitBranch,
   Layers,
   MapPin,
@@ -199,8 +200,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
         {/* Ambient Subtle Radial Glows for Light Theme */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gradient-to-tr from-indigo-200/40 via-sky-200/30 to-teal-100/30 blur-[130px] pointer-events-none" />
 
-        <div className="max-w-5xl mx-auto px-4 text-center relative z-10 space-y-6">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-semibold shadow-sm">
+        <div className="max-w-5xl mx-auto px-4 text-center relative z-10 space-y-6 animate-fade-in-up">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-semibold shadow-xs animate-fade-in">
             <Sparkles className="w-3.5 h-3.5 text-indigo-500 animate-pulse" />
             <span className="font-semibold">Artificial Intelligence Foundations</span>
             <span className="text-indigo-300">•</span>
@@ -222,7 +223,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
           <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
             <button
               onClick={() => onNavigate('lab')}
-              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold text-sm shadow-lg shadow-indigo-600/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold text-sm shadow-lg shadow-indigo-600/20 transition-all hover-lift active:scale-98"
             >
               <PlayCircle className="w-4 h-4" />
               <span>Launch Full Search Lab</span>
@@ -230,19 +231,27 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             </button>
 
             <button
-              onClick={() => onNavigate('compare')}
-              className="flex items-center gap-2 px-5 py-3 rounded-xl bg-white hover:bg-slate-50 text-slate-700 font-medium text-sm border border-slate-200 shadow-sm transition-colors"
+              onClick={() => onNavigate('tutorial')}
+              className="flex items-center gap-2 px-5 py-3 rounded-xl bg-white hover:bg-slate-50 text-indigo-700 font-semibold text-sm border border-indigo-200 shadow-xs transition-all hover-lift ring-1 ring-indigo-100"
             >
-              <Layers className="w-4 h-4 text-indigo-600" />
-              <span>Compare Algorithms</span>
+              <Sparkles className="w-4 h-4 text-indigo-600" />
+              <span>16-Lesson Guided Tutorial</span>
             </button>
 
             <button
-              onClick={() => onNavigate('explorer')}
-              className="flex items-center gap-2 px-5 py-3 rounded-xl bg-white hover:bg-slate-50 text-slate-700 font-medium text-sm border border-slate-200 shadow-sm transition-colors"
+              onClick={() => onNavigate('experiments')}
+              className="flex items-center gap-2 px-5 py-3 rounded-xl bg-white hover:bg-slate-50 text-emerald-700 font-semibold text-sm border border-emerald-200 shadow-xs transition-all hover-lift ring-1 ring-emerald-100"
             >
-              <Cpu className="w-4 h-4 text-violet-600" />
-              <span>Algorithm Explorer & Viva</span>
+              <FlaskConical className="w-4 h-4 text-emerald-600" />
+              <span>8 Empirical Experiments</span>
+            </button>
+
+            <button
+              onClick={() => onNavigate('compare')}
+              className="flex items-center gap-2 px-5 py-3 rounded-xl bg-white hover:bg-slate-50 text-slate-700 font-medium text-sm border border-slate-200 shadow-xs transition-all hover-lift"
+            >
+              <Layers className="w-4 h-4 text-indigo-600" />
+              <span>Compare Algorithms</span>
             </button>
           </div>
         </div>
@@ -369,7 +378,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
       {/* Feature Highlights Grid */}
       <section className="max-w-6xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-6 rounded-2xl bg-white/90 border border-slate-200 hover:border-indigo-400 transition-all shadow-sm space-y-3">
+          <div className="p-6 rounded-2xl bg-white/90 border border-slate-200 hover:border-indigo-400 transition-all hover-lift shadow-xs space-y-3">
             <div className="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600">
               <BrainCircuit className="w-5 h-5" />
             </div>
@@ -379,7 +388,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-white/90 border border-slate-200 hover:border-violet-400 transition-all shadow-sm space-y-3">
+          <div className="p-6 rounded-2xl bg-white/90 border border-slate-200 hover:border-violet-400 transition-all hover-lift shadow-xs space-y-3">
             <div className="w-10 h-10 rounded-xl bg-violet-50 border border-violet-200 flex items-center justify-center text-violet-600">
               <Zap className="w-5 h-5" />
             </div>
@@ -389,7 +398,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-white/90 border border-slate-200 hover:border-sky-400 transition-all shadow-sm space-y-3">
+          <div className="p-6 rounded-2xl bg-white/90 border border-slate-200 hover:border-sky-400 transition-all hover-lift shadow-xs space-y-3">
             <div className="w-10 h-10 rounded-xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600">
               <Layers className="w-5 h-5" />
             </div>
@@ -423,7 +432,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
           {algorithms.map((alg) => (
             <div
               key={alg.id}
-              className="p-5 rounded-2xl border border-slate-200 bg-white/90 hover:border-indigo-400 space-y-3 transition-all hover:-translate-y-1 shadow-sm"
+              className="p-5 rounded-2xl border border-slate-200 bg-white/90 hover:border-indigo-400 space-y-3 transition-all hover-lift shadow-xs"
             >
               <div className="flex items-center justify-between">
                 <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border ${alg.badgeColor}`}>

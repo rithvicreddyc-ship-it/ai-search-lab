@@ -90,13 +90,13 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <button
                   key={item.id}
                   onClick={() => onTabChange(item.id)}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all duration-200 ${
                     isActive
-                      ? 'bg-white text-indigo-600 shadow-sm border border-slate-200/80'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+                      ? 'bg-white text-indigo-600 shadow-sm border border-slate-200/80 scale-[1.02]'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-white/60 hover:scale-[1.01]'
                   }`}
                 >
-                  <Icon className="w-3.5 h-3.5" />
+                  <Icon className={`w-3.5 h-3.5 transition-transform duration-200 ${isActive ? 'scale-110 text-indigo-600' : 'text-slate-500'}`} />
                   <span>{item.label}</span>
                 </button>
               );

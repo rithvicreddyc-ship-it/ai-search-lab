@@ -169,6 +169,7 @@ export async function runExperimentAPI(payload: {
   preset_id: string;
   algorithms?: any[];
   seed?: number;
+  options?: any;
 }): Promise<ExperimentReport> {
   if (RAW_BASE) {
     try {
@@ -183,7 +184,7 @@ export async function runExperimentAPI(payload: {
       // Fallback
     }
   }
-  return executeExperiment(payload.preset_id, payload.algorithms, payload.seed);
+  return executeExperiment(payload.preset_id, payload.algorithms, payload.seed, payload.options);
 }
 
 export const generateMaze = generateMazeAPI;

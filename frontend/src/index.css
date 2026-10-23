@@ -125,60 +125,145 @@
   box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.08);
 }
 
-/* Moving Watermark Animations */
+/* Moving Watermark Animations (Classy, Smooth, Slow drift) */
 @keyframes watermarkScrollLeft {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
 }
 
 @keyframes watermarkScrollRight {
-  0% { transform: translateX(-50%); }
-  100% { transform: translateX(0); }
+  0% { transform: translate3d(-50%, 0, 0); }
+  100% { transform: translate3d(0, 0, 0); }
 }
 
 .animate-watermark-left {
-  animation: watermarkScrollLeft 48s linear infinite;
+  animation: watermarkScrollLeft 60s linear infinite;
   will-change: transform;
 }
 
 .animate-watermark-right {
-  animation: watermarkScrollRight 56s linear infinite;
+  animation: watermarkScrollRight 75s linear infinite;
   will-change: transform;
+}
+
+/* Classy Web Page Entry & Transition Animations */
+@keyframes fadeInUpClassy {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeInClassy {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes scaleInClassy {
+  0% {
+    opacity: 0;
+    transform: scale(0.975);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes floatGentle {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -8px, 0); }
+}
+
+@keyframes floatReverseGentle {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, 8px, 0); }
+}
+
+@keyframes slowOrbit {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes softPulseGlow {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(1.04); }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUpClassy 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-fade-in {
+  animation: fadeInClassy 0.35s ease-out both;
+}
+
+.animate-scale-in {
+  animation: scaleInClassy 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-float-gentle {
+  animation: floatGentle 8s ease-in-out infinite;
+}
+
+.animate-float-reverse-gentle {
+  animation: floatReverseGentle 10s ease-in-out infinite;
+}
+
+.animate-slow-orbit {
+  animation: slowOrbit 90s linear infinite;
+}
+
+.animate-soft-glow {
+  animation: softPulseGlow 6s ease-in-out infinite;
+}
+
+/* Classy Hover Lift */
+.hover-lift {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -6px rgba(15, 23, 42, 0.08), 0 4px 10px -2px rgba(15, 23, 42, 0.03);
 }
 
 /* Fluid Moving Water Wave Caustics */
 @keyframes waterWaveFlow1 {
   0% { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
-  33% { transform: translate3d(30px, -20px, 0) scale(1.06) rotate(2deg); }
-  66% { transform: translate3d(-25px, 20px, 0) scale(0.96) rotate(-2deg); }
+  33% { transform: translate3d(20px, -15px, 0) scale(1.04) rotate(1.5deg); }
+  66% { transform: translate3d(-18px, 15px, 0) scale(0.97) rotate(-1.5deg); }
   100% { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
 }
 
 @keyframes waterWaveFlow2 {
   0% { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
-  33% { transform: translate3d(-30px, 20px, 0) scale(0.95) rotate(-2deg); }
-  66% { transform: translate3d(25px, -15px, 0) scale(1.05) rotate(2deg); }
+  33% { transform: translate3d(-20px, 15px, 0) scale(0.96) rotate(-1.5deg); }
+  66% { transform: translate3d(18px, -12px, 0) scale(1.03) rotate(1.5deg); }
   100% { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
 }
 
 @keyframes waterRippleExpand {
-  0% { transform: scale(0.9); opacity: 0.2; }
-  50% { transform: scale(1.1); opacity: 0.38; }
-  100% { transform: scale(0.9); opacity: 0.2; }
+  0% { transform: scale(0.92); opacity: 0.15; }
+  50% { transform: scale(1.08); opacity: 0.3; }
+  100% { transform: scale(0.92); opacity: 0.15; }
 }
 
 .animate-water-wave-1 {
-  animation: waterWaveFlow1 24s ease-in-out infinite;
+  animation: waterWaveFlow1 28s ease-in-out infinite;
   will-change: transform;
 }
 
 .animate-water-wave-2 {
-  animation: waterWaveFlow2 30s ease-in-out infinite;
+  animation: waterWaveFlow2 36s ease-in-out infinite;
   will-change: transform;
 }
 
 .animate-water-ripple {
-  animation: waterRippleExpand 16s ease-in-out infinite;
+  animation: waterRippleExpand 18s ease-in-out infinite;
   will-change: transform, opacity;
 }
 

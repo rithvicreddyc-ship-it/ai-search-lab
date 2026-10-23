@@ -13,6 +13,7 @@ import {
   GridCoordinate,
   GridState,
   HeuristicType,
+  LabLaunchConfig,
   MazePatternType,
   ProblemType,
   SearchResult,
@@ -20,7 +21,11 @@ import {
 import { fetchPresets, generateMaze, runSearch } from '../../api/client';
 import { PRESET_CLASSIC_LABYRINTH } from '../../engine/presets';
 
-export const SearchLab: React.FC = () => {
+interface SearchLabProps {
+  launchConfig?: LabLaunchConfig | null;
+}
+
+export const SearchLab: React.FC<SearchLabProps> = ({ launchConfig }) => {
   // Problem State
   const [problemType, setProblemType] = useState<ProblemType>('grid');
 
@@ -68,6 +73,39 @@ export const SearchLab: React.FC = () => {
   useEffect(() => {
     setGrid((prev) => ({ ...prev, diagonal_movement: diagonalMovement }));
   }, [diagonalMovement]);
+
+  // Handle external launch configuration from Tutorial or Experiments
+  useEffect(() => {
+    if (!launchConfig) return;
+    setIsPlaying(false);
+    setSearchResult(null);
+    setCurrentStep(0);
+
+    if (launchConfig.problemType) {
+      setProblemType(launchConfig.problemType);
+    }
+    if (launchConfig.algorithm) {
+      setAlgorithm(launchConfig.algorithm);
+    }
+    if (launchConfig.heuristic) {
+      setHeuristic(launchConfig.heuristic);
+    }
+    if (launchConfig.diagonal !== undefined) {
+      setDiagonalMovement(launchConfig.diagonal);
+    }
+
+    if (launchConfig.presetId) {
+      fetchPresets().then((presets) => {
+        if (presets.grids[launchConfig.presetId!]) {
+          setProblemType('grid');
+          setGrid(presets.grids[launchConfig.presetId!].state);
+        } else if (presets.graphs[launchConfig.presetId!]) {
+          setProblemType('graph');
+          setGraph(presets.graphs[launchConfig.presetId!].state);
+        }
+      }).catch(console.error);
+    }
+  }, [launchConfig]);
 
   // Execute Search from Backend
   const handleExecuteSearch = async () => {

@@ -19,33 +19,32 @@ export const ArchitecturalFooter: React.FC<ArchitecturalFooterProps> = ({
           
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
             
-            {/* Left Brand Identity: Pixel Art Logo & LPU Chapter Header */}
+            {/* Left Brand Identity: AI Search Lab Visualiser Header */}
             <div className="flex items-start gap-4">
-              {/* Modular Pixel SVG Logo - Purple and Yellow Stepped Blocks */}
+              {/* Modular Pixel SVG Logo - Stepped Search Graph Nodes & Core Blocks */}
               <div className="shrink-0 w-12 h-12 flex items-center justify-center p-1 rounded-2xl bg-white/70 border border-[#E6E0D2] shadow-2xs">
                 <svg
                   viewBox="0 0 32 32"
                   className="w-10 h-10 fill-current"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  {/* Purple Outer Pixel Blocks */}
-                  {/* Top stepped teeth */}
+                  {/* Purple Outer Node Exploration Pixels */}
                   <rect x="2" y="6" width="6" height="6" rx="1" fill="#8B5CF6" />
                   <rect x="8" y="2" width="6" height="6" rx="1" fill="#8B5CF6" />
                   <rect x="18" y="2" width="6" height="6" rx="1" fill="#8B5CF6" />
                   <rect x="24" y="6" width="6" height="6" rx="1" fill="#8B5CF6" />
                   
-                  {/* Side wing pixels */}
+                  {/* Side frontier pixels */}
                   <rect x="2" y="14" width="6" height="6" rx="1" fill="#8B5CF6" />
                   <rect x="24" y="14" width="6" height="6" rx="1" fill="#8B5CF6" />
                   
-                  {/* Bottom stepped teeth */}
+                  {/* Bottom frontier pixels */}
                   <rect x="2" y="22" width="6" height="6" rx="1" fill="#8B5CF6" />
                   <rect x="8" y="26" width="6" height="6" rx="1" fill="#8B5CF6" />
                   <rect x="18" y="26" width="6" height="6" rx="1" fill="#8B5CF6" />
                   <rect x="24" y="22" width="6" height="6" rx="1" fill="#8B5CF6" />
 
-                  {/* Golden Yellow Solid Core Block */}
+                  {/* Golden Yellow Search State Core */}
                   <rect x="8" y="8" width="16" height="16" rx="2" fill="#FBBF24" />
                 </svg>
               </div>
@@ -53,13 +52,13 @@ export const ArchitecturalFooter: React.FC<ArchitecturalFooterProps> = ({
               {/* Text Information */}
               <div className="space-y-1">
                 <h3 className="text-base font-extrabold text-slate-900 tracking-tight leading-snug">
-                  AWS Student Builder Group
+                  AI Search Lab
                 </h3>
                 <p className="text-xs text-slate-500 font-medium">
-                  Lovely Professional University
+                  Artificial Intelligence Foundations • Search Algorithms
                 </p>
                 <div className="pt-2 text-[11px] font-mono text-slate-400">
-                  © 2026 AWS SBG · LPU • AI Foundations
+                  © 2026 AI Search Lab • 100% Free Open Educational Tool
                 </div>
               </div>
             </div>
@@ -124,40 +123,38 @@ export const ArchitecturalFooter: React.FC<ArchitecturalFooterProps> = ({
 
               {/* Find us around the web + Social Pill Buttons with Arrow */}
               <div className="flex flex-wrap items-center gap-3 text-xs pt-1">
-                <span className="text-slate-500 font-medium">Find us around the web</span>
-
-                {/* Instagram ↗ */}
-                <a
-                  href="https://www.instagram.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-3.5 py-1 rounded-full bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border border-slate-200/90 font-medium text-xs shadow-2xs transition-all hover-lift flex items-center gap-1 active:scale-95"
-                >
-                  <span>Instagram</span>
-                  <span className="text-slate-400 font-mono text-[10px]">↗</span>
-                </a>
-
-                {/* LinkedIn ↗ */}
-                <a
-                  href="https://www.linkedin.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-3.5 py-1 rounded-full bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border border-slate-200/90 font-medium text-xs shadow-2xs transition-all hover-lift flex items-center gap-1 active:scale-95"
-                >
-                  <span>LinkedIn</span>
-                  <span className="text-slate-400 font-mono text-[10px]">↗</span>
-                </a>
+                <span className="text-slate-500 font-medium">Resources & Repository</span>
 
                 {/* GitHub ↗ */}
                 <a
-                  href="https://github.com"
+                  href="https://github.com/rithvicreddyc-ship-it/ai-search-lab"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-3.5 py-1 rounded-full bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border border-slate-200/90 font-medium text-xs shadow-2xs transition-all hover-lift flex items-center gap-1 active:scale-95"
                 >
-                  <span>GitHub</span>
+                  <span>GitHub Repository</span>
                   <span className="text-slate-400 font-mono text-[10px]">↗</span>
                 </a>
+
+                {/* Documentation / Tutorial */}
+                <button
+                  type="button"
+                  onClick={() => setActiveModal('projects')}
+                  className="px-3.5 py-1 rounded-full bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border border-slate-200/90 font-medium text-xs shadow-2xs transition-all hover-lift flex items-center gap-1 active:scale-95"
+                >
+                  <span>Benchmarks & Docs</span>
+                  <span className="text-slate-400 font-mono text-[10px]">↗</span>
+                </button>
+
+                {/* Free Viva Guide */}
+                <button
+                  type="button"
+                  onClick={() => setActiveModal('perks')}
+                  className="px-3.5 py-1 rounded-full bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border border-slate-200/90 font-medium text-xs shadow-2xs transition-all hover-lift flex items-center gap-1 active:scale-95"
+                >
+                  <span>Free Viva Deck</span>
+                  <span className="text-slate-400 font-mono text-[10px]">↗</span>
+                </button>
               </div>
 
             </div>

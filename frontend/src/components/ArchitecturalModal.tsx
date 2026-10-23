@@ -69,16 +69,16 @@ export const ArchitecturalModal: React.FC<ArchitecturalModalProps> = ({
 
             <div>
               <h2 className="text-lg font-bold text-slate-900 capitalize">
-                {type === 'events' && 'AWS SBG & AI Lab Events'}
+                {type === 'events' && 'AI Search Lab Academic Events'}
                 {type === 'projects' && 'Open-Source AI & Builder Projects'}
                 {type === 'community' && 'Community & Academic Network'}
                 {type === 'perks' && '100% Free Perks & Student Resources'}
                 {type === 'history' && 'Search & Attendance History Details'}
               </h2>
               <p className="text-xs text-slate-500">
-                {type === 'events' && 'Workshops, hackathons, and algorithm defense sessions.'}
+                {type === 'events' && 'Workshops, lab challenges, and algorithm defense sessions.'}
                 {type === 'projects' && 'Community-engineered state-space benchmarks & visualizers.'}
-                {type === 'community' && 'Lovely Professional University chapter & global student builders.'}
+                {type === 'community' && 'Open Artificial Intelligence Foundations community & research circles.'}
                 {type === 'perks' && 'Completely free educational tools, cheat sheets, and templates.'}
                 {type === 'history' && 'Audited session event logs and state expansion telemetry.'}
               </p>
@@ -107,20 +107,20 @@ export const ArchitecturalModal: React.FC<ArchitecturalModalProps> = ({
                 </div>
                 <h3 className="font-bold text-slate-900">Mastering State-Space Search & A* Optimality</h3>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  Join AWS Student Builder Group at Lovely Professional University for a deep-dive interactive session on heuristic admissibility ($h(n) \le h^*(n)$), weighted graphs, and step-by-step priority queue debugging.
+                  Join peer AI researchers and students for an interactive deep-dive session on heuristic admissibility ($h(n) \le h^*(n)$), weighted graphs, and step-by-step priority queue debugging.
                 </p>
               </div>
 
               <div className="p-4 rounded-2xl bg-indigo-50/80 border border-indigo-200/80 space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800">
-                    Hackathon Track
+                    Lab Challenge
                   </span>
-                  <span className="text-xs text-indigo-800 font-mono">05 Nov 2026 • Global</span>
+                  <span className="text-xs text-indigo-800 font-mono">05 Nov 2026 • Open Access</span>
                 </div>
-                <h3 className="font-bold text-slate-900">AWS Cloud & AI Search Optimization Challenge</h3>
+                <h3 className="font-bold text-slate-900">Heuristic Pruning & State-Space Optimization Challenge</h3>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  Deploy search engines at scale on AWS Lambda, analyze effective branching factors ($b^*$), and benchmark pathfinding algorithms on massive terrain maps.
+                  Benchmark state-space search algorithms, analyze effective branching factors ($b^*$), and optimize pathfinding heuristics on massive non-uniform terrain maps.
                 </p>
               </div>
 
@@ -214,12 +214,12 @@ export const ArchitecturalModal: React.FC<ArchitecturalModalProps> = ({
                     <Heart className="w-5 h-5 text-emerald-700" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-slate-900">AWS Student Builder Group • LPU</h3>
-                    <p className="text-xs text-slate-600">Lovely Professional University Student Chapter</p>
+                    <h3 className="font-bold text-slate-900">AI Search Lab Community Circle</h3>
+                    <p className="text-xs text-slate-600">Artificial Intelligence Foundations & Research</p>
                   </div>
                 </div>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  A vibrant, student-led tech community dedicated to cloud computing, artificial intelligence foundations, and hands-on software engineering.
+                  A student-focused open learning community dedicated to artificial intelligence foundations, pathfinding algorithms, and computer science education.
                 </p>
                 <div className="flex flex-wrap gap-2 pt-2">
                   <a
@@ -401,7 +401,7 @@ export const ArchitecturalModal: React.FC<ArchitecturalModalProps> = ({
         {/* Modal Footer */}
         <div className="px-7 py-4 border-t border-slate-100 bg-[#FAF8F5] flex items-center justify-between">
           <span className="text-[11px] font-mono text-slate-500">
-            AWS Student Builder Group • Lovely Professional University
+            AI Search Lab • Artificial Intelligence Foundations
           </span>
           <button
             onClick={onClose}

@@ -111,21 +111,21 @@ export const ArchitecturalStatusDashboard: React.FC<ArchitecturalStatusDashboard
             <div className="mt-4 p-5 rounded-2xl bg-[#F8FAFC] border border-slate-200/80 space-y-3 animate-fade-in text-xs text-slate-700">
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200/60 pb-2">
                 <span className="font-bold text-slate-900">
-                  Registered Session Event #LPU-AI-2026-01
+                  Registered Session Event #AI-SEARCH-2026-01
                 </span>
                 <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-mono text-[10px]">
-                  100% Verified Attendance
+                  100% Verified Session
                 </span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
                 <div>
-                  <span className="text-slate-400 block text-[11px]">Academic Course</span>
+                  <span className="text-slate-400 block text-[11px]">Academic Topic</span>
                   <span className="font-semibold text-slate-800">Artificial Intelligence Foundations</span>
                 </div>
                 <div>
-                  <span className="text-slate-400 block text-[11px]">Host Chapter</span>
-                  <span className="font-semibold text-slate-800">AWS Student Builder Group (LPU)</span>
+                  <span className="text-slate-400 block text-[11px]">Visualiser Core</span>
+                  <span className="font-semibold text-slate-800">AI Search Lab Engine</span>
                 </div>
                 <div>
                   <span className="text-slate-400 block text-[11px]">Web Platform Tier</span>
@@ -134,7 +134,7 @@ export const ArchitecturalStatusDashboard: React.FC<ArchitecturalStatusDashboard
               </div>
 
               <p className="text-[11px] text-slate-500 leading-relaxed pt-1">
-                Your attendance and laboratory milestones are tracked locally in this session. All algorithmic benchmark results, step counts, and telemetry remain your property and can be exported at any time.
+                Your session and algorithm exploration milestones are tracked locally in this session. All algorithmic benchmark results, step counts, and telemetry remain your property and can be exported at any time.
               </p>
             </div>
           )}
@@ -160,7 +160,7 @@ export const ArchitecturalStatusDashboard: React.FC<ArchitecturalStatusDashboard
             Your attendance records
           </h4>
           <p className="text-xs text-slate-600 leading-relaxed">
-            This page shows attendance associated with your signed-in account. Break time is excluded from attended time. If a record appears incorrect, contact the event organisers. AI Search Lab is a 100% free to use web tool with zero paywalls.
+            This page shows attendance associated with your signed-in account. Break time is excluded from attended time. If a record appears incorrect, contact the project maintainers. AI Search Lab is a 100% free to use web tool with zero paywalls.
           </p>
         </div>
       </div>

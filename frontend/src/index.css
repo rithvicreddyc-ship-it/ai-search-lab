@@ -267,17 +267,51 @@
   will-change: transform, opacity;
 }
 
-/* Shimmering Gradient Flow for Hero Titles */
-@keyframes gradientFlow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* Shimmering & Kinetic Typography Animations for Hero Main Title */
+@keyframes heroTitleBreathe {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+    filter: drop-shadow(0 2px 8px rgba(99, 102, 241, 0.15));
+    background-position: 0% 50%;
+  }
+  50% {
+    transform: translate3d(0, -3.5px, 0);
+    filter: drop-shadow(0 6px 20px rgba(99, 102, 241, 0.32));
+    background-position: 100% 50%;
+  }
 }
 
-.animate-gradient-flow {
-  background-size: 250% auto;
-  animation: gradientFlow 7s ease infinite;
+.animate-hero-title {
+  background-size: 200% auto;
+  animation: heroTitleBreathe 5.5s ease-in-out infinite;
+  will-change: transform, filter, background-position;
 }
+
+/* Fluid Spectrum Flow & Breathing Wave for Hero Subtitle */
+@keyframes heroSubtitleFlow {
+  0% {
+    background-position: 0% 50%;
+    transform: translate3d(0, 0, 0);
+    filter: drop-shadow(0 2px 10px rgba(124, 58, 237, 0.2));
+  }
+  50% {
+    background-position: 100% 50%;
+    transform: translate3d(0, -2.5px, 0);
+    filter: drop-shadow(0 5px 18px rgba(14, 165, 233, 0.35));
+  }
+  100% {
+    background-position: 0% 50%;
+    transform: translate3d(0, 0, 0);
+    filter: drop-shadow(0 2px 10px rgba(124, 58, 237, 0.2));
+  }
+}
+
+.animate-hero-subtitle {
+  background-size: 280% auto;
+  animation: heroSubtitleFlow 6.5s ease-in-out infinite;
+  will-change: transform, filter, background-position;
+}
+
 
 /* Radar Ping from Start / Goal nodes */
 @keyframes radarWave {

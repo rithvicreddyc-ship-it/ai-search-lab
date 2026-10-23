@@ -321,11 +321,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             </div>
           </div>
 
-          {/* Main Headline with Relaxed Leading & Shimmering Gradient */}
+          {/* Main Headline with Relaxed Leading & Animated Kinetic Typography */}
           <div className="space-y-4 max-w-4xl mx-auto">
-            <h1 className="text-4xl sm:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight">
-              AI Search Lab
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-sky-600 mt-2 animate-gradient-flow">
+            <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight select-none">
+              <span className="inline-block bg-gradient-to-r from-slate-900 via-indigo-900 via-slate-800 to-slate-900 bg-clip-text text-transparent animate-hero-title transition-transform duration-300 hover:scale-[1.015]">
+                AI Search Lab
+              </span>
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 via-pink-500 via-sky-500 to-indigo-600 mt-2 animate-hero-subtitle transition-transform duration-300 hover:scale-[1.015]">
                 Interactive Search Algorithm Visualiser
               </span>
             </h1>

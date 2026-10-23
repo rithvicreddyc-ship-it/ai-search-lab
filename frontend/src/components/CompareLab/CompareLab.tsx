@@ -100,25 +100,32 @@ export const CompareLab: React.FC<CompareLabProps> = ({
   const chartColors = ['#6366f1', '#06b6d4', '#10b981', '#f59e0b', '#ec4899', '#8b5cf6', '#3b82f6'];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-8 py-2 animate-fade-in">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/80 pb-4">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
-            <Layers className="w-6 h-6 text-indigo-600" />
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 border-b border-slate-200/80 pb-6">
+        <div className="space-y-1.5">
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#EFF8F2] text-emerald-800 border border-[#DCF1E2]">
+              100% Free Open Academic Web
+            </span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600 shadow-2xs">
+              <Layers className="w-5 h-5" />
+            </div>
             <span>Algorithm Comparison Engine</span>
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1">
+          <p className="text-xs sm:text-sm text-slate-500 max-w-2xl leading-relaxed">
             Execute multiple classical search algorithms side-by-side on the exact same problem to contrast pruning, memory, and path cost.
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2.5">
           {compareData && (
             <>
               <button
                 onClick={() => exportComparisonToCsv(compareData.results)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white hover:bg-slate-100 text-xs font-medium text-slate-700 border border-slate-200 shadow-xs transition-colors"
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 border border-slate-200 shadow-2xs transition-colors"
                 title="Download CSV spreadsheet"
               >
                 <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600" />
@@ -127,7 +134,7 @@ export const CompareLab: React.FC<CompareLabProps> = ({
 
               <button
                 onClick={() => exportToJson(compareData, 'search_comparison_report.json')}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white hover:bg-slate-100 text-xs font-medium text-slate-700 border border-slate-200 shadow-xs transition-colors"
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 border border-slate-200 shadow-2xs transition-colors"
                 title="Download JSON report"
               >
                 <FileJson className="w-3.5 h-3.5 text-sky-600" />
@@ -139,7 +146,7 @@ export const CompareLab: React.FC<CompareLabProps> = ({
           <button
             onClick={handleRunComparison}
             disabled={isLoading || selectedAlgs.length < 2}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs shadow-md shadow-indigo-200 transition-all disabled:opacity-50"
+            className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs shadow-md shadow-indigo-600/20 transition-all disabled:opacity-50 hover-lift active:scale-95"
           >
             {isLoading ? (
               <>
@@ -157,7 +164,7 @@ export const CompareLab: React.FC<CompareLabProps> = ({
       </div>
 
       {/* Algorithm Checkboxes Selector */}
-      <div className="p-5 rounded-3xl bg-white/95 border border-slate-200/90 shadow-glass-card backdrop-blur-2xl space-y-3">
+      <div className="p-7 sm:p-8 rounded-[2rem] bg-white/95 border border-slate-200/90 shadow-sm space-y-4">
         <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">
           Select Algorithms to Benchmark on Current Problem ({problemType.toUpperCase()}):
         </span>

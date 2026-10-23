@@ -319,7 +319,7 @@ export const SearchLab: React.FC<SearchLabProps> = ({ launchConfig }) => {
   }
 
   return (
-    <div className="space-y-4 max-w-7xl mx-auto px-2 sm:px-4">
+    <div className="space-y-6 max-w-7xl mx-auto px-3 sm:px-6 py-2">
       {/* Top Playback Toolbar */}
       <PlaybackBar
         currentStep={currentStep}
@@ -353,7 +353,7 @@ export const SearchLab: React.FC<SearchLabProps> = ({ launchConfig }) => {
       />
 
       {/* Main Workspace Layout: Controls Left | Canvas Center | Inspector Right */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Column: Algorithm Controls & Presets */}
         <div className="lg:col-span-3">
           <ControlPanel

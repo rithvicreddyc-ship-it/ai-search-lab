@@ -18,11 +18,17 @@ import {
   RotateCcw,
   ShieldCheck,
   Sparkles,
-  Zap
+  Zap,
+  Gift,
+  Award,
+  BookOpen,
+  Users,
+  HeartHandshake
 } from 'lucide-react';
 import { NavTab } from './Navbar';
 import { AlgorithmType } from '../types';
 import { runSearch } from '../api/client';
+import { ArchitecturalStatusDashboard } from './ArchitecturalStatusDashboard';
 
 interface LandingPageProps {
   onNavigate: (tab: NavTab) => void;
@@ -37,6 +43,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
   const [demoPath, setDemoPath] = useState<any[]>([]);
   const [demoStats, setDemoStats] = useState<{ cost: number; expanded: number } | null>(null);
 
+  // Algorithm category filter for clean, uncluttered browsing
+  const [selectedCategory, setSelectedCategory] = useState<'all' | 'Uninformed' | 'Informed' | 'Local Search'>('all');
+
   const demoTimerRef = useRef<number | null>(null);
 
   const demoMaze = {
@@ -48,7 +57,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
       // Outer borders
       ...Array.from({ length: 9 }).flatMap((_, r) => [[r, 0], [r, 16]]),
       ...Array.from({ length: 17 }).flatMap((_, c) => [[0, c], [8, c]]),
-      // Labyrinth dividers with openings
+      // Labyrinth dividers with generous openings
       [2, 3], [3, 3], [4, 3], [5, 3], [6, 3],
       [2, 7], [3, 7], [5, 7], [6, 7], [7, 7],
       [1, 11], [2, 11], [3, 11], [4, 11], [6, 11], [7, 11]
@@ -98,7 +107,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
   };
 
   useEffect(() => {
-    // Auto-run A* on mount after 500ms
+    // Auto-run A* on mount after 400ms
     const t = setTimeout(() => {
       runHeroDemo('astar');
     }, 400);
@@ -138,92 +147,110 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
     {
       id: 'bfs' as AlgorithmType,
       name: 'Breadth-First Search (BFS)',
-      category: 'Uninformed',
+      category: 'Uninformed' as const,
       complexity: 'Time: O(b^d) • Space: O(b^d)',
-      highlight: 'Level-by-level queue traversal. Optimal on uniform cost.',
-      badgeColor: 'bg-blue-50 text-blue-700 border-blue-200'
+      highlight: 'Level-by-level FIFO queue traversal. Proven optimal for uniform unit-cost movement.',
+      badgeColor: 'bg-[#EFF6FF] text-[#1D4ED8] border-[#BFDBFE]'
     },
     {
       id: 'dfs' as AlgorithmType,
       name: 'Depth-First Search (DFS)',
-      category: 'Uninformed',
+      category: 'Uninformed' as const,
       complexity: 'Time: O(b^m) • Space: O(b·m)',
-      highlight: 'LIFO stack exploration. Minimal memory, non-optimal.',
-      badgeColor: 'bg-purple-50 text-purple-700 border-purple-200'
+      highlight: 'LIFO stack deep branch exploration. Linear spatial consumption, non-optimal paths.',
+      badgeColor: 'bg-[#FAF5FF] text-[#6D28D9] border-[#DDD6FE]'
     },
     {
       id: 'ucs' as AlgorithmType,
-      name: 'Uniform Cost Search (UCS)',
-      category: 'Uninformed',
+      name: 'Uniform Cost Search (UCS / Dijkstra)',
+      category: 'Uninformed' as const,
       complexity: 'Time: O(b^(1+C*/ε)) • Space: O(b^(1+C*/ε))',
-      highlight: 'Priority queue by g(n). Guaranteed optimal on weighted graphs.',
-      badgeColor: 'bg-emerald-50 text-emerald-700 border-emerald-200'
+      highlight: 'Min-priority queue ordered by g(n). Guaranteed optimal on arbitrary weighted graphs and swamps.',
+      badgeColor: 'bg-[#ECFDF5] text-[#047857] border-[#A7F3D0]'
     },
     {
       id: 'greedy' as AlgorithmType,
       name: 'Greedy Best-First Search',
-      category: 'Informed',
+      category: 'Informed' as const,
       complexity: 'Time: O(b^m) worst • Space: O(b^m)',
-      highlight: 'Heuristic-guided by h(n). Extremely rapid, non-optimal.',
-      badgeColor: 'bg-amber-50 text-amber-800 border-amber-200'
+      highlight: 'Guided purely by heuristic distance h(n) towards the goal. Highly accelerated, non-optimal.',
+      badgeColor: 'bg-[#FFFBEB] text-[#B45309] border-[#FDE68A]'
     },
     {
       id: 'astar' as AlgorithmType,
       name: 'A* Search',
-      category: 'Informed',
+      category: 'Informed' as const,
       complexity: 'Time: O(b^d) worst • Space: O(b^d)',
-      highlight: 'Evaluation f(n) = g(n) + h(n). Optimal with admissible heuristics.',
-      badgeColor: 'bg-indigo-50 text-indigo-700 border-indigo-200'
+      highlight: 'Evaluates f(n) = g(n) + h(n). Mathematically optimal and complete with admissible heuristics.',
+      badgeColor: 'bg-[#EEF2FF] text-[#4338CA] border-[#C7D2FE]'
     },
     {
       id: 'idastar' as AlgorithmType,
       name: 'Iterative Deepening A* (IDA*)',
-      category: 'Informed',
+      category: 'Informed' as const,
       complexity: 'Time: O(b^d) • Space: O(d) Linear',
-      highlight: 'Iterative f-cost bounding. Eliminates exponential memory.',
-      badgeColor: 'bg-rose-50 text-rose-700 border-rose-200'
+      highlight: 'Memory-bounded iterative f-cost cutoffs. Retains A* optimality within linear memory space.',
+      badgeColor: 'bg-[#FFF1F2] text-[#BE123C] border-[#FECDD3]'
     },
     {
       id: 'hill_climbing' as AlgorithmType,
       name: 'Hill Climbing',
-      category: 'Local Search',
+      category: 'Local Search' as const,
       complexity: 'Time: O(∞) loops • Space: O(1) Constant',
-      highlight: 'Local steepest descent. Detects local optima & plateaus.',
-      badgeColor: 'bg-cyan-50 text-cyan-800 border-cyan-200'
+      highlight: 'Steepest-descent local optimization. Evaluates sideways moves, plateau detection, and local minima.',
+      badgeColor: 'bg-[#ECFEFF] text-[#0E7490] border-[#A5F3FC]'
     }
   ];
 
-  return (
-    <div className="space-y-16 pb-20">
-      {/* Hero Section */}
-      <section className="relative pt-8 pb-4 overflow-hidden">
-        {/* Ambient Subtle Radial Glows for Light Theme */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gradient-to-tr from-indigo-200/40 via-sky-200/30 to-teal-100/30 blur-[130px] pointer-events-none" />
+  const filteredAlgorithms = selectedCategory === 'all'
+    ? algorithms
+    : algorithms.filter((a) => a.category === selectedCategory);
 
-        <div className="max-w-5xl mx-auto px-4 text-center relative z-10 space-y-6 animate-fade-in-up">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-semibold shadow-xs animate-fade-in">
-            <Sparkles className="w-3.5 h-3.5 text-indigo-500 animate-pulse" />
-            <span className="font-semibold">Artificial Intelligence Foundations</span>
-            <span className="text-indigo-300">•</span>
-            <span>Search Algorithm Visualiser</span>
+  return (
+    <div className="space-y-24 pb-16">
+      
+      {/* Hero Section with Generous Whitespace & Airy Rhythm */}
+      <section className="relative pt-10 pb-6 overflow-hidden">
+        {/* Soft Ambient Radial Glows */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[450px] bg-gradient-to-tr from-indigo-200/30 via-sky-200/25 to-amber-100/25 blur-[140px] pointer-events-none" />
+
+        <div className="max-w-5xl mx-auto px-4 text-center relative z-10 space-y-8 animate-fade-in-up">
+          
+          {/* Top Pill Badges with Pastel Aesthetic & Free-To-Use Banner */}
+          <div className="flex flex-wrap items-center justify-center gap-2.5">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FAF8F5] border border-[#E8E2D5] text-slate-700 text-xs font-semibold shadow-2xs">
+              <Sparkles className="w-3.5 h-3.5 text-indigo-600 animate-pulse" />
+              <span>Artificial Intelligence Foundations</span>
+              <span className="text-slate-300">•</span>
+              <span className="font-mono text-indigo-700">Search Algorithm Visualiser</span>
+            </div>
+
+            {/* 100% Free Web Badge */}
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#EFF8F2] border border-[#DCF1E2] text-emerald-800 text-xs font-bold shadow-2xs">
+              <Gift className="w-3.5 h-3.5 text-emerald-600" />
+              <span>100% Free to Use Web Platform</span>
+            </div>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight">
-            AI Search Lab
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-violet-600 to-sky-600 mt-2">
-              Interactive Search Algorithm Visualiser
-            </span>
-          </h1>
+          {/* Main Headline with Relaxed Leading */}
+          <div className="space-y-4 max-w-4xl mx-auto">
+            <h1 className="text-4xl sm:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight">
+              AI Search Lab
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-sky-600 mt-2">
+                Interactive Search Algorithm Visualiser
+              </span>
+            </h1>
 
-          <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-600 font-normal leading-relaxed">
-            Construct custom mazes and weighted graphs, execute 7 classical AI search algorithms with genuine step-by-step state inspection, benchmark performance metrics, and prepare for viva examinations.
-          </p>
+            <p className="max-w-2xl mx-auto text-base sm:text-lg text-slate-600 font-normal leading-relaxed">
+              Explore classical state-space search algorithms with high-frequency step-by-step playback, real-time node inspections, empirical benchmarks, and viva defense guidance — completely free and open.
+            </p>
+          </div>
 
-          {/* Call to Actions */}
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
+          {/* Spacious Action Buttons with Room to Breathe */}
+          <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
             <button
               onClick={() => onNavigate('lab')}
-              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold text-sm shadow-lg shadow-indigo-600/20 transition-all hover-lift active:scale-98"
+              className="flex items-center gap-2.5 px-7 py-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold text-sm shadow-lg shadow-indigo-600/20 transition-all hover-lift active:scale-98"
             >
               <PlayCircle className="w-4 h-4" />
               <span>Launch Full Search Lab</span>
@@ -232,7 +259,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
 
             <button
               onClick={() => onNavigate('tutorial')}
-              className="flex items-center gap-2 px-5 py-3 rounded-xl bg-white hover:bg-slate-50 text-indigo-700 font-semibold text-sm border border-indigo-200 shadow-xs transition-all hover-lift ring-1 ring-indigo-100"
+              className="flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-white hover:bg-slate-50 text-indigo-700 font-semibold text-sm border border-indigo-200/90 shadow-2xs transition-all hover-lift ring-1 ring-indigo-50"
             >
               <Sparkles className="w-4 h-4 text-indigo-600" />
               <span>16-Lesson Guided Tutorial</span>
@@ -240,7 +267,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
 
             <button
               onClick={() => onNavigate('experiments')}
-              className="flex items-center gap-2 px-5 py-3 rounded-xl bg-white hover:bg-slate-50 text-emerald-700 font-semibold text-sm border border-emerald-200 shadow-xs transition-all hover-lift ring-1 ring-emerald-100"
+              className="flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-white hover:bg-slate-50 text-emerald-700 font-semibold text-sm border border-emerald-200/90 shadow-2xs transition-all hover-lift ring-1 ring-emerald-50"
             >
               <FlaskConical className="w-4 h-4 text-emerald-600" />
               <span>8 Empirical Experiments</span>
@@ -248,7 +275,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
 
             <button
               onClick={() => onNavigate('compare')}
-              className="flex items-center gap-2 px-5 py-3 rounded-xl bg-white hover:bg-slate-50 text-slate-700 font-medium text-sm border border-slate-200 shadow-xs transition-all hover-lift"
+              className="flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-white hover:bg-slate-50 text-slate-700 font-medium text-sm border border-slate-200 shadow-2xs transition-all hover-lift"
             >
               <Layers className="w-4 h-4 text-indigo-600" />
               <span>Compare Algorithms</span>
@@ -256,22 +283,24 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
           </div>
         </div>
 
-        {/* Live Interactive Hero Maze Preview */}
-        <div className="max-w-4xl mx-auto px-4 mt-10">
-          <div className="p-5 sm:p-6 rounded-3xl bg-white/90 border border-slate-200/90 shadow-glass-card backdrop-blur-2xl space-y-4">
-            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200/80 pb-3">
-              <div className="flex items-center gap-2">
+        {/* Live Interactive Hero Maze Preview - High-Radius Card */}
+        <div className="max-w-4xl mx-auto px-4 mt-14">
+          <div className="p-6 sm:p-8 rounded-[2rem] bg-white/95 border border-slate-200/90 shadow-sm space-y-6">
+            
+            {/* Header of Mini Preview */}
+            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-4">
+              <div className="flex items-center gap-2.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
                 <span className="text-xs font-bold text-slate-900 uppercase tracking-wider">
                   Live Interactive Engine Demo
                 </span>
-                <span className="text-[10px] font-mono text-indigo-700 bg-indigo-50 px-2.5 py-0.5 rounded-full border border-indigo-200">
-                  Node.js & TypeScript Engine
+                <span className="text-[10px] font-mono text-emerald-800 bg-[#EFF8F2] px-2.5 py-0.5 rounded-full border border-[#DCF1E2]">
+                  Free Client Engine
                 </span>
               </div>
 
-              {/* Demo Algorithm Switcher */}
-              <div className="flex items-center gap-1 bg-slate-100 p-1.5 rounded-2xl border border-slate-200 shadow-inner">
+              {/* Demo Algorithm Switcher with Clean Pastel Pills */}
+              <div className="flex items-center gap-1.5 bg-[#FAF8F5] p-1.5 rounded-2xl border border-[#EDE7DC]">
                 {(['astar', 'bfs', 'greedy', 'dfs'] as AlgorithmType[]).map((alg) => (
                   <button
                     key={alg}
@@ -282,7 +311,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                     disabled={isDemoRunning}
                     className={`px-3 py-1 rounded-xl text-xs font-bold uppercase transition-all ${
                       demoAlg === alg
-                        ? 'bg-white text-indigo-600 shadow-sm border border-slate-200'
+                        ? 'bg-white text-indigo-600 shadow-xs border border-slate-200'
                         : 'text-slate-600 hover:text-slate-900'
                     } disabled:opacity-40`}
                   >
@@ -292,10 +321,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
               </div>
             </div>
 
-            {/* Mini Grid Canvas */}
-            <div className="flex items-center justify-center p-3.5 rounded-2xl bg-slate-50/80 border border-slate-200 overflow-x-auto shadow-inner">
+            {/* Mini Grid Canvas with Generous Margin */}
+            <div className="flex items-center justify-center p-6 rounded-2xl bg-[#FAF8F5] border border-[#EDE7DC] overflow-x-auto shadow-inner">
               <div
-                className="grid gap-[2px] p-2 bg-white rounded-xl border border-slate-200 shadow-sm"
+                className="grid gap-[2.5px] p-3 bg-white rounded-2xl border border-slate-200 shadow-xs"
                 style={{
                   gridTemplateRows: `repeat(${demoMaze.rows}, minmax(0, 1fr))`,
                   gridTemplateColumns: `repeat(${demoMaze.cols}, minmax(0, 1fr))`,
@@ -312,21 +341,21 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                     const isFrontier = frontierSet.has(coordStr);
                     const isExplored = exploredSet.has(coordStr);
 
-                    let cellClass = 'bg-slate-50 border border-slate-200/60 rounded-[3px]';
+                    let cellClass = 'bg-slate-50 border border-slate-200/60 rounded-[4px]';
                     if (isWall) {
-                      cellClass = 'bg-slate-800 border border-slate-700 rounded-[3px]';
+                      cellClass = 'bg-slate-800 border border-slate-700 rounded-[4px]';
                     } else if (isStart) {
-                      cellClass = 'bg-emerald-500 text-white font-bold glow-emerald rounded-[3px]';
+                      cellClass = 'bg-emerald-500 text-white font-bold glow-emerald rounded-[4px]';
                     } else if (isGoal) {
-                      cellClass = 'bg-rose-500 text-white font-bold glow-rose rounded-[3px]';
+                      cellClass = 'bg-rose-500 text-white font-bold glow-rose rounded-[4px]';
                     } else if (isPath) {
-                      cellClass = 'bg-emerald-400 text-emerald-950 font-bold ring-1 ring-emerald-400 rounded-[3px] animate-path-pulse';
+                      cellClass = 'bg-emerald-400 text-emerald-950 font-bold ring-1 ring-emerald-400 rounded-[4px] animate-path-pulse';
                     } else if (isActive) {
-                      cellClass = 'bg-amber-400 font-bold ring-2 ring-amber-300 animate-pulse rounded-[3px]';
+                      cellClass = 'bg-amber-400 font-bold ring-2 ring-amber-300 animate-pulse rounded-[4px]';
                     } else if (isFrontier) {
-                      cellClass = 'bg-amber-100 border border-amber-300 text-amber-900 animate-frontier-pulse rounded-[3px]';
+                      cellClass = 'bg-amber-100 border border-amber-300 text-amber-900 animate-frontier-pulse rounded-[4px]';
                     } else if (isExplored) {
-                      cellClass = 'bg-sky-100 border border-sky-200 text-sky-800 rounded-[3px]';
+                      cellClass = 'bg-sky-100 border border-sky-200 text-sky-800 rounded-[4px]';
                     }
 
                     return (
@@ -343,7 +372,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             </div>
 
             {/* Live Demo Status Bar */}
-            <div className="flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-slate-600 px-2">
+            <div className="flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-slate-600 px-2 pt-1">
               <div className="flex items-center gap-3">
                 <span>
                   Step: <strong className="text-slate-900">{demoStep}</strong> / {demoEvents.length}
@@ -365,136 +394,249 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
               <button
                 onClick={() => runHeroDemo(demoAlg)}
                 disabled={isDemoRunning}
-                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-sans font-semibold shadow-sm transition-all active:scale-95 disabled:opacity-40"
+                className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-sans font-semibold shadow-2xs transition-all active:scale-95 disabled:opacity-40"
               >
-                <RotateCcw className="w-3 h-3" />
+                <RotateCcw className="w-3.5 h-3.5" />
                 <span>Re-Run {demoAlg.toUpperCase()}</span>
               </button>
             </div>
+
           </div>
         </div>
       </section>
 
-      {/* Feature Highlights Grid */}
+      {/* Architectural Status Dashboard from the Screenshot (Attendance & Activity) */}
+      <section className="relative z-10">
+        <ArchitecturalStatusDashboard />
+      </section>
+
+      {/* Feature Highlights Grid - De-clumped with Generous Padding */}
       <section className="max-w-6xl mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-6 rounded-2xl bg-white/90 border border-slate-200 hover:border-indigo-400 transition-all hover-lift shadow-xs space-y-3">
-            <div className="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600">
-              <BrainCircuit className="w-5 h-5" />
+        <div className="text-center space-y-3 mb-10">
+          <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[#FAF8F5] text-slate-600 border border-[#EDE7DC]">
+            Architectural Highlights
+          </span>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            Engineered for Academic Rigor & Zero Latency
+          </h2>
+          <p className="text-sm text-slate-500 max-w-xl mx-auto">
+            Cleanly designed educational architecture with ample whitespace, modular components, and no paywalls.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          
+          <div className="p-8 rounded-3xl bg-[#FAF8F5] border border-[#EBE4D5] hover:border-indigo-400 transition-all hover-lift shadow-2xs space-y-4">
+            <div className="w-12 h-12 rounded-2xl bg-white border border-[#E0D7C5] flex items-center justify-center text-indigo-600 shadow-2xs">
+              <BrainCircuit className="w-6 h-6" />
             </div>
-            <h3 className="font-bold text-base text-slate-900">7 Classical AI Algorithms</h3>
-            <p className="text-xs text-slate-600 leading-relaxed">
+            <h3 className="font-bold text-lg text-slate-900">7 Classical AI Algorithms</h3>
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
               Implements BFS, DFS, Uniform Cost Search, Greedy Best-First, A*, IDA*, and Hill Climbing with genuine state-space exploration and non-negative cost guarantees.
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-white/90 border border-slate-200 hover:border-violet-400 transition-all hover-lift shadow-xs space-y-3">
-            <div className="w-10 h-10 rounded-xl bg-violet-50 border border-violet-200 flex items-center justify-center text-violet-600">
-              <Zap className="w-5 h-5" />
+          <div className="p-8 rounded-3xl bg-[#FAF8F5] border border-[#EBE4D5] hover:border-violet-400 transition-all hover-lift shadow-2xs space-y-4">
+            <div className="w-12 h-12 rounded-2xl bg-white border border-[#E0D7C5] flex items-center justify-center text-violet-600 shadow-2xs">
+              <Zap className="w-6 h-6" />
             </div>
-            <h3 className="font-bold text-base text-slate-900">Step-by-Step Replay Engine</h3>
-            <p className="text-xs text-slate-600 leading-relaxed">
+            <h3 className="font-bold text-lg text-slate-900">Step-by-Step Replay Engine</h3>
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
               Complete playback controls: step forward, backward, pause, scrub timeline, and inspect frontier, explored set, and real-time g(n), h(n), and f(n) values.
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-white/90 border border-slate-200 hover:border-sky-400 transition-all hover-lift shadow-xs space-y-3">
-            <div className="w-10 h-10 rounded-xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600">
-              <Layers className="w-5 h-5" />
+          <div className="p-8 rounded-3xl bg-[#FAF8F5] border border-[#EBE4D5] hover:border-emerald-400 transition-all hover-lift shadow-2xs space-y-4">
+            <div className="w-12 h-12 rounded-2xl bg-white border border-[#E0D7C5] flex items-center justify-center text-emerald-600 shadow-2xs">
+              <Layers className="w-6 h-6" />
             </div>
-            <h3 className="font-bold text-base text-slate-900">Grid & Graph Dual Editors</h3>
-            <p className="text-xs text-slate-600 leading-relaxed">
+            <h3 className="font-bold text-lg text-slate-900">Grid & Graph Dual Editors</h3>
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
               Draw obstacles, paint mud terrain costs, toggle 4-dir and 8-dir diagonal moves, or switch to an interactive graph editor featuring the classic Romania road map.
             </p>
           </div>
+
         </div>
       </section>
 
-      {/* Supported Algorithms Showcase */}
-      <section className="max-w-6xl mx-auto px-4 space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-          <div>
-            <h2 className="text-2xl font-bold text-slate-900 tracking-tight">Supported AI Search Algorithms</h2>
-            <p className="text-xs sm:text-sm text-slate-600 mt-1">
-              Every algorithm shares a unified problem model while retaining its distinctive exploration mechanics.
+      {/* Supported Algorithms Showcase - Uncluttered with Category Filter & Free Space */}
+      <section className="max-w-6xl mx-auto px-4 space-y-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+          <div className="space-y-2">
+            <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[#FAF8F5] text-slate-600 border border-[#EDE7DC]">
+              Core Engine
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              Supported AI Search Algorithms
+            </h2>
+            <p className="text-sm text-slate-600 max-w-xl">
+              Filter and explore the theoretical and empirical characteristics of each classical search strategy.
             </p>
           </div>
-          <button
-            onClick={() => onNavigate('explorer')}
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-600 hover:text-indigo-700 transition-colors"
-          >
-            <span>View detailed pseudocode & viva prep</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </button>
+
+          {/* Clean Category Filter Buttons */}
+          <div className="flex flex-wrap items-center gap-1.5 bg-[#FAF8F5] p-1.5 rounded-2xl border border-[#EDE7DC]">
+            {(['all', 'Uninformed', 'Informed', 'Local Search'] as const).map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+                  selectedCategory === cat
+                    ? 'bg-white text-indigo-700 shadow-xs border border-slate-200'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                {cat === 'all' ? 'All (7)' : cat}
+              </button>
+            ))}
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {algorithms.map((alg) => (
+        {/* Spacious Algorithm Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredAlgorithms.map((alg) => (
             <div
               key={alg.id}
-              className="p-5 rounded-2xl border border-slate-200 bg-white/90 hover:border-indigo-400 space-y-3 transition-all hover-lift shadow-xs"
+              className="p-7 rounded-3xl border border-slate-200/90 bg-white/95 hover:border-indigo-400 space-y-4 transition-all hover-lift shadow-2xs flex flex-col justify-between"
             >
-              <div className="flex items-center justify-between">
-                <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border ${alg.badgeColor}`}>
-                  {alg.category}
-                </span>
-                <span className="text-[11px] font-mono text-slate-500">{alg.complexity.split('•')[0]}</span>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ${alg.badgeColor}`}>
+                    {alg.category}
+                  </span>
+                  <span className="text-[11px] font-mono text-slate-400">{alg.complexity.split('•')[0]}</span>
+                </div>
+                <h3 className="font-bold text-base text-slate-900">{alg.name}</h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">{alg.highlight}</p>
               </div>
-              <h3 className="font-bold text-sm text-slate-900">{alg.name}</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">{alg.highlight}</p>
-              <button
-                onClick={() => onNavigate('lab')}
-                className="inline-flex items-center gap-1 text-[11px] font-semibold text-indigo-600 hover:text-indigo-700 pt-1"
-              >
-                <span>Launch in workspace</span>
-                <ArrowRight className="w-3 h-3" />
-              </button>
+
+              <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+                <span className="text-[11px] font-mono text-slate-400">100% Free Access</span>
+                <button
+                  onClick={() => onNavigate('lab')}
+                  className="inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 hover:text-indigo-800 transition-colors"
+                >
+                  <span>Launch in Lab</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Learning Objectives & Viva Readiness */}
+      {/* Free-To-Use Web Architecture Guarantee Banner */}
       <section className="max-w-6xl mx-auto px-4">
-        <div className="p-8 rounded-3xl bg-white/95 border border-slate-200 shadow-glass-card space-y-6">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600">
-              <ShieldCheck className="w-6 h-6" />
+        <div className="p-8 sm:p-10 rounded-[2.25rem] bg-[#FAF8F5] border border-[#EBE4D5] shadow-sm relative overflow-hidden">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div className="space-y-3 max-w-2xl">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EFF8F2] border border-[#DCF1E2] text-emerald-800 text-xs font-bold">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Zero Cost • Free Open-Access Web Tool</span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900">
+                Created for Students, Researchers, & Educators Everywhere
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                AI Search Lab will always be completely free to use. There are no logins, no API quotas, no watermarks locking exports, and no premium gates. Every maze generator, graph editor, benchmark runner, and LaTeX exporter is immediately available right in your browser.
+              </p>
             </div>
-            <div>
-              <h3 className="text-lg font-bold text-slate-900">Built for Artificial Intelligence Foundations</h3>
-              <p className="text-xs text-slate-600">Designed to exceed academic criteria and empower students during viva discussions.</p>
-            </div>
-          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-xs text-slate-700">
-            <div className="flex items-start gap-2.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-              <span><strong>Separation of Concerns:</strong> High-performance TypeScript & Node engine drives algorithms; React delivers high-frequency rendering.</span>
-            </div>
-            <div className="flex items-start gap-2.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-              <span><strong>No Fabricated Order:</strong> Playback faithfully follows true priority queue / stack pops from the search engine.</span>
-            </div>
-            <div className="flex items-start gap-2.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-              <span><strong>Admissibility & Consistency:</strong> Clear mathematical explanations for Manhattan vs Euclidean on diagonal movement.</span>
-            </div>
-            <div className="flex items-start gap-2.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-              <span><strong>Cost-Aware Terrain:</strong> Weighted mud swamps prove when BFS fails to find optimal path costs compared to UCS and A*.</span>
-            </div>
-            <div className="flex items-start gap-2.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-              <span><strong>Reproducible Benchmarks:</strong> Seeded automated experiments exportable to JSON and CSV for formal lab reports.</span>
-            </div>
-            <div className="flex items-start gap-2.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-              <span><strong>Interactive Viva Prep:</strong> Curated oral examination questions on completeness, time/space Big-O, and heuristic pruning.</span>
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                onClick={() => onNavigate('tutorial')}
+                className="px-5 py-3 rounded-2xl bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 font-semibold text-xs shadow-2xs transition-all hover-lift"
+              >
+                Start Free Tutorial
+              </button>
+              <button
+                onClick={() => onNavigate('lab')}
+                className="px-5 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs shadow-sm transition-all hover-lift"
+              >
+                Open Free Lab
+              </button>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Learning Objectives & Viva Readiness - De-clumped with Generous Padding */}
+      <section className="max-w-6xl mx-auto px-4">
+        <div className="p-8 sm:p-10 rounded-[2.25rem] bg-white/95 border border-slate-200/90 shadow-sm space-y-8">
+          <div className="flex items-center gap-3.5">
+            <div className="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-700">
+              <ShieldCheck className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-slate-900">Built for Artificial Intelligence Foundations</h3>
+              <p className="text-xs sm:text-sm text-slate-500">Designed to exceed university curriculum criteria and empower students during viva discussions.</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-xs sm:text-sm text-slate-700">
+            <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-[#EBE4D5] space-y-2">
+              <div className="flex items-center gap-2 text-emerald-700 font-bold">
+                <CheckCircle2 className="w-4 h-4 shrink-0" />
+                <span>Separation of Concerns</span>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                High-performance TypeScript & Node search engine drives algorithms; React delivers deterministic step telemetry.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-[#EBE4D5] space-y-2">
+              <div className="flex items-center gap-2 text-emerald-700 font-bold">
+                <CheckCircle2 className="w-4 h-4 shrink-0" />
+                <span>No Fabricated Order</span>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Playback faithfully follows true priority queue / stack pops from the real search engine.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-[#EBE4D5] space-y-2">
+              <div className="flex items-center gap-2 text-emerald-700 font-bold">
+                <CheckCircle2 className="w-4 h-4 shrink-0" />
+                <span>Admissibility & Consistency</span>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Clear mathematical explanations for Manhattan vs Euclidean under diagonal movement constraints.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-[#EBE4D5] space-y-2">
+              <div className="flex items-center gap-2 text-emerald-700 font-bold">
+                <CheckCircle2 className="w-4 h-4 shrink-0" />
+                <span>Cost-Aware Terrain</span>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Weighted mud swamps ($4.5\times$ cost multiplier) prove when BFS fails to find optimal costs compared to UCS and A*.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-[#EBE4D5] space-y-2">
+              <div className="flex items-center gap-2 text-emerald-700 font-bold">
+                <CheckCircle2 className="w-4 h-4 shrink-0" />
+                <span>Reproducible Benchmarks</span>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Seeded automated experiments exportable to JSON, CSV, and LaTeX for formal lab reports.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-[#EBE4D5] space-y-2">
+              <div className="flex items-center gap-2 text-emerald-700 font-bold">
+                <CheckCircle2 className="w-4 h-4 shrink-0" />
+                <span>Interactive Viva Prep</span>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Curated oral examination questions on completeness, time/space Big-O, and heuristic pruning.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 };

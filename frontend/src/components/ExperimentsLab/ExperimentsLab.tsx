@@ -249,21 +249,23 @@ export const ExperimentsLab: React.FC<ExperimentsLabProps> = ({ onLoadExperiment
   const minFrontier = (report?.results || []).length > 0 ? Math.min(...(report?.results || []).map((r) => r.max_frontier_size)) : null;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-8 py-2 animate-fade-in">
       {/* Header Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/80 pb-5 print:hidden">
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
-              Empirical Research Laboratory
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 border-b border-slate-200/80 pb-6 print:hidden">
+        <div className="space-y-1.5">
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#EFF8F2] text-emerald-800 border border-[#DCF1E2]">
+              100% Free Open Academic Web
             </span>
             <span className="text-xs text-slate-500 font-mono">Academic Benchmark Suite</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2.5">
-            <FlaskConical className="w-8 h-8 text-emerald-600 shrink-0" />
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 shadow-2xs">
+              <FlaskConical className="w-6 h-6 shrink-0" />
+            </div>
             <span>AI Search Experimental Research & Benchmarking Suite</span>
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-3xl leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-500 max-w-3xl leading-relaxed">
             Reproducible empirical benchmarks measuring computational complexity, memory scaling, heuristic dominance, and formal completeness proofs for university research submission.
           </p>
         </div>

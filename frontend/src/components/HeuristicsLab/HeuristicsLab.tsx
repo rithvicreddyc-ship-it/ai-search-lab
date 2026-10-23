@@ -71,20 +71,27 @@ export const HeuristicsLab: React.FC = () => {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-8 py-2 animate-fade-in">
       {/* Header */}
-      <div className="border-b border-slate-200/80 pb-4">
-        <h1 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
-          <Compass className="w-6 h-6 text-purple-600" />
+      <div className="border-b border-slate-200/80 pb-6 space-y-1.5">
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#EFF8F2] text-emerald-800 border border-[#DCF1E2]">
+            100% Free Open Academic Web
+          </span>
+        </div>
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-3">
+          <div className="w-10 h-10 rounded-2xl bg-purple-50 border border-purple-200 flex items-center justify-center text-purple-600 shadow-2xs">
+            <Compass className="w-5 h-5" />
+          </div>
           <span>Heuristics Laboratory & Admissibility Sandbox</span>
         </h1>
-        <p className="text-xs sm:text-sm text-slate-500 mt-1">
+        <p className="text-xs sm:text-sm text-slate-500 max-w-2xl leading-relaxed">
           Explore mathematical heuristic formulas, verify admissibility conditions, and observe how heuristic choice dictates A* pruning efficiency.
         </p>
       </div>
 
       {/* Interactive Coordinate Probe */}
-      <div className="p-5 sm:p-6 rounded-3xl bg-white/95 border border-slate-200/90 shadow-glass-card backdrop-blur-2xl space-y-4">
+      <div className="p-7 sm:p-8 rounded-[2rem] bg-white/95 border border-slate-200/90 shadow-sm space-y-5">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <span className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-indigo-600 animate-pulse" />

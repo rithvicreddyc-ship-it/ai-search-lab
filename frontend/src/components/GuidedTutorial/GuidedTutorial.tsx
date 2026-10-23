@@ -99,21 +99,23 @@ export const GuidedTutorial: React.FC<GuidedTutorialProps> = ({
   const progressPct = Math.round((completedLessons.size / TUTORIAL_LESSONS.length) * 100);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-8 py-2 animate-fade-in">
       {/* Header Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200/80 pb-5">
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
-              Interactive Academic Curriculum
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-slate-200/80 pb-6">
+        <div className="space-y-1.5">
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#EFF8F2] text-emerald-800 border border-[#DCF1E2]">
+              100% Free Open Academic Web
             </span>
             <span className="text-xs text-slate-500 font-mono">16 Comprehensive Modules</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2.5">
-            <GraduationCap className="w-8 h-8 text-indigo-600 shrink-0" />
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600 shadow-2xs">
+              <GraduationCap className="w-6 h-6 shrink-0" />
+            </div>
             <span>AI Search Foundations & Pedagogical Tutorial</span>
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-3xl leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-500 max-w-3xl leading-relaxed">
             University-level curriculum covering state-space formulation, blind strategies, heuristic admissibility proofs, local landscape pathologies, and formal viva defense questions.
           </p>
         </div>

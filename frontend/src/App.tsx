@@ -11,6 +11,8 @@ import { WaterBackground } from './components/WaterBackground';
 import { AlgorithmType, GraphState, GridState, LabLaunchConfig, ProblemType } from './types';
 import { exportToJson } from './utils/export';
 
+import { ArchitecturalFooter } from './components/ArchitecturalFooter';
+
 export const App: React.FC = () => {
   // Initialize to the Overview (Landing) page on start
   const getInitialTab = (): NavTab => {
@@ -165,19 +167,8 @@ export const App: React.FC = () => {
         )}
       </main>
 
-      {/* University Footer */}
-      <footer className="border-t border-slate-200/80 py-6 text-center text-xs text-slate-500 bg-white/70 backdrop-blur-md relative z-10 print:hidden">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-700">AI Search Lab</span>
-            <span>—</span>
-            <span>Artificial Intelligence Foundations • Search Algorithms</span>
-          </div>
-          <div className="text-[11px] font-mono text-slate-500">
-            React + TypeScript + Vite + Tailwind CSS | Node.js Engine
-          </div>
-        </div>
-      </footer>
+      {/* Architectural Modern Footer from User Design */}
+      <ArchitecturalFooter onNavigateToLab={() => handleTabChange('lab')} />
     </div>
   );
 };

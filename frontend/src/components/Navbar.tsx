@@ -75,6 +75,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                   <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
                     AI Foundations
                   </span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 hidden sm:inline-block">
+                    100% Free Web
+                  </span>
                 </div>
                 <p className="text-[11px] text-slate-500 font-mono">Interactive Algorithm Visualiser</p>
               </div>

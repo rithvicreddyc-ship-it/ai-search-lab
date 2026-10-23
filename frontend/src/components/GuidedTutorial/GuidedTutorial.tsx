@@ -46,6 +46,8 @@ export const GuidedTutorial: React.FC<GuidedTutorialProps> = ({
   const [completedLessons, setCompletedLessons] = useState<Set<number>>(new Set([1]));
   const [revealedAnswers, setRevealedAnswers] = useState<Record<string, boolean>>({});
   const [quizAnswers, setQuizAnswers] = useState<Record<number, number | null>>({});
+  const [vivaSearch, setVivaSearch] = useState<string>('');
+  const [expandAllViva, setExpandAllViva] = useState<boolean>(false);
 
   const modules: { id: string; label: string; count: number }[] = [
     { id: 'All', label: 'All Topics', count: TUTORIAL_LESSONS.length },
@@ -71,6 +73,18 @@ export const GuidedTutorial: React.FC<GuidedTutorialProps> = ({
 
   const currentLesson: TutorialLesson =
     TUTORIAL_LESSONS.find((l) => l.id === activeLessonId) || TUTORIAL_LESSONS[0];
+
+  const filteredVivaQuestions = useMemo(() => {
+    if (!currentLesson.vivaQuestions) return [];
+    if (!vivaSearch.trim()) return currentLesson.vivaQuestions;
+    const q = vivaSearch.toLowerCase();
+    return currentLesson.vivaQuestions.filter(
+      (item) =>
+        item.question.toLowerCase().includes(q) ||
+        item.answer.toLowerCase().includes(q) ||
+        (item.examinerTip && item.examinerTip.toLowerCase().includes(q))
+    );
+  }, [currentLesson, vivaSearch]);
 
   const currentIndex = TUTORIAL_LESSONS.findIndex((l) => l.id === currentLesson.id);
   const prevLesson = currentIndex > 0 ? TUTORIAL_LESSONS[currentIndex - 1] : null;
@@ -608,60 +622,124 @@ export const GuidedTutorial: React.FC<GuidedTutorialProps> = ({
         </div>
 
         {/* University Viva Voce Oral Defense Section */}
-        <div className="space-y-3 pt-2 border-t border-slate-200/80">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-amber-800 uppercase tracking-wider flex items-center gap-1.5">
-              <HelpCircle className="w-4 h-4 text-amber-600" />
-              <span>University Viva Voce Oral Exam Defense:</span>
-            </span>
-            <span className="text-[11px] text-slate-500">Click to reveal model answers</span>
+        <div className="space-y-4 pt-4 border-t border-slate-200/80">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+            <div className="flex items-center gap-2">
+              <span className="p-1.5 rounded-lg bg-amber-100 text-amber-700">
+                <HelpCircle className="w-4 h-4" />
+              </span>
+              <div>
+                <h4 className="text-xs sm:text-sm font-bold text-amber-950 uppercase tracking-wider flex items-center gap-2">
+                  <span>University Viva Voce Oral Defense Bank</span>
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-200/80 text-amber-900">
+                    {currentLesson.vivaQuestions.length} Questions
+                  </span>
+                </h4>
+                <p className="text-[11px] text-slate-500">
+                  Comprehensive examiner questions & model answers curated for oral laboratory exams.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  const willExpand = !expandAllViva;
+                  setExpandAllViva(willExpand);
+                  const updated: Record<string, boolean> = {};
+                  currentLesson.vivaQuestions.forEach((_, idx) => {
+                    updated[`${currentLesson.id}-${idx}`] = willExpand;
+                  });
+                  setRevealedAnswers(updated);
+                }}
+                className="px-2.5 py-1.5 rounded-xl text-[11px] font-mono font-semibold bg-amber-100/70 hover:bg-amber-200/70 text-amber-900 border border-amber-300/60 transition-all flex items-center gap-1"
+              >
+                {expandAllViva ? (
+                  <>
+                    <ChevronUp className="w-3.5 h-3.5 text-amber-800" />
+                    <span>Collapse All</span>
+                  </>
+                ) : (
+                  <>
+                    <ChevronDown className="w-3.5 h-3.5 text-amber-800" />
+                    <span>Expand All</span>
+                  </>
+                )}
+              </button>
+            </div>
           </div>
 
-          <div className="space-y-2.5">
-            {currentLesson.vivaQuestions.map((q, qIdx) => {
-              const key = `${currentLesson.id}-${qIdx}`;
-              const isRevealed = !!revealedAnswers[key];
+          {/* Quick Filter Search for Viva Questions */}
+          <div className="relative">
+            <Search className="w-3.5 h-3.5 text-amber-700/60 absolute left-3 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={vivaSearch}
+              onChange={(e) => setVivaSearch(e.target.value)}
+              placeholder="Search viva questions by keyword (e.g. admissibility, memory, RAM, optimal)..."
+              className="w-full pl-9 pr-4 py-2 rounded-xl text-xs bg-amber-50/40 border border-amber-200/80 text-amber-950 placeholder-amber-800/40 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all"
+            />
+          </div>
 
-              return (
-                <div
-                  key={qIdx}
-                  className="rounded-2xl border border-amber-200 bg-amber-50/50 overflow-hidden shadow-xs transition-colors"
-                >
-                  <button
-                    onClick={() => toggleAnswer(key)}
-                    className="w-full p-4 text-left flex items-start justify-between gap-3 text-xs sm:text-sm font-bold text-amber-950 hover:bg-amber-100/50 transition-colors"
+          {/* Scroll Container for Viva Questions ("Schrool Option") */}
+          <div className="space-y-2.5 max-h-[380px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-amber-300 scrollbar-track-amber-50">
+            {filteredVivaQuestions.length === 0 ? (
+              <div className="p-6 text-center text-xs text-amber-800/70 bg-amber-50/50 rounded-2xl border border-dashed border-amber-200">
+                No viva questions match "{vivaSearch}". Clear search to view all questions.
+              </div>
+            ) : (
+              filteredVivaQuestions.map((q, qIdx) => {
+                const key = `${currentLesson.id}-${qIdx}`;
+                const isRevealed = expandAllViva || !!revealedAnswers[key];
+
+                return (
+                  <div
+                    key={qIdx}
+                    className="rounded-2xl border border-amber-200 bg-amber-50/50 overflow-hidden shadow-xs transition-colors hover:border-amber-300"
                   >
-                    <span className="flex items-center gap-2">
-                      <span className="w-5 h-5 rounded-full bg-amber-200 text-amber-900 font-mono text-[10px] flex items-center justify-center shrink-0">
-                        Q{qIdx + 1}
-                      </span>
-                      <span>{q.question}</span>
-                    </span>
-                    {isRevealed ? (
-                      <ChevronUp className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
-                    ) : (
-                      <ChevronDown className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
-                    )}
-                  </button>
-
-                  {isRevealed && (
-                    <div className="px-4 pb-4 pt-1 border-t border-amber-200/60 text-xs text-slate-800 space-y-2 bg-white/60">
-                      <div className="leading-relaxed">
-                        <span className="font-bold text-emerald-800 block mb-1">Examiner Model Answer:</span>
-                        <p>{q.answer}</p>
-                      </div>
-                      <div className="p-2.5 rounded-xl bg-amber-100/70 text-amber-900 text-[11px] flex items-start gap-2">
-                        <ShieldCheck className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
-                        <span>
-                          <strong className="font-semibold">Faculty Exam Tip: </strong>
-                          {q.examinerTip}
+                    <button
+                      onClick={() => toggleAnswer(key)}
+                      className="w-full p-4 text-left flex items-start justify-between gap-3 text-xs sm:text-sm font-bold text-amber-950 hover:bg-amber-100/50 transition-colors"
+                    >
+                      <span className="flex items-center gap-2">
+                        <span className="w-5 h-5 rounded-full bg-amber-200 text-amber-900 font-mono text-[10px] flex items-center justify-center shrink-0">
+                          Q{qIdx + 1}
                         </span>
+                        <span>{q.question}</span>
+                      </span>
+                      {isRevealed ? (
+                        <ChevronUp className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
+                      ) : (
+                        <ChevronDown className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
+                      )}
+                    </button>
+
+                    {isRevealed && (
+                      <div className="px-4 pb-4 pt-1 border-t border-amber-200/60 text-xs text-slate-800 space-y-2 bg-white/60">
+                        <div className="leading-relaxed">
+                          <span className="font-bold text-emerald-800 block mb-1">Examiner Model Answer:</span>
+                          <p>{q.answer}</p>
+                        </div>
+                        <div className="p-2.5 rounded-xl bg-amber-100/70 text-amber-900 text-[11px] flex items-start gap-2">
+                          <ShieldCheck className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
+                          <span>
+                            <strong className="font-semibold">Faculty Exam Tip: </strong>
+                            {q.examinerTip}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+                    )}
+                  </div>
+                );
+              })
+            )}
+          </div>
+
+          {/* Scroll Indicator Footer */}
+          <div className="flex items-center justify-between text-[11px] font-mono text-amber-800/60 pt-2 border-t border-amber-200/60">
+            <span>✦ Scrollable Question Bank</span>
+            <span>{filteredVivaQuestions.length} Total Curated Questions</span>
           </div>
         </div>
 

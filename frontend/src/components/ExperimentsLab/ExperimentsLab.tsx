@@ -976,24 +976,30 @@ export const ExperimentsLab: React.FC<ExperimentsLabProps> = ({ onLoadExperiment
               </span>
               <span className="text-[11px] text-amber-700 font-mono font-semibold">Examiner Q&A Alignment</span>
             </div>
-            <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-slate-700 print:text-black">
-              {report.viva_takeaways.map((takeaway, idx) => (
-                <li
-                  key={idx}
-                  className="p-4 rounded-2xl bg-amber-50/60 border border-amber-200/90 flex items-start gap-2.5 print:bg-gray-50 print:border-gray-300 shadow-xs"
-                >
-                  <span className="w-5 h-5 rounded-full bg-amber-200 text-amber-900 font-bold font-mono text-[10px] flex items-center justify-center shrink-0 mt-0.5">
-                    {idx + 1}
-                  </span>
-                  <div className="space-y-1">
-                    <span className="font-bold text-amber-950 block text-[11px] uppercase tracking-wider font-mono">
-                      Viva Defense Point #{idx + 1}
+            <div className="max-h-[360px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-amber-300 scrollbar-track-amber-50">
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-slate-700 print:text-black">
+                {report.viva_takeaways.map((takeaway, idx) => (
+                  <li
+                    key={idx}
+                    className="p-4 rounded-2xl bg-amber-50/60 border border-amber-200/90 flex items-start gap-2.5 print:bg-gray-50 print:border-gray-300 shadow-xs"
+                  >
+                    <span className="w-5 h-5 rounded-full bg-amber-200 text-amber-900 font-bold font-mono text-[10px] flex items-center justify-center shrink-0 mt-0.5">
+                      {idx + 1}
                     </span>
-                    <span className="leading-relaxed text-slate-800 font-medium">{takeaway}</span>
-                  </div>
-                </li>
-              ))}
-            </ul>
+                    <div className="space-y-1">
+                      <span className="font-bold text-amber-950 block text-[11px] uppercase tracking-wider font-mono">
+                        Viva Defense Point #{idx + 1}
+                      </span>
+                      <span className="leading-relaxed text-slate-800 font-medium">{takeaway}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="flex items-center justify-between text-[11px] font-mono text-amber-800/60 pt-2 border-t border-amber-200/60">
+              <span>✦ Scrollable Defense Summary</span>
+              <span>{report.viva_takeaways.length} Key Takeaways</span>
+            </div>
           </div>
 
         </div>

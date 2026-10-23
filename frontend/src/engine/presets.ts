@@ -30,11 +30,23 @@ export const ALGORITHM_METADATA: AlgorithmMetadata[] = [
     viva_questions: [
       {
         question: 'Under what condition is BFS guaranteed to find an optimal solution?',
-        answer: 'BFS is optimal when all step transition costs are identical (unit-cost actions). On graphs with varied edge weights or mud terrain, BFS may select a path with fewer transitions but higher cumulative cost.',
+        answer: 'BFS is optimal when all step transition costs are identical (unit-cost actions, c(n, a, n\') = c). On graphs with varied edge weights or mud terrain, BFS may select a path with fewer transitions but higher cumulative cost.',
       },
       {
         question: 'Why does BFS suffer from memory exhaustion before time exhaustion?',
         answer: 'BFS stores every generated node in memory across full frontier levels. Space complexity is O(b^d), requiring exponential memory that rapidly outstrips RAM on standard hardware.',
+      },
+      {
+        question: 'Why is the goal test applied upon node generation in BFS rather than upon node expansion?',
+        answer: 'Because in unit-cost problems, the shallowest path to the goal is known the moment a goal node is generated. Testing upon generation prunes expanding an entire additional branching level (b^d nodes), saving massive time and space.',
+      },
+      {
+        question: 'How does BFS handle infinite or cyclic graphs?',
+        answer: 'With a closed list (reached/explored set), BFS detects and prunes duplicate states, making it complete on all finite state spaces. Without cycle detection (Tree Search), it can loop indefinitely.',
+      },
+      {
+        question: 'What is the formal time and space complexity derivation for BFS?',
+        answer: 'Total nodes generated is 1 + b + b^2 + ... + b^d = O(b^d). Because all leaf nodes of the search tree must be retained in the FIFO queue simultaneously, space complexity is also O(b^d).',
       },
     ],
   },
@@ -65,8 +77,24 @@ export const ALGORITHM_METADATA: AlgorithmMetadata[] = [
     description: 'Explores deepest unexpanded nodes first using a LIFO stack. Highly memory-efficient O(b*m), but non-optimal.',
     viva_questions: [
       {
-        question: 'Why is standard DFS not optimal?',
-        answer: 'DFS commits deeply to the first available branch and returns the very first path it encounters that terminates at the goal, regardless of length or cost.',
+        question: 'Why is standard DFS not optimal even on unweighted unit-cost graphs?',
+        answer: 'DFS commits deeply to the first available branch and returns the very first path it encounters that terminates at the goal, regardless of path depth or transition count.',
+      },
+      {
+        question: 'What is the spatial memory requirement of DFS, and why does it scale as O(b * m)?',
+        answer: 'DFS only retains the single path from the root to the current leaf node, plus unexpanded siblings at each depth level. For branching factor b and max depth m, memory is b * m, which is strictly linear.',
+      },
+      {
+        question: 'Under what conditions can DFS fail to be complete?',
+        answer: 'DFS can enter infinite loops on graphs containing directed cycles (if visited states are not tracked) or in state spaces with infinite depth branches, preventing it from ever exploring alternative branches.',
+      },
+      {
+        question: 'What is the difference between Depth-First Search and Backtracking Search?',
+        answer: 'Standard DFS generates all b children of a node and pushes them to a stack; Backtracking generates only one successor at a time and modifies state in-place, reducing memory to O(m).',
+      },
+      {
+        question: 'Why is DFS frequently used in game tree search and constraint satisfaction problems (CSP)?',
+        answer: 'Because its linear memory footprint permits deep exploration without memory exhaustion, and deep solutions can be checked rapidly with branch-and-bound pruning (e.g., Alpha-Beta).',
       },
     ],
   },
@@ -104,6 +132,22 @@ export const ALGORITHM_METADATA: AlgorithmMetadata[] = [
         question: 'Why must UCS test for the goal state upon POPPING from the priority queue, rather than upon generation?',
         answer: 'A goal node could be generated along an expensive route first. Waiting until it is popped with the minimum g(n) guarantees all cheaper candidate paths have been exhausted.',
       },
+      {
+        question: 'What condition is required on transition costs for UCS to guarantee optimality and completeness?',
+        answer: 'Every action step cost must be strictly bounded away from zero: c(n, a, n\') >= eps > 0. If zero or negative cost cycles exist, UCS can enter infinite loops accumulating non-positive cycles.',
+      },
+      {
+        question: 'Explain the complexity O(b^(1 + floor(C* / eps))): what do C* and eps represent?',
+        answer: 'C* is the optimal path cost to the goal, and eps is the strictly positive lower bound on any step cost. The search explores all nodes with g(n) <= C*, creating an effective depth of floor(C* / eps).',
+      },
+      {
+        question: 'How does UCS relate to Dijkstra\'s algorithm and Breadth-First Search?',
+        answer: 'UCS is Dijkstra\'s algorithm applied to goal-directed search on graphs. When all step costs are equal (eps = 1), UCS behaves identically to BFS with FIFO ordering.',
+      },
+      {
+        question: 'How does UCS handle nodes that are rediscovered with a lower cumulative path cost?',
+        answer: 'If a newly found path to a frontier node has a smaller g(n), UCS decreases the node\'s key in the priority queue (relaxation).',
+      },
     ],
   },
   {
@@ -133,8 +177,24 @@ export const ALGORITHM_METADATA: AlgorithmMetadata[] = [
     description: 'Directs exploration purely using heuristic estimate h(n) towards the goal. Very rapid, but susceptible to obstacles.',
     viva_questions: [
       {
-        question: 'Why can Greedy Best-First be lured into dead ends?',
+        question: 'Why can Greedy Best-First Search be lured into dead ends and concave traps?',
         answer: 'Greedy evaluates f(n) = h(n), ignoring the accumulated cost g(n). If moving toward an obstacle appears to decrease straight-line distance, Greedy aggressively pushes into dead ends.',
+      },
+      {
+        question: 'Is Greedy Best-First Search complete, and under what conditions does it loop infinitely?',
+        answer: 'It is incomplete in infinite state spaces or without duplicate state detection (Tree Search). With a closed set on finite graphs, it is complete because it visits each state at most once.',
+      },
+      {
+        question: 'What is the worst-case time and space complexity of Greedy Best-First Search?',
+        answer: 'Worst-case time and space are both O(b^m), where m is maximum search depth, as an inaccurate or misleading heuristic can guide the search down a futile infinite branch.',
+      },
+      {
+        question: 'If the heuristic function h(n) is perfect (h(n) = h*(n)), how does Greedy Best-First behave?',
+        answer: 'It advances directly along the optimal path to the goal without any false expansions, executing in linear time O(d).',
+      },
+      {
+        question: 'Can Greedy Best-First find an optimal solution by chance, and can you verify its optimality at runtime?',
+        answer: 'It may discover an optimal path coincidentally, but it cannot verify or guarantee optimality because it never considers the cumulative path cost g(n).',
       },
     ],
   },
@@ -167,8 +227,28 @@ export const ALGORITHM_METADATA: AlgorithmMetadata[] = [
     description: 'Evaluates f(n) = g(n) + h(n), balancing path cost so far with heuristic estimate to the goal. Gold standard for optimal pathfinding.',
     viva_questions: [
       {
-        question: 'What is the mathematical definition of heuristic consistency (monotonicity)?',
-        answer: 'A heuristic h(n) is consistent if for every node n and successor n\' generated by action a, h(n) <= c(n, a, n\') + h(n\'). This guarantees f(n) is non-decreasing along any path.',
+        question: 'What is the mathematical definition of heuristic admissibility (h(n) <= h*(n))?',
+        answer: 'A heuristic h(n) is admissible if it never overestimates the true cost to reach the goal state from node n: 0 <= h(n) <= h*(n) for all n, and h(goal) = 0.',
+      },
+      {
+        question: 'What is heuristic consistency (monotonicity), and how does it relate to the triangle inequality?',
+        answer: 'A heuristic is consistent if for every node n and successor n\' generated by action a: h(n) <= c(n, a, n\') + h(n\'). This is the triangle inequality: the estimated cost to goal from n cannot exceed the step cost to n\' plus the estimated cost from n\'.',
+      },
+      {
+        question: 'Why does a consistent heuristic guarantee that nodes are expanded in non-decreasing order of f(n)?',
+        answer: 'Consistency ensures that f(n\') = g(n\') + h(n\') = g(n) + c(n, a, n\') + h(n\') >= g(n) + h(n) = f(n). Therefore, f-values never decrease along any path, ensuring optimal first expansion.',
+      },
+      {
+        question: 'In Graph Search, why does consistency eliminate the need to reopen closed/explored nodes?',
+        answer: 'When a node is selected from the priority queue and placed in the closed list, consistency mathematically guarantees that its current g(n) is strictly optimal. No future path can reach it cheaper.',
+      },
+      {
+        question: 'Explain "Heuristic Dominance": if h2(n) >= h1(n) for all n, why is h2 strictly superior?',
+        answer: 'Both heuristics being admissible, h2 is closer to h*(n). Any node expanded by A* with h2 must also be expanded by h1, meaning h2 prunes more state space and expands fewer or equal nodes.',
+      },
+      {
+        question: 'Why is Manhattan distance inadmissible for 8-directional movement with diagonal cost sqrt(2) approx 1.414?',
+        answer: 'Manhattan distance assumes motion is restricted to 4 orthogonal directions. On an 8-dir grid, moving diagonally covers delta x = 1, delta y = 1 in cost sqrt(2) approx 1.414, but Manhattan calculates 1 + 1 = 2, overestimating the true cost.',
       },
     ],
   },
@@ -194,8 +274,24 @@ export const ALGORITHM_METADATA: AlgorithmMetadata[] = [
     description: 'Combines the optimality and heuristic pruning of A* with the linear memory O(d) of depth-first search using iterative f-cost cutoffs.',
     viva_questions: [
       {
-        question: 'What problem does IDA* solve that limits A*?',
-        answer: 'A* requires exponential memory to keep all generated nodes in open and closed lists. IDA* uses linear memory O(d), fitting in memory even on huge state spaces.',
+        question: 'What fundamental problem of standard A* does IDA* solve?',
+        answer: 'Standard A* requires exponential memory O(b^d) to maintain all generated nodes in open and closed lists. IDA* uses linear memory O(d), running bounded depth-first iterations that never exhaust RAM.',
+      },
+      {
+        question: 'How is the iterative cutoff threshold updated between successive IDA* iterations?',
+        answer: 'The initial threshold is f0 = h(start). If an iteration fails to find the goal, the new threshold is set to the minimum f-value among all nodes that exceeded the previous cutoff limit.',
+      },
+      {
+        question: 'Why is IDA* complete and optimal when using an admissible heuristic?',
+        answer: 'Each iteration explores all paths with f(n) <= threshold. Since thresholds strictly increase to the next lowest exceeded f-cost, the first solution discovered must have the minimal optimal cost C*.',
+      },
+      {
+        question: 'In what problem spaces does IDA* perform poorly due to too many iterations?',
+        answer: 'On continuous or real-valued edge cost graphs where almost every node has a distinct f-cost, each iteration may expand only one or very few new nodes, resulting in O(N^2) node regenerations.',
+      },
+      {
+        question: 'How does node regeneration overhead in IDA* compare to exponential memory savings?',
+        answer: 'On problems with geometric branching factor b >= 2, the final iteration dominates total expansions (b / (b - 1) ratio), so regeneration overhead is typically only a small constant factor (~2-3x) while memory drops from gigabytes to kilobytes.',
       },
     ],
   },
@@ -220,8 +316,24 @@ export const ALGORITHM_METADATA: AlgorithmMetadata[] = [
     description: 'Iteratively moves to neighboring state with best heuristic score. Zero memory footprint, but vulnerable to local minima, ridges, and plateaus.',
     viva_questions: [
       {
-        question: 'What is a plateau in hill climbing and how is it addressed?',
-        answer: 'A plateau is a flat region where all neighbors have the same heuristic score. It is addressed by permitting a configured number of consecutive sideways moves or random restarts.',
+        question: 'What is a plateau in hill climbing, and how do sideways moves mitigate it?',
+        answer: 'A plateau is a flat region where all neighboring states have the exact same heuristic value. Allowing a bounded number of consecutive sideways moves lets the algorithm traverse the flat expanse to find an exit.',
+      },
+      {
+        question: 'What are local extrema (local minima / maxima) and why does greedy steepest descent get stuck in them?',
+        answer: 'A local optimum is a state that is better than all its immediate neighbors but worse than the global optimum. Because standard hill climbing only considers immediate neighbors, it terminates as soon as no neighbor improves.',
+      },
+      {
+        question: 'How do Random-Restart Hill Climbing and Simulated Annealing overcome local optima?',
+        answer: 'Random-Restart runs multiple independent hill climbs from uniformly randomized initial states. Simulated Annealing allows occasional downhill (suboptimal) moves with probability e^(delta E / T), where temperature T gradually cools.',
+      },
+      {
+        question: 'What is the spatial memory footprint of Hill Climbing, and why is it O(1) constant?',
+        answer: 'Hill Climbing retains only the current state (and optionally the best neighbor candidate during evaluation). It does not maintain a search tree or visited list, consuming constant O(1) memory.',
+      },
+      {
+        question: 'What is a "ridge" in an optimization landscape, and why is it notoriously difficult for Hill Climbing?',
+        answer: 'A ridge is a sequence of local peaks where the slope gently rises toward the goal, but the direction of steepest ascent runs perpendicular to the ridge. Standard orthogonal step hill climbing oscillates back and forth across the ridge without making progress.',
       },
     ],
   },

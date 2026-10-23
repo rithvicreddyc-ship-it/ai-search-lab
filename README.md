@@ -38,8 +38,13 @@ Students and educators can construct custom grid mazes with non-uniform weighted
   - Mathematical explanations of admissibility ($h(n) \le h^*(n)$) and consistency ($h(n) \le c(n, a, n') + h(n')$).
   - Demonstrates why Manhattan distance violates admissibility under 8-directional movement.
 - **Guided Tutorial & Viva Preparation**:
-  - 6 interactive lessons covering state space models, uninformed vs informed search, heuristic pruning, and local search traps.
-  - Curated oral examination questions with model answers.
+  - 16 university-level curriculum lessons covering formal problem formulation, blind strategies, heuristic admissibility proofs, local landscape pathologies, mathematical invariant derivations, and viva defense strategies.
+  - Interactive knowledge-check quizzes with immediate feedback and model viva defense answers.
+- **Empirical Research & Benchmarking Laboratory**:
+  - 8 standardized academic benchmark suites (Obstacle density, Weighted mud swamps, Heuristic dominance, RAM memory scaling, Concave U-traps, Romania road map, Disconnected completeness, 8-way diagonal connectivity).
+  - Point-by-point empirical dissections, academic metric glossary ($b^*$, Search Penetrance, Frontier RAM Ratio, Suboptimality $\Delta\%$), and one-click export to CSV, JSON, and LaTeX paper tables.
+- **Kinetic Motion Watermark & Responsive Light Aesthetic**:
+  - Continuous animated typography streams, fluid ambient SVG wave caustics, and an interactive watermark intensity switcher (Bold, Vivid, Subtle, Off).
 
 ---
 
@@ -47,7 +52,7 @@ Students and educators can construct custom grid mazes with non-uniform weighted
 
 ```mermaid
 graph TD
-    subgraph App ["AI Search Lab — Full-Stack Node.js & TypeScript Architecture"]
+    subgraph App ["AI Search Lab — High-Speed Client & Node.js Architecture"]
         UI[User Interface & Navbar]
         SL[Search Lab Workspace]
         GE[Grid & Graph Interactive Editors]
@@ -55,8 +60,9 @@ graph TD
         NI[Node Inspector & Event Log]
         CL[Compare Lab & Recharts]
         HL[Heuristics Sandbox]
-        GT[Guided Tutorial Lessons]
-        EL[Experiments Runner]
+        GT[16 Guided Tutorial Modules]
+        EL[Empirical Research Laboratory]
+        WB[Kinetic Motion Watermark Engine]
         
         subgraph Engine ["engine/ (TypeScript AI Search Core)"]
             BFS[Breadth-First Search]
@@ -66,10 +72,10 @@ graph TD
             AStar[A* Search]
             IDAStar[Iterative Deepening A*]
             HC[Hill Climbing]
-            Heuristics[Heuristic Library]
+            Heuristics[Heuristic Distance Library]
             Gen[Maze Generator]
             Presets[Benchmark Presets]
-            Runner[Benchmark Runner]
+            Runner[Benchmark & Comparison Runner]
         end
 
         UI --> SL
@@ -77,6 +83,7 @@ graph TD
         UI --> HL
         UI --> GT
         UI --> EL
+        UI --> WB
         SL --> GE
         SL --> PB
         SL --> NI
@@ -90,14 +97,14 @@ graph TD
 
 ```mermaid
 flowchart TD
-    A([User Configures Problem & Selects Algorithm]) --> B[Frontend Sends POST /api/search]
-    B --> C{Pydantic Validation}
-    C -->|Invalid Config| D[Return HTTP 422 with Validation Errors]
+    A([User Configures Problem & Selects Algorithm]) --> B[Client Engine / Node.js Server]
+    B --> C{Parameter Validation}
+    C -->|Invalid Config| D[Return Validation Errors & Safe Diagnostics]
     C -->|Valid Config| E[Instantiate SearchEnvironment: Grid or Graph]
-    E --> F[Initialize Frontier & Explored Set]
+    E --> F[Initialize Frontier Min-Heap & Explored Set]
     F --> G{Frontier Empty?}
     G -->|Yes| H[Search Failed: Emit 'search_failed' Event]
-    G -->|No| I[Pop Node n with Highest Priority]
+    G -->|No| I[Pop Node n with Lowest Evaluation Function f]
     I --> J{Is n Goal State?}
     J -->|Yes| K[Backtrack Parent Pointers to Reconstruct Optimal Path]
     K --> L[Emit 'path_found' Event & Compute Metrics]
@@ -132,18 +139,17 @@ flowchart TD
 ## 5. Technology Stack
 
 - **Frontend**:
-  - React 18 with TypeScript
-  - Vite 5 build tool & development server
-  - Tailwind CSS 3 for responsive dark-mode styling
+  - React 18 with TypeScript 5.4+
+  - Vite 5 build tool & lightning-fast development server
+  - Tailwind CSS 3 for responsive, modern light aesthetic
   - Lucide React icon set
   - Recharts for comparative performance data visualizations
-- **Backend**:
-  - Python 3.13 / 3.11+
-  - FastAPI with high-performance Starlette ASGI
-  - Uvicorn server
-  - Pydantic v2 for strict request and response schema validation
-  - Standard library data structures (`heapq`, `collections.deque`)
-  - Pytest test runner with HTTPX integration
+- **Backend & Core Engine**:
+  - Pure Node.js & TypeScript architecture (zero Python dependencies)
+  - Native Node.js HTTP server (`server.js`) with static asset and API health endpoints
+  - Deterministic in-memory priority queue heaps and search environments
+  - Automated exports: CSV, portable JSON, and publication-ready LaTeX tables
+
 
 ---
 

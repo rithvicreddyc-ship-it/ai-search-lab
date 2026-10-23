@@ -8,6 +8,7 @@ import { HeuristicsLab } from './components/HeuristicsLab/HeuristicsLab';
 import { GuidedTutorial } from './components/GuidedTutorial/GuidedTutorial';
 import { ExperimentsLab } from './components/ExperimentsLab/ExperimentsLab';
 import { WaterBackground } from './components/WaterBackground';
+import { SmartCursor } from './components/SmartCursor';
 import { AlgorithmType, GraphState, GridState, LabLaunchConfig, ProblemType } from './types';
 import { exportToJson } from './utils/export';
 
@@ -104,6 +105,9 @@ export const App: React.FC = () => {
     <div className="min-h-screen bg-lab-bg text-slate-800 flex flex-col font-sans selection:bg-indigo-600 selection:text-white relative overflow-x-hidden">
       {/* Animated Moving Watermark & Water Waves Background */}
       <WaterBackground />
+
+      {/* Smart Cursor with Particle Trail & Click Shockwave Effects */}
+      <SmartCursor />
 
       {/* Hidden file input for importing configurations */}
       <input

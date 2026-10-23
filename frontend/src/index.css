@@ -327,5 +327,20 @@
   animation: floatBadgeD 7s ease-in-out 1.8s infinite;
 }
 
+/* Smart Custom Cursor Behavior for Fine Pointing Devices */
+@media (pointer: fine) {
+  body.smart-cursor-active,
+  body.smart-cursor-active a,
+  body.smart-cursor-active button,
+  body.smart-cursor-active input,
+  body.smart-cursor-active select,
+  body.smart-cursor-active textarea,
+  body.smart-cursor-active [role="button"],
+  body.smart-cursor-active [role="tab"] {
+    cursor: none !important;
+  }
+}
+
+
 
 

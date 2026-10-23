@@ -223,28 +223,26 @@ export const ArchitecturalModal: React.FC<ArchitecturalModalProps> = ({
                 </p>
                 <div className="flex flex-wrap gap-2 pt-2">
                   <a
-                    href="https://instagram.com"
+                    href="https://www.linkedin.com/in/rithvic-reddy/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-3 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:text-slate-900 flex items-center gap-1 shadow-2xs"
+                    className="px-3 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-semibold text-[#0A66C2] hover:text-[#004182] flex items-center gap-1 shadow-2xs"
                   >
-                    <span>Instagram Community ↗</span>
+                    <span>Rithvic Reddy on LinkedIn ↗</span>
                   </a>
                   <a
-                    href="https://linkedin.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href="mailto:rithvicreddyc@gmail.com"
                     className="px-3 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:text-slate-900 flex items-center gap-1 shadow-2xs"
                   >
-                    <span>LinkedIn Network ↗</span>
+                    <span>Email (rithvicreddyc@gmail.com) ↗</span>
                   </a>
                   <a
-                    href="https://github.com"
+                    href="https://github.com/rithvicreddyc-ship-it/ai-search-lab"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-3 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:text-slate-900 flex items-center gap-1 shadow-2xs"
                   >
-                    <span>GitHub Organization ↗</span>
+                    <span>GitHub Repository ↗</span>
                   </a>
                 </div>
               </div>

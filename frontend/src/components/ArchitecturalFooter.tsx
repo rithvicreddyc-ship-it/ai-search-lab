@@ -55,7 +55,7 @@ export const ArchitecturalFooter: React.FC<ArchitecturalFooterProps> = ({
                   AI Search Lab
                 </h3>
                 <p className="text-xs text-slate-500 font-medium">
-                  Artificial Intelligence Foundations • Search Algorithms
+                  Artificial Intelligence Foundations • Developed by Rithvic Reddy
                 </p>
                 <div className="pt-2 text-[11px] font-mono text-slate-400">
                   © 2026 AI Search Lab • 100% Free Open Educational Tool
@@ -122,8 +122,28 @@ export const ArchitecturalFooter: React.FC<ArchitecturalFooterProps> = ({
               </div>
 
               {/* Find us around the web + Social Pill Buttons with Arrow */}
-              <div className="flex flex-wrap items-center gap-3 text-xs pt-1">
-                <span className="text-slate-500 font-medium">Resources & Repository</span>
+              <div className="flex flex-wrap items-center gap-2.5 text-xs pt-1">
+                <span className="text-slate-500 font-medium">Connect & Repository</span>
+
+                {/* LinkedIn ↗ */}
+                <a
+                  href="https://www.linkedin.com/in/rithvic-reddy/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3.5 py-1 rounded-full bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border border-slate-200/90 font-medium text-xs shadow-2xs transition-all hover-lift flex items-center gap-1 active:scale-95"
+                >
+                  <span>LinkedIn</span>
+                  <span className="text-slate-400 font-mono text-[10px]">↗</span>
+                </a>
+
+                {/* Email ↗ */}
+                <a
+                  href="mailto:rithvicreddyc@gmail.com"
+                  className="px-3.5 py-1 rounded-full bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border border-slate-200/90 font-medium text-xs shadow-2xs transition-all hover-lift flex items-center gap-1 active:scale-95"
+                >
+                  <span>Email</span>
+                  <span className="text-slate-400 font-mono text-[10px]">↗</span>
+                </a>
 
                 {/* GitHub ↗ */}
                 <a
@@ -132,7 +152,7 @@ export const ArchitecturalFooter: React.FC<ArchitecturalFooterProps> = ({
                   rel="noopener noreferrer"
                   className="px-3.5 py-1 rounded-full bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border border-slate-200/90 font-medium text-xs shadow-2xs transition-all hover-lift flex items-center gap-1 active:scale-95"
                 >
-                  <span>GitHub Repository</span>
+                  <span>GitHub</span>
                   <span className="text-slate-400 font-mono text-[10px]">↗</span>
                 </a>
 
@@ -142,17 +162,7 @@ export const ArchitecturalFooter: React.FC<ArchitecturalFooterProps> = ({
                   onClick={() => setActiveModal('projects')}
                   className="px-3.5 py-1 rounded-full bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border border-slate-200/90 font-medium text-xs shadow-2xs transition-all hover-lift flex items-center gap-1 active:scale-95"
                 >
-                  <span>Benchmarks & Docs</span>
-                  <span className="text-slate-400 font-mono text-[10px]">↗</span>
-                </button>
-
-                {/* Free Viva Guide */}
-                <button
-                  type="button"
-                  onClick={() => setActiveModal('perks')}
-                  className="px-3.5 py-1 rounded-full bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border border-slate-200/90 font-medium text-xs shadow-2xs transition-all hover-lift flex items-center gap-1 active:scale-95"
-                >
-                  <span>Free Viva Deck</span>
+                  <span>Docs</span>
                   <span className="text-slate-400 font-mono text-[10px]">↗</span>
                 </button>
               </div>

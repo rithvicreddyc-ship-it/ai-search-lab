@@ -29,6 +29,7 @@ import { NavTab } from './Navbar';
 import { AlgorithmType } from '../types';
 import { runSearch } from '../api/client';
 import { ArchitecturalStatusDashboard } from './ArchitecturalStatusDashboard';
+import { HeroSearchGraphCanvas } from './HeroSearchGraphCanvas';
 
 interface LandingPageProps {
   onNavigate: (tab: NavTab) => void;
@@ -43,10 +44,18 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
   const [demoPath, setDemoPath] = useState<any[]>([]);
   const [demoStats, setDemoStats] = useState<{ cost: number; expanded: number } | null>(null);
 
+  // Auto-Cycle Demo State
+  const [autoCycle, setAutoCycle] = useState<boolean>(true);
+  const [nextCycleCountdown, setNextCycleCountdown] = useState<number | null>(null);
+  const autoCycleRef = useRef<boolean>(true);
+  const countdownTimerRef = useRef<number | null>(null);
+  const cycleTimeoutRef = useRef<number | null>(null);
+
   // Algorithm category filter for clean, uncluttered browsing
   const [selectedCategory, setSelectedCategory] = useState<'all' | 'Uninformed' | 'Informed' | 'Local Search'>('all');
 
   const demoTimerRef = useRef<number | null>(null);
+  const cycleAlgs: AlgorithmType[] = ['astar', 'bfs', 'greedy', 'dfs'];
 
   const demoMaze = {
     rows: 9,
@@ -68,7 +77,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
     setIsDemoRunning(true);
     setDemoStep(0);
     setDemoStats(null);
+    setNextCycleCountdown(null);
     if (demoTimerRef.current) clearInterval(demoTimerRef.current);
+    if (countdownTimerRef.current) clearInterval(countdownTimerRef.current);
+    if (cycleTimeoutRef.current) clearTimeout(cycleTimeoutRef.current);
 
     try {
       const res = await runSearch({
@@ -99,12 +111,41 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
         if (step >= res.events.length) {
           if (demoTimerRef.current) clearInterval(demoTimerRef.current);
           setIsDemoRunning(false);
+
+          // If autoCycle is enabled, schedule next algorithm after a brief inspection pause
+          if (autoCycleRef.current) {
+            setNextCycleCountdown(3);
+            let rem = 3;
+            countdownTimerRef.current = window.setInterval(() => {
+              rem -= 1;
+              if (rem <= 0) {
+                if (countdownTimerRef.current) clearInterval(countdownTimerRef.current);
+                setNextCycleCountdown(null);
+                setDemoAlg((prevAlg) => {
+                  const nextIdx = (cycleAlgs.indexOf(prevAlg) + 1) % cycleAlgs.length;
+                  const nextAlg = cycleAlgs[nextIdx];
+                  runHeroDemo(nextAlg);
+                  return nextAlg;
+                });
+              } else {
+                setNextCycleCountdown(rem);
+              }
+            }, 750);
+          }
         }
       }, 35);
     } catch (e) {
       setIsDemoRunning(false);
     }
   };
+
+  useEffect(() => {
+    autoCycleRef.current = autoCycle;
+    if (!autoCycle) {
+      if (countdownTimerRef.current) clearInterval(countdownTimerRef.current);
+      setNextCycleCountdown(null);
+    }
+  }, [autoCycle]);
 
   useEffect(() => {
     // Auto-run A* on mount after 400ms
@@ -114,6 +155,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
     return () => {
       clearTimeout(t);
       if (demoTimerRef.current) clearInterval(demoTimerRef.current);
+      if (countdownTimerRef.current) clearInterval(countdownTimerRef.current);
+      if (cycleTimeoutRef.current) clearTimeout(cycleTimeoutRef.current);
     };
   }, []);
 
@@ -209,16 +252,62 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
   return (
     <div className="space-y-24 pb-16">
       
-      {/* Hero Section with Generous Whitespace & Airy Rhythm */}
+      {/* Hero Section with Generous Whitespace, Graph Canvas & Airy Rhythm */}
       <section className="relative pt-10 pb-6 overflow-hidden">
+        {/* Interactive AI Search Graph Mesh Canvas Background */}
+        <HeroSearchGraphCanvas />
+
         {/* Soft Ambient Radial Glows */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[450px] bg-gradient-to-tr from-indigo-200/30 via-sky-200/25 to-amber-100/25 blur-[140px] pointer-events-none" />
+
+        {/* Floating Academic Theoretical Badges in Hero Margins */}
+        <div className="hidden lg:block pointer-events-none select-none">
+          {/* Top-Left: A* Optimality */}
+          <div className="absolute top-10 left-6 xl:left-14 animate-float-badge-1 z-20">
+            <div className="flex items-center gap-2.5 px-3.5 py-2 rounded-2xl bg-white/90 border border-indigo-200 shadow-md shadow-indigo-500/10 backdrop-blur-md">
+              <span className="w-2.5 h-2.5 rounded-full bg-indigo-500 animate-pulse" />
+              <span className="text-[11px] font-mono font-bold text-indigo-950">
+                f(n) = g(n) + h(n) • A* Search
+              </span>
+            </div>
+          </div>
+
+          {/* Top-Right: Consistency Proof */}
+          <div className="absolute top-12 right-6 xl:right-14 animate-float-badge-2 z-20">
+            <div className="flex items-center gap-2.5 px-3.5 py-2 rounded-2xl bg-white/90 border border-emerald-200 shadow-md shadow-emerald-500/10 backdrop-blur-md">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
+              <span className="text-[11px] font-mono font-bold text-emerald-950">
+                h(n) ≤ c(n,a,n') + h(n') • Consistency
+              </span>
+            </div>
+          </div>
+
+          {/* Mid-Left: Linear Memory IDA* */}
+          <div className="absolute top-64 left-4 xl:left-12 animate-float-badge-3 z-20">
+            <div className="flex items-center gap-2.5 px-3.5 py-2 rounded-2xl bg-white/90 border border-purple-200 shadow-md shadow-purple-500/10 backdrop-blur-md">
+              <span className="w-2.5 h-2.5 rounded-full bg-purple-500" />
+              <span className="text-[11px] font-mono font-bold text-purple-950">
+                O(b·d) Linear Memory • IDA* Engine
+              </span>
+            </div>
+          </div>
+
+          {/* Mid-Right: Pure Client-Side TS */}
+          <div className="absolute top-68 right-4 xl:right-12 animate-float-badge-4 z-20">
+            <div className="flex items-center gap-2.5 px-3.5 py-2 rounded-2xl bg-white/90 border border-amber-200 shadow-md shadow-amber-500/10 backdrop-blur-md">
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse" />
+              <span className="text-[11px] font-mono font-bold text-amber-950">
+                Zero API Latency • 100% Free Engine
+              </span>
+            </div>
+          </div>
+        </div>
 
         <div className="max-w-5xl mx-auto px-4 text-center relative z-10 space-y-8 animate-fade-in-up">
           
           {/* Top Pill Badges with Pastel Aesthetic & Free-To-Use Banner */}
           <div className="flex flex-wrap items-center justify-center gap-2.5">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FAF8F5] border border-[#E8E2D5] text-slate-700 text-xs font-semibold shadow-2xs">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FAF8F5]/90 border border-[#E8E2D5] text-slate-700 text-xs font-semibold shadow-2xs backdrop-blur-sm">
               <Sparkles className="w-3.5 h-3.5 text-indigo-600 animate-pulse" />
               <span>Artificial Intelligence Foundations</span>
               <span className="text-slate-300">•</span>
@@ -226,17 +315,17 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             </div>
 
             {/* 100% Free Web Badge */}
-            <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#EFF8F2] border border-[#DCF1E2] text-emerald-800 text-xs font-bold shadow-2xs">
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#EFF8F2]/90 border border-[#DCF1E2] text-emerald-800 text-xs font-bold shadow-2xs backdrop-blur-sm">
               <Gift className="w-3.5 h-3.5 text-emerald-600" />
               <span>100% Free to Use Web Platform</span>
             </div>
           </div>
 
-          {/* Main Headline with Relaxed Leading */}
+          {/* Main Headline with Relaxed Leading & Shimmering Gradient */}
           <div className="space-y-4 max-w-4xl mx-auto">
             <h1 className="text-4xl sm:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight">
               AI Search Lab
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-sky-600 mt-2">
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-sky-600 mt-2 animate-gradient-flow">
                 Interactive Search Algorithm Visualiser
               </span>
             </h1>
@@ -284,8 +373,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
         </div>
 
         {/* Live Interactive Hero Maze Preview - High-Radius Card */}
-        <div className="max-w-4xl mx-auto px-4 mt-14">
-          <div className="p-6 sm:p-8 rounded-[2rem] bg-white/95 border border-slate-200/90 shadow-sm space-y-6">
+        <div className="max-w-4xl mx-auto px-4 mt-14 relative z-10">
+          <div className="p-6 sm:p-8 rounded-[2rem] bg-white/95 border border-slate-200/90 shadow-sm space-y-6 backdrop-blur-xl">
             
             {/* Header of Mini Preview */}
             <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-4">
@@ -297,27 +386,48 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                 <span className="text-[10px] font-mono text-emerald-800 bg-[#EFF8F2] px-2.5 py-0.5 rounded-full border border-[#DCF1E2]">
                   Free Client Engine
                 </span>
+                {nextCycleCountdown !== null && (
+                  <span className="text-[10px] font-mono font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-full border border-indigo-200 animate-pulse">
+                    Next cycle in {nextCycleCountdown}s
+                  </span>
+                )}
               </div>
 
-              {/* Demo Algorithm Switcher with Clean Pastel Pills */}
-              <div className="flex items-center gap-1.5 bg-[#FAF8F5] p-1.5 rounded-2xl border border-[#EDE7DC]">
-                {(['astar', 'bfs', 'greedy', 'dfs'] as AlgorithmType[]).map((alg) => (
-                  <button
-                    key={alg}
-                    onClick={() => {
-                      setDemoAlg(alg);
-                      runHeroDemo(alg);
-                    }}
-                    disabled={isDemoRunning}
-                    className={`px-3 py-1 rounded-xl text-xs font-bold uppercase transition-all ${
-                      demoAlg === alg
-                        ? 'bg-white text-indigo-600 shadow-xs border border-slate-200'
-                        : 'text-slate-600 hover:text-slate-900'
-                    } disabled:opacity-40`}
-                  >
-                    {alg}
-                  </button>
-                ))}
+              {/* Demo Controls: Auto-Cycle Toggle + Switcher */}
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setAutoCycle(!autoCycle)}
+                  className={`flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-mono font-semibold transition-all border ${
+                    autoCycle
+                      ? 'bg-emerald-50 text-emerald-800 border-emerald-300 shadow-2xs'
+                      : 'bg-[#FAF8F5] text-slate-500 border-[#EDE7DC]'
+                  }`}
+                  title="Toggle continuous auto-cycle playback across all 4 search algorithms"
+                >
+                  <span className={`w-2 h-2 rounded-full ${autoCycle ? 'bg-emerald-500 animate-ping' : 'bg-slate-400'}`} />
+                  <span>Auto-Cycle: {autoCycle ? 'ON' : 'OFF'}</span>
+                </button>
+
+                <div className="flex items-center gap-1.5 bg-[#FAF8F5] p-1.5 rounded-2xl border border-[#EDE7DC]">
+                  {(['astar', 'bfs', 'greedy', 'dfs'] as AlgorithmType[]).map((alg) => (
+                    <button
+                      key={alg}
+                      onClick={() => {
+                        setDemoAlg(alg);
+                        runHeroDemo(alg);
+                      }}
+                      disabled={isDemoRunning}
+                      className={`px-3 py-1 rounded-xl text-xs font-bold uppercase transition-all ${
+                        demoAlg === alg
+                          ? 'bg-white text-indigo-600 shadow-xs border border-slate-200 scale-105'
+                          : 'text-slate-600 hover:text-slate-900'
+                      } disabled:opacity-40`}
+                    >
+                      {alg}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
 
@@ -342,16 +452,30 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                     const isExplored = exploredSet.has(coordStr);
 
                     let cellClass = 'bg-slate-50 border border-slate-200/60 rounded-[4px]';
+                    let innerContent: React.ReactNode = null;
+
                     if (isWall) {
                       cellClass = 'bg-slate-800 border border-slate-700 rounded-[4px]';
                     } else if (isStart) {
-                      cellClass = 'bg-emerald-500 text-white font-bold glow-emerald rounded-[4px]';
+                      cellClass = 'relative bg-emerald-500 text-white font-bold glow-emerald rounded-[4px] shadow-sm';
+                      innerContent = (
+                        <>
+                          <span className="absolute -inset-1 rounded-[6px] bg-emerald-400/40 animate-radar-wave pointer-events-none" />
+                          <span className="relative z-10">S</span>
+                        </>
+                      );
                     } else if (isGoal) {
-                      cellClass = 'bg-rose-500 text-white font-bold glow-rose rounded-[4px]';
+                      cellClass = 'relative bg-rose-500 text-white font-bold glow-rose rounded-[4px] shadow-sm';
+                      innerContent = (
+                        <>
+                          <span className="absolute -inset-1 rounded-[6px] bg-rose-400/40 animate-radar-wave pointer-events-none" />
+                          <span className="relative z-10">G</span>
+                        </>
+                      );
                     } else if (isPath) {
-                      cellClass = 'bg-emerald-400 text-emerald-950 font-bold ring-1 ring-emerald-400 rounded-[4px] animate-path-pulse';
+                      cellClass = 'bg-emerald-400 text-emerald-950 font-bold ring-1 ring-emerald-400 rounded-[4px] animate-path-pulse shadow-xs';
                     } else if (isActive) {
-                      cellClass = 'bg-amber-400 font-bold ring-2 ring-amber-300 animate-pulse rounded-[4px]';
+                      cellClass = 'bg-amber-400 font-bold ring-2 ring-amber-300 animate-pulse rounded-[4px] shadow-xs';
                     } else if (isFrontier) {
                       cellClass = 'bg-amber-100 border border-amber-300 text-amber-900 animate-frontier-pulse rounded-[4px]';
                     } else if (isExplored) {
@@ -363,7 +487,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                         key={coordStr}
                         className={`w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center text-[10px] ${cellClass}`}
                       >
-                        {isStart ? 'S' : isGoal ? 'G' : null}
+                        {innerContent || (isStart ? 'S' : isGoal ? 'G' : null)}
                       </div>
                     );
                   })

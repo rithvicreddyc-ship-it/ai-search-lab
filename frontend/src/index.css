@@ -267,4 +267,65 @@
   will-change: transform, opacity;
 }
 
+/* Shimmering Gradient Flow for Hero Titles */
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient-flow {
+  background-size: 250% auto;
+  animation: gradientFlow 7s ease infinite;
+}
+
+/* Radar Ping from Start / Goal nodes */
+@keyframes radarWave {
+  0% { transform: scale(0.6); opacity: 0.9; }
+  70% { transform: scale(2.2); opacity: 0; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+.animate-radar-wave {
+  animation: radarWave 2.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Staggered Floating Theory Badges */
+@keyframes floatBadgeA {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(-3px, -12px, 0) rotate(-1deg); }
+}
+
+@keyframes floatBadgeB {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(4px, -15px, 0) rotate(1.5deg); }
+}
+
+@keyframes floatBadgeC {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(-4px, 10px, 0) rotate(-1.5deg); }
+}
+
+@keyframes floatBadgeD {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(5px, 12px, 0) rotate(1deg); }
+}
+
+.animate-float-badge-1 {
+  animation: floatBadgeA 6.5s ease-in-out infinite;
+}
+
+.animate-float-badge-2 {
+  animation: floatBadgeB 7.5s ease-in-out 1.2s infinite;
+}
+
+.animate-float-badge-3 {
+  animation: floatBadgeC 8.2s ease-in-out 0.6s infinite;
+}
+
+.animate-float-badge-4 {
+  animation: floatBadgeD 7s ease-in-out 1.8s infinite;
+}
+
+
 

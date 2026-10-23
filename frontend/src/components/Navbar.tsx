@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   Compass,
   Cpu,
@@ -9,8 +9,8 @@ import {
   Download,
   Upload,
   BookOpen,
-  Linkedin,
-  Mail
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 import { fetchHealth } from '../api/client';
 
@@ -30,6 +30,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onImportConfig,
 }) => {
   const [backendHealthy, setBackendHealthy] = useState<boolean | null>(null);
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     fetchHealth()
@@ -55,12 +56,19 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'experiments' as NavTab, label: 'Experiments', icon: FlaskConical },
   ];
 
+  const scrollNav = (direction: 'left' | 'right') => {
+    if (scrollContainerRef.current) {
+      const offset = direction === 'left' ? -150 : 150;
+      scrollContainerRef.current.scrollBy({ left: offset, behavior: 'smooth' });
+    }
+  };
+
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-2xl border-b border-slate-200/80 select-none shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-18 gap-3 sm:gap-4">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 sm:h-18 gap-3">
           
-          {/* Logo & Course Badge - strictly single-line, shrink-0, zero clipping */}
+          {/* Logo & Branding - strictly single line, shrink-0, zero clipping */}
           <div className="flex items-center gap-3 shrink-0">
             <button
               onClick={() => onTabChange('landing')}
@@ -75,9 +83,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                   <span className="font-extrabold text-base sm:text-lg text-slate-900 tracking-tight whitespace-nowrap">
                     AI Search Lab
                   </span>
-                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 whitespace-nowrap hidden xl:inline-block">
-                    AI Foundations
-                  </span>
                   <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 whitespace-nowrap shrink-0">
                     100% Free
                   </span>
@@ -89,52 +94,57 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
           </div>
 
-          {/* Navigation Tabs Pill Bar - whitespace-nowrap, never wraps into two lines */}
-          <nav className="hidden lg:flex items-center gap-1 bg-slate-100/90 p-1.5 rounded-2xl border border-slate-200/90 shadow-inner overflow-x-auto scrollbar-none min-w-0 shrink">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = currentTab === item.id;
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => onTabChange(item.id)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all duration-150 shrink-0 ${
-                    isActive
-                      ? 'bg-white text-indigo-600 shadow-sm border border-slate-200/80 scale-[1.02]'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-white/60 hover:scale-[1.01]'
-                  }`}
-                >
-                  <Icon className={`w-3.5 h-3.5 transition-transform duration-150 shrink-0 ${isActive ? 'scale-110 text-indigo-600' : 'text-slate-500'}`} />
-                  <span className="whitespace-nowrap">{item.label}</span>
-                </button>
-              );
-            })}
-          </nav>
+          {/* Extended Navigation Tabs with Smooth Horizontal Scroll Option */}
+          <div className="flex-1 min-w-0 flex items-center justify-center px-1 sm:px-4 relative group/scroll">
+            
+            {/* Scroll Left Helper Button (Appears on overflow/hover) */}
+            <button
+              type="button"
+              onClick={() => scrollNav('left')}
+              title="Scroll left"
+              className="hidden md:flex xl:hidden items-center justify-center w-6 h-6 rounded-full bg-white shadow-sm border border-slate-200 text-slate-500 hover:text-slate-900 absolute left-0 z-10 hover:scale-110 transition-all opacity-80 hover:opacity-100"
+            >
+              <ChevronLeft className="w-3.5 h-3.5" />
+            </button>
 
-          {/* Right Actions: LinkedIn, Email, Export, Import, Engine Status */}
+            {/* Extended Scroll Container */}
+            <div
+              ref={scrollContainerRef}
+              className="flex items-center gap-1 sm:gap-1.5 bg-slate-100/90 p-1 sm:p-1.5 rounded-2xl border border-slate-200/90 shadow-inner overflow-x-auto scrollbar-none max-w-full"
+            >
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = currentTab === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => onTabChange(item.id)}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all duration-150 shrink-0 ${
+                      isActive
+                        ? 'bg-white text-indigo-600 shadow-sm border border-slate-200/80 scale-[1.02]'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-white/60 hover:scale-[1.01]'
+                    }`}
+                  >
+                    <Icon className={`w-3.5 h-3.5 transition-transform duration-150 shrink-0 ${isActive ? 'scale-110 text-indigo-600' : 'text-slate-500'}`} />
+                    <span className="whitespace-nowrap">{item.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Scroll Right Helper Button (Appears on overflow/hover) */}
+            <button
+              type="button"
+              onClick={() => scrollNav('right')}
+              title="Scroll right"
+              className="hidden md:flex xl:hidden items-center justify-center w-6 h-6 rounded-full bg-white shadow-sm border border-slate-200 text-slate-500 hover:text-slate-900 absolute right-0 z-10 hover:scale-110 transition-all opacity-80 hover:opacity-100"
+            >
+              <ChevronRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          {/* Right Compact Actions: Export, Import, Engine Status */}
           <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-            {/* Rithvic Reddy LinkedIn */}
-            <a
-              href="https://www.linkedin.com/in/rithvic-reddy/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="Connect with Rithvic Reddy on LinkedIn"
-              className="hidden xl:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-[#0A66C2] bg-[#E8F3FD] hover:bg-[#D0E8FA] border border-[#C5DCFA] transition-all hover-lift active:scale-95 shrink-0"
-            >
-              <Linkedin className="w-3.5 h-3.5" />
-              <span>LinkedIn</span>
-            </a>
-
-            {/* Rithvic Reddy Email */}
-            <a
-              href="mailto:rithvicreddyc@gmail.com"
-              title="Email Rithvic Reddy (rithvicreddyc@gmail.com)"
-              className="hidden xl:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 transition-all hover-lift active:scale-95 shrink-0"
-            >
-              <Mail className="w-3.5 h-3.5 text-rose-500" />
-              <span>Contact</span>
-            </a>
-
             {onExportConfig && (
               <button
                 onClick={onExportConfig}
@@ -169,8 +179,8 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         </div>
 
-        {/* Medium/Mobile Navigation bar: clean horizontal scroll with zero text-wrapping */}
-        <div className="flex lg:hidden overflow-x-auto py-2.5 gap-1.5 border-t border-slate-200/60 scrollbar-none">
+        {/* Mobile secondary scroll tab row */}
+        <div className="flex sm:hidden overflow-x-auto py-2 gap-1.5 border-t border-slate-200/60 scrollbar-none">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = currentTab === item.id;
@@ -178,7 +188,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 key={item.id}
                 onClick={() => onTabChange(item.id)}
-                className={`flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs whitespace-nowrap shrink-0 transition-all ${
+                className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs whitespace-nowrap shrink-0 transition-all ${
                   isActive
                     ? 'bg-indigo-600 text-white font-semibold shadow-xs'
                     : 'text-slate-600 hover:text-slate-900 bg-slate-100/70 hover:bg-slate-100'

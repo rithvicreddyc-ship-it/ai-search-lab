@@ -55,7 +55,23 @@ export const ArchitecturalFooter: React.FC<ArchitecturalFooterProps> = ({
                   AI Search Lab
                 </h3>
                 <p className="text-xs text-slate-500 font-medium">
-                  Artificial Intelligence Foundations • Developed by Rithvic Reddy
+                  Artificial Intelligence Foundations • Developed by{' '}
+                  <a
+                    href="https://www.linkedin.com/in/rithvic-reddy/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-indigo-600 hover:text-indigo-800 font-semibold hover:underline"
+                  >
+                    Rithvic Reddy
+                  </a>{' '}
+                  (
+                  <a
+                    href="mailto:rithvicreddyc@gmail.com"
+                    className="hover:underline text-slate-600 hover:text-slate-900"
+                  >
+                    rithvicreddyc@gmail.com
+                  </a>
+                  )
                 </p>
                 <div className="pt-2 text-[11px] font-mono text-slate-400">
                   © 2026 AI Search Lab • 100% Free Open Educational Tool
